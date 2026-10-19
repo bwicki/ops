@@ -1,0 +1,18 @@
+name: FAA NMS Erreichbarkeit prüfen
+
+# Einmaliger Test (0.13.1): erreicht ein GitHub-Actions-Runner die FAA-NMS-API? Cloudflare Workers werden von
+# der Google-Cloud-Sperrliste (403) abgewiesen (FAA NAIMES, INC0033867, 19.10.2026). Ohne Zugangsdaten wird 401 erwartet.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Token-Endpunkt ohne Zugangsdaten (erwartet 401, nicht 403)
+        run: |
+          for u in https://api-nms.aim.faa.gov/v1/auth/token https://api-nms.aim.faa.gov/nmsapi/v1/notams?latitude=47.4&longitude=8.5&radius=20; do
+            code=$(curl -s -o /tmp/body -w '%{http_code}' -X POST "$u" -H 'Authorization: Basic Zm9vOmJhcg==' -H 'Accept: application/json' || echo 000)
+            echo "$u → HTTP $code"; head -c 300 /tmp/body; echo
+          done

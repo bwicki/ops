@@ -1,0 +1,11 @@
+Probe 2026-10-19T07:14:55Z von GitHub Actions (4.249.19.195)
+https://api-nms.aim.faa.gov/v1/auth/token -> HTTP 401
+{"ErrorCode" : "invalid_client", "Error" :"ClientId is Invalid"}
+https://api-nms.aim.faa.gov/nmsapi/v1/notams?latitude=47.4&longitude=8.5&radius=20 -> HTTP 401
+
+        {
+  "timestamp": "2026-10-19 02:14:56-0500",
+  "status": "401",
+  "message": "Access Token is Invalid or Expired"
+}
+      

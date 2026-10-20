@@ -107,9 +107,9 @@ export function trajSvg(trs, o = {}) {
   const labels = [];
   trs.forEach((tr, k) => {
     if (tr.belowGround) return;
-    const col = colors[k % colors.length];
+    const col = tr.color || colors[k % colors.length];   // 0.14.0: eigene Farbe/Breite/Strichelung (Ist-Trajektorie)
     const pts = tr.points.map((p) => { const [x, y] = toKm(p); return `${X(x).toFixed(1)},${Y(y).toFixed(1)}`; }).join(' ');
-    svg.appendChild(mk('polyline', { points: pts, fill: 'none', stroke: col, 'stroke-width': 2, 'stroke-linejoin': 'round' }));
+    svg.appendChild(mk('polyline', { points: pts, fill: 'none', stroke: col, 'stroke-width': tr.width || 2, 'stroke-linejoin': 'round', ...(tr.dash ? { 'stroke-dasharray': '4 3' } : {}) }));
     for (const hpt of tr.hourly) { const [x, y] = toKm(hpt); svg.appendChild(mk('circle', { cx: X(x), cy: Y(y), r: 2.6, fill: col })); }
     const [ex, ey] = toKm(tr.end);
     let lx = X(ex) + 5, ly = Y(ey) + 3;

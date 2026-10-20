@@ -101,6 +101,12 @@ der Datenbank (32 Bytes base64 werden direkt verwendet, jede andere Zeichenkette
 ab 32 Zeichen wird per SHA-256 abgeleitet). Beide Werte sicher ablegen
 (Passwortmanager) — ohne `ENC_KEY` sind gespeicherte Zugänge nicht mehr lesbar.
 
+**`OPS_HANDOVER_TOKEN` (0.14.0, Übergabe aus analyze.wicki.aero):** ein langer Zufallstext (≥ 32 Zeichen), als
+Repository-Secret gleichen Namens in **beiden** Repositories (`bwicki/ops` und `bwicki/analyze`: Settings → Secrets and
+variables → Actions → New repository secret). Die Deploy-Workflows beider Worker hinterlegen ihn beim nächsten Lauf als
+Worker-Secret (Actions → «Deploy worker» → Run workflow, oder beim nächsten Push unter `worker/`). Von Hand:
+`printf '%s' '<Token>' | npx wrangler secret put OPS_HANDOVER_TOKEN`. Ohne das Secret antwortet `/api/handover/*` mit 503.
+
 ## 5 Worker veröffentlichen
 
 Entweder lokal `npx wrangler deploy` oder die geänderte `wrangler.toml` nach

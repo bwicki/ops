@@ -107,3 +107,13 @@ code "$A/api/wx/dabs?t=$T2"; echo
 echo "# Link-Nutzer darf metar (Abruf extern, hier Netz evtl. gesperrt → 200 oder 500)"; code "$A/api/wx/metar?lat=47.3&lon=8.4&t=$T2"; echo
 code -H "$H" -X DELETE $A/api/briefings/test00000002; echo
 echo "# Nutzung protokolliert"; j -H "$H" $A/api/admin/stats | grep -o '"kind":"[a-z_]*"' | sort | uniq -c | tr '\n' ' '; echo
+echo "# 0.14.0 Ist-Trajektorie (Übergabe aus analyze): ohne Dienst-Token → 401 (503, wenn OPS_HANDOVER_TOKEN nicht gesetzt)"; code $A/api/handover/briefings; echo
+if [ -n "$OPS_HANDOVER_TOKEN" ]; then
+  HT="X-Handover-Token: $OPS_HANDOVER_TOKEN"
+  j -H "$H" -X PUT $A/api/briefings/test00000002 -d '{"briefing":{"id":"test00000002","status":"draft","time":{"startMs":1900000000000},"site":{"name":"Oberlunkhofen","tz":"Europe/Zurich","lat":47.32,"lon":8.4},"balloon":{"label":"HB-QWZ","reg":"HB-QWZ"},"flight":{"kind":"commercial"},"intent":{"durationMin":120},"panels":{},"log":[]},"who":"test"}' > /dev/null
+  echo "# Liste für analyze (letzte Briefings)"; j -H "$HT" "$A/api/handover/briefings?limit=50" | grep -o '"id":"test00000002"'
+  PKG='{"source":"analyze.wicki.aero","format":1,"flight":{"id":"ABCD1234","title":"Test","url":"https://analyze.wicki.aero/v/ABCD1234"},"stats":{"durationSec":3600},"trajectory":{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"kind":"track","times":["2026-10-04T08:00:00Z","2026-10-04T09:00:00Z"]},"geometry":{"type":"LineString","coordinates":[[8.4,47.32,500],[8.5,47.4,600]]}}]}}'
+  echo "# Trajektorie ablegen"; j -X PUT -H "$HT" -d "$PKG" $A/api/handover/briefings/test00000002/trajectory | grep -o '"ok":true'
+  echo "# lesen (Sitzung) / Liste trajectoryAt / löschen"; j -H "$H" $A/api/briefings/test00000002/trajectory | grep -o '"points":2'; j -H "$H" $A/api/briefings | grep -o '"trajectoryAt":[0-9]*' | head -1; code -H "$H" -X DELETE $A/api/briefings/test00000002/trajectory; echo
+  code -H "$H" -X DELETE $A/api/briefings/test00000002; echo
+fi

@@ -23,6 +23,7 @@ import { altAt, msAtKm, kmAtMs, segments, rateClass, reliefBreaches, addStage, r
 import { fisSectors } from '../js/auto/profiledata.js';
 import { parseIcaoNotam } from '../worker/src/wx.js';
 import { placeLabel } from '../js/model.js';
+import { actualPoints, actualWaypoints, plannedTracks, posAt, compareTrack, compareAll, hourlyPoints } from '../js/calc/actual.js';
 import { inSwitzerland } from '../js/panels.js';
 import { parseDwdAstro } from '../js/calc/sun.js';
 import { balloonImage, formatNo, sunFor, countriesLine, briefingYear, lockMs, isLocked, archiveMs, isArchived, isRunning, nextAmendmentNo, amendBriefingData, completion, fileBase, titleLine, lastChangeLine, paxLine, duplicateBriefing, newBriefing, upgradeBriefing, ageRefMs, fillFractionOf, massPerf, personsOnBoard, hasCopilot, applicableTransitions, transitionItems } from '../js/model.js';
@@ -706,6 +707,37 @@ console.log('Länder-Matrix und DWD-Astroangaben (0.11.1)');
   ok(O2_ID_RE.test(id) && o2NewId() !== id && dec(o2Link(lv, 'x', id)).c === id && dec(o2Link(lv, 'x', 'abc')).c === undefined && o2CalcLink(id) === 'https://o2.wicki.aero/#' + id, 'Kurzcode: Form wie in der O2-Planung, im Übergabe-Link, Link auf die Berechnung');
   const S2 = mergeSettings({}); const src = newBriefing(S2); src.profile = { points: [], stages: [], o2: { id, sent: 1 } };
   ok(duplicateBriefing(src, S2).profile.o2 === undefined && src.profile.o2.id === id, 'Kopie eines Briefings: eigene O2-Berechnung (Kurzcode nicht übernommen)');
+}
+
+// ---- 0.14.0: Ist-Trajektorie – Punkte aus dem analyze-GeoJSON, geplante Bahnen, Soll/Ist
+{
+  const t0 = Date.UTC(2026, 7, 29, 6, 0);
+  const iso = (ms) => new Date(ms).toISOString();
+  const geo = { type: 'FeatureCollection', features: [
+    { type: 'Feature', properties: { kind: 'track', segment: 1, times: [iso(t0), iso(t0 + 1800000), iso(t0 + 3600000)], vs_ms: [0.5, 0.2, -0.1], gs_ms: [8, 9, 10] }, geometry: { type: 'LineString', coordinates: [[8, 47, 500], [8.1, 47.01, 900], [8.2, 47.02, 1200]] } },
+    { type: 'Feature', properties: { kind: 'track', segment: 2, restart: true, times: [iso(t0 + 3660000), iso(t0 + 7200000)], vs_ms: [0, 0], gs_ms: [10, 10] }, geometry: { type: 'LineString', coordinates: [[8.21, 47.02, 1200], [8.4, 47.04, 800]] } },
+    { type: 'Feature', properties: { kind: 'takeoff', name: 'Start', time: iso(t0) }, geometry: { type: 'Point', coordinates: [8, 47, 500] } },
+    { type: 'Feature', properties: { kind: 'landing', name: 'Landung', time: iso(t0 + 7200000) }, geometry: { type: 'Point', coordinates: [8.4, 47.04, 800] } },
+  ] };
+  const pts = actualPoints(geo), wp = actualWaypoints(geo);
+  ok(pts.length === 5 && pts[0].ms === t0 && pts[4].lon === 8.4 && pts[1].alt === 900 && pts[1].vs === 0.2 && wp.takeoff.lat === 47 && wp.landing.ms === t0 + 7200000, 'Ist-Trajektorie: Punkte beider Segmente nach Zeit, Start/Landung aus den Punkt-Features');
+  const mid = posAt(pts, t0 + 900000);
+  ok(Math.abs(mid.lon - 8.05) < 1e-9 && Math.abs(mid.lat - 47.005) < 1e-9 && posAt(pts, t0 - 1) === null && posAt(pts, t0 + 7200001) === null, 'posAt: linear zwischen den Stützpunkten, null ausserhalb');
+  ok(hourlyPoints(pts).length === 2 && Math.abs(hourlyPoints(pts)[0].lon - 8.2) < 1e-9, 'Stundenpunkte auf der Ist-Bahn');
+  // geplante Bahnen: Profilbahn vor den Niveaus; Niveau ohne Punkte / belowGround ausgelassen
+  const b = { site: { lat: 47, lon: 8 }, profile: { data: { track: { points: [{ ms: t0, lat: 47, lon: 8, alt: 500 }, { ms: t0 + 7200000, lat: 47.04, lon: 8.36, alt: 900 }] } } },
+    panels: { 'B.traj': { content: { auto: { data: { tracks: [{ label: '1000 ft AGL', altFt: 1000, altM: 305, points: [{ ms: t0, lat: 47, lon: 8 }, { ms: t0 + 7200000, lat: 47.1, lon: 8.3 }], end: { lat: 47.1, lon: 8.3 } }, { label: 'SFC', belowGround: true, points: [{ ms: t0, lat: 47, lon: 8 }], hourly: [] }] } } } } } };
+  const pl = plannedTracks(b);
+  ok(pl.length === 2 && pl[0].kind === 'profile' && pl[1].label === '1000 ft AGL' && pl[1].end.lat === 47.1, 'plannedTracks: Profilbahn zuerst, Niveaus aus B.traj, belowGround ausgelassen');
+  const c = compareTrack(pl[0], pts, { site: b.site });
+  ok(c.n === 2 && c.hours[0].h === 1 && c.hours[1].h === 2 && c.endKm < 4 && c.endKm > 2 && c.coverage === 1 && c.brgErr != null && Math.abs(c.brgErr) < 5, 'compareTrack: zwei Stundenwerte, Endpunktabstand ≈ 3 km (0.04° Länge), Richtungsfehler klein, Abdeckung 1');
+  const all = compareAll(b, pts);
+  ok(all.rows.length === 2 && all.best.track.kind === 'profile' && all.rows[1].cmp.endKm > all.rows[0].cmp.endKm, 'compareAll: Profilbahn passt besser als das Niveau (kleinerer Endpunktabstand)');
+  // Seite: Ist nördlich einer nach Osten laufenden Soll-Bahn = links
+  const east = { points: [0, 1, 2].map((h) => ({ ms: t0 + h * 3600000, lat: 47, lon: 8 + 0.2 * h })), end: { lat: 47, lon: 8.4 } };
+  const north = [0, 1, 2].map((h) => ({ ms: t0 + h * 3600000, lat: 47 + 0.05 * h, lon: 8 + 0.2 * h }));
+  const cs = compareTrack(east, north, { site: { lat: 47, lon: 8 } });
+  ok(cs.hours.every((x) => x.side === 'L') && cs.brgErr < 0 && Math.abs(cs.meanDevKm - (5.56 + 11.12) / 2) < 0.2, 'Seite der Abweichung: nördlich der Ostbahn = links, Richtungsfehler negativ');
 }
 
 console.log(`\n${n - fails}/${n} Tests bestanden`);

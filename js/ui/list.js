@@ -95,7 +95,7 @@ export async function renderList(view, ctx) {
       return h('div.cards-list', rs.map((b) => h('div.bcard', { onclick: () => ctx.navigate(openHash(b)) }, [
         h('div.t', `${b.no ? b.no + ' · ' : ''}${fmtDate(b.tz || 'Europe/Zurich', b.startMs || 0)} · ${hhmm(b.tz || 'Europe/Zurich', b.startMs || 0)} LT · ${b.reg || ''}`),
         h('div', `${b.site || '–'}${scope !== 'own' ? ` · ${b.ownerName || b.owner || ''}` : ''}`),
-        h('div.m', [locked(b) ? icon('lock', 13) : null, ' ', phaseTag(b), ' ', statusText(b)]),
+        h('div.m', [locked(b) ? icon('lock', 13) : null, ' ', phaseTag(b), ' ', b.trajectoryAt ? h('span.tag.traj', t('tag_traj')) : null, ' ', statusText(b)]),
       ])));
     }
     const showOwner = scope !== 'own';
@@ -110,7 +110,7 @@ export async function renderList(view, ctx) {
         showOwner ? h('td', [h('div.l1', b.ownerName || b.owner || '–'), b.materialOwner && b.materialOwner !== b.owner ? h('div.l2', `${t('colMaterial')}: ${b.materialOwner}`) : null]) : null,
         h('td.nowrap', b.reg || b.balloon || '–'),
         h('td.nowrap', t('kind_' + (b.kind || 'commercial'))),
-        h('td', [h('div.l1', statusTag(b)), h('div.l2', phaseTag(b))]),
+        h('td', [h('div.l1', statusTag(b)), h('div.l2', [phaseTag(b), b.trajectoryAt ? h('span.tag.traj', { title: `${t('colTraj')} · ${fmtDateTime(tz(b), b.trajectoryAt)}` }, t('tag_traj')) : null])]),   // 0.14.0: Ist-Trajektorie vorhanden
         h('td', [h('div.l1', `v${b.edition ?? b.revision ?? 0} · ${b.updatedAt ? fmtDateTime(tz(b), b.updatedAt) : '–'}`), h('div.l2', [b.updatedBy || '', b.links ? h('span', { title: t('colLinks') }, [' · ', icon('link', 13), ` ${b.links}`]) : null])]),
         h('td.row-actions.acts', hiddenG ? [
           h('button.btn.icon.small', { type: 'button', title: t('view_brief'), onclick: () => ctx.navigate(`#/v/${b.id}`) }, icon('view')),

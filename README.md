@@ -583,6 +583,7 @@ test/                      Rechentests (node, inkl. Trajektorien/Ampel/NOTAM-Fil
 js/auto/                   Open-Meteo, Trajektorien, Grafiken (Stüve, Wind, Meteogramm), Datenbeschaffung, KI-Prompt, Profildaten der Gasfahrt (profiledata.js)
 js/ui/autopanels.js, autorender.js  automatische Panels (Erarbeitung) und ihre Darstellung (beide Sichten)
 worker/src/wx.js           Datenabrufe im Worker (/api/wx/*)
+worker/src/trajectory.js   Ist-Trajektorie aus analyze.wicki.aero (Übergabe-API, Tabelle trajectories, GeoJSON in R2); js/calc/actual.js (Soll/Ist), js/ui/actual.js (Abschnitt F)
 ```
 
 ## Lizenz
@@ -608,3 +609,23 @@ pdf.js (Apache-2.0, `js/vendor/pdfjs`). Logo und Name
 | Flugauftrag / Operator Flight Assignment | `#/fa/<id>` | 1 Seite nach Entwurf 12.10.2026: Fahrt, Ballon (Registerdaten), Besatzung (Lizenz/Medical aus Personendokumenten), Pax, Rahmenbedingungen, Erteilung/Annahme |
 
 Digitale Unterschrift: Unterschriftenbild je Nutzer (Einstellungen → Allgemein), Knöpfe «Als Betreiber/PIC signieren» setzen Bild, Name und Zeitstempel UTC (gespeichert in `b.docs`). PDF über `data('pdf', { b, doc: 'bs'|'fa' })` (Browser Rendering), Ablage in R2. Abgelaufenes Medical eines PIC → Nachfrage beim Login.
+
+## Ist-Trajektorie aus analyze.wicki.aero (0.14.0, Konzept Fahrtdaten/Debriefing 3.1 und 4.1)
+
+Nach der Fahrt übergibt **analyze.wicki.aero** (Bericht → Spezialfunktionen → «Track übergeben», Ballonteam-PIN oder
+Supermaster) die ausgewertete Fahrt an ein Briefing: die Trajektorie als GeoJSON (ausgedünnt auf ~30 s), Kennzahlen
+(Start/Landung mit Ort, Dauer, Strecke, Höhe, Steigen/Sinken, Fahrt, Nacht), Stammdaten des Berichts, den Viewer-Link und
+den Verweis auf das Ereignislog – keine Fotos. Die beiden Worker kennen ein gemeinsames **Dienst-Token**
+(Secret `OPS_HANDOVER_TOKEN` in beiden Repositories; der Browser sieht es nie). Das Briefing wählt man in analyze aus der
+Liste der letzten 20 Briefings; eine zweite Übergabe ersetzt die erste.
+
+| Was | Wo |
+|---|---|
+| Ablage | D1-Tabelle `trajectories` (Zusammenfassung, je Briefing eine Zeile), GeoJSON in R2 unter `<briefing>/trajectory.geojson`; die Briefing-JSON bleibt unverändert (kein Revisionskonflikt, keine Archivsperre) |
+| API (Dienst-Token, Header `X-Handover-Token`) | `GET /api/handover/briefings?limit=20` (jüngste zuerst, mit Stand einer vorhandenen Trajektorie) · `PUT /api/handover/briefings/<id>/trajectory` (Paket ≤ 4 MB, ≤ 20 000 Punkte) |
+| API (Sitzung) | `GET /api/briefings/<id>/trajectory` (Eigner, Supermaster, Materialeigner) · `DELETE …/trajectory` (Eigner, Supermaster); Links `?t=<Zugangslink>` bzw. `?mt=<Material-Link>` lesen bis 3 Monate nach dem Fahrtende (Konzept 4.4) |
+| Übersicht | Tag «Ist ✓» in der Statusspalte (Datum als Tooltip) |
+| Briefingsicht | Abschnitt **F · Ist-Trajektorie**: F1 Fahrt (Kennzahlen, Link «in analyze öffnen», Übergabedatum; Eigner/Supermaster können die Trajektorie entfernen), F2 **Soll/Ist** je geplanter Bahn (Profilbahn, Niveaus aus B.traj): Querabweichung je volle Stunde (Soll-Position derselben Bahn zur gleichen Zeit, links/rechts), Endpunktabstand, Abstand zur Landezeit, Richtungsfehler (+ rechts), Abdeckung; beste Bahn markiert, Stundentabelle dazu. F3 Karte (Bildschirm: geplante Bahnen gestrichelt, Profilbahn braun, Ist schwarz mit Stundenpunkten, Start/Landung) und Nord-oben-Skizze im Druck |
+| Protokoll | `trajectory` (Eigner des Briefings, n = Punkte) und `trajectory_delete` im Aktivitätsprotokoll |
+
+Rechnung in `js/calc/actual.js` (rein, getestet): `actualPoints`, `plannedTracks`, `posAt`, `compareTrack`, `compareAll`.

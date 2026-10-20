@@ -15,6 +15,7 @@
  */
 
 import { handleWx } from './wx.js';
+import { handoverAuth, listHandoverBriefings, putTrajectory, getTrajectory, deleteTrajectory, linkMayView, ensureTrajectories } from './trajectory.js';
 
 const SESSION_DAYS = 30;
 const MAX_ATTEMPTS = 8;           // Fehlversuche je IP in 15 min
@@ -72,6 +73,7 @@ async function setKv(env, k, v) { await env.DB.prepare('INSERT INTO kv (k,v,upda
 let schemaReady = false;
 async function ensureSchema(env) {
   if (schemaReady) return;
+  await ensureTrajectories(env);   // 0.14.0: Ist-Trajektorien (die Briefing-Liste verknüpft die Tabelle)
   for (const col of ['no TEXT', 'progress INTEGER', 'end_ms INTEGER', 'edition INTEGER', 'frozen INTEGER', 'hidden INTEGER']) {
     try { await env.DB.prepare(`ALTER TABLE briefings ADD COLUMN ${col}`).run(); } catch { /* Spalte besteht */ }
   }
@@ -235,7 +237,7 @@ async function hasShare(env, from, to, category) {
 function summaryOf(b) {
   return { id: b.id, no: b.no || null, startMs: b.time?.startMs, endMs: endMsOf(b), tz: b.site?.tz, site: b.site?.name, icao: b.site?.icao, elev: b.site?.elev, balloon: b.balloon?.label, reg: b.balloon?.reg, kind: b.flight?.kind, status: b.status, finalNo: b.finalNo, progress: Number.isFinite(+b.progress) ? Math.round(+b.progress) : null, edition: Number.isFinite(+b.edition) ? Math.round(+b.edition) : null, revision: b.revision, updatedAt: b.updatedAt, updatedBy: b.updatedBy };
 }
-const rowOut = (r) => ({ id: r.id, no: r.no || null, startMs: r.start_ms, endMs: r.end_ms ?? null, tz: r.tz, site: r.site, icao: r.icao, elev: r.elev, reg: r.reg, balloon: r.balloon, kind: r.kind, status: r.status, finalNo: r.final_no, progress: r.progress ?? null, edition: r.edition ?? null, frozen: !!r.frozen, hidden: !!r.hidden, revision: r.revision, updatedAt: r.updated_at, updatedBy: r.updated_by, links: r.links ?? 0, owner: r.owner_id, ownerName: r.owner_name || r.owner_id, materialOwner: r.material_owner || null });
+const rowOut = (r) => ({ id: r.id, no: r.no || null, startMs: r.start_ms, endMs: r.end_ms ?? null, tz: r.tz, site: r.site, icao: r.icao, elev: r.elev, reg: r.reg, balloon: r.balloon, kind: r.kind, status: r.status, finalNo: r.final_no, progress: r.progress ?? null, edition: r.edition ?? null, frozen: !!r.frozen, hidden: !!r.hidden, revision: r.revision, updatedAt: r.updated_at, updatedBy: r.updated_by, links: r.links ?? 0, owner: r.owner_id, ownerName: r.owner_name || r.owner_id, materialOwner: r.material_owner || null, trajectoryAt: r.traj_at ?? null });
 /** Speichern; ownerId nur beim Anlegen gesetzt; materialOwner = Eigner des Ballons (Freigabe nötig). */
 async function saveBriefing(env, ctx, b, who, ownerId, logUid, opts = {}) {
   await ensureSchema(env);
@@ -423,7 +425,9 @@ async function route(req, env, url, ctx) {
     const marks = regs.map(() => '?').join(',');
     ctx.waitUntil(env.DB.prepare('UPDATE material_links SET last_opened_at=? WHERE token=?').bind(Date.now(), ml.token).run());
     if (!mm[2]) {
-      const rows = await env.DB.prepare(`SELECT b.id,b.no,b.progress,b.edition,b.end_ms,b.frozen,b.start_ms,b.tz,b.site,b.icao,b.elev,b.reg,b.balloon,b.kind,b.status,b.final_no,b.revision,b.updated_at,b.updated_by,b.owner_id,b.material_owner,u.name AS owner_name
+      await ensureTrajectories(env);
+      const rows = await env.DB.prepare(`SELECT b.id,b.no,b.progress,b.edition,b.end_ms,b.frozen,b.start_ms,b.tz,b.site,b.icao,b.elev,b.reg,b.balloon,b.kind,b.status,b.final_no,b.revision,b.updated_at,b.updated_by,b.owner_id,b.material_owner,u.name AS owner_name,
+        (SELECT tr.received_at FROM trajectories tr WHERE tr.briefing_id=b.id) AS traj_at
         FROM briefings b LEFT JOIN users u ON u.id=b.owner_id WHERE (b.owner_id=? OR b.material_owner=?) AND b.reg IN (${marks}) ORDER BY b.start_ms DESC`).bind(ml.user_id, ml.user_id, ...regs).all();
       logUsage(env, ctx, ml.user_id, 'link_open', `material ${ml.person}`);
       return json({ person: ml.person, regs, owner: owner.name, expiresAt: ml.expires_at, briefings: (rows.results || []).map(rowOut) });
@@ -442,6 +446,31 @@ async function route(req, env, url, ctx) {
     if (!link || link.expires_at < Date.now()) return err('forbidden', 403);
     const row = await env.DB.prepare('SELECT owner_id FROM briefings WHERE id=?').bind(mm[1]).first();
     return uploadFile(env, ctx, mm[1], await body(), row?.owner_id);
+  }
+
+  // ---- 0.14.0: Übergabe aus analyze.wicki.aero (Dienst-Token zwischen den Workern, Secret OPS_HANDOVER_TOKEN)
+  if (p === '/api/handover/briefings' && req.method === 'GET') {
+    const a = handoverAuth(env, req); if (a) return err(a.error, a.status);
+    return json({ briefings: await listHandoverBriefings(env, url.searchParams.get('limit')) });
+  }
+  mm = m(/^\/api\/handover\/briefings\/([a-z0-9]+)\/trajectory$/);
+  if (mm && req.method === 'PUT') {
+    const a = handoverAuth(env, req); if (a) return err(a.error, a.status);
+    const r = await putTrajectory(env, ctx, mm[1], await body(), env.APP_URL, logUsage);
+    return r.ok ? json(r) : err(r.error, r.status);
+  }
+  // Ist-Trajektorie über persönlichen Link (?t=) oder Material-Link (?mt=): bis 3 Monate nach der Landung (Konzept 4.4)
+  mm = m(/^\/api\/briefings\/([a-z0-9]+)\/trajectory$/);
+  if (mm && req.method === 'GET' && (url.searchParams.get('t') || url.searchParams.get('mt'))) {
+    const id = mm[1];
+    let ok = false;
+    if (url.searchParams.get('t')) { const link = await env.DB.prepare('SELECT * FROM access_links WHERE token=? AND briefing_id=? AND revoked=0').bind(url.searchParams.get('t'), id).first(); ok = !!link && link.expires_at >= Date.now(); }
+    else { const ml = await env.DB.prepare('SELECT * FROM material_links WHERE token=? AND revoked=0').bind(url.searchParams.get('mt')).first(); if (ml && ml.expires_at >= Date.now()) { let regs = []; try { regs = JSON.parse(ml.regs); } catch { /* leer */ } const row = await env.DB.prepare('SELECT reg, owner_id, material_owner FROM briefings WHERE id=?').bind(id).first(); ok = !!row && (row.owner_id === ml.user_id || row.material_owner === ml.user_id) && regs.map(String).includes(String(row.reg)); } }
+    if (!ok) return err('forbidden', 403);
+    const row = await env.DB.prepare('SELECT end_ms FROM briefings WHERE id=?').bind(id).first();
+    if (!linkMayView(row)) return err('expired', 410);
+    const tr = await getTrajectory(env, id);
+    return tr ? json(tr) : err('not found', 404);
   }
 
   // ---- Alles Weitere braucht eine Sitzung
@@ -555,7 +584,8 @@ async function route(req, env, url, ctx) {
     where = `(${where}) AND COALESCE(b.hidden,0)=${wantHidden ? 1 : 0}`;
     await ensureSchema(env);
     const rows = await env.DB.prepare(`SELECT b.id,b.no,b.progress,b.edition,b.end_ms,b.frozen,b.start_ms,b.tz,b.site,b.icao,b.elev,b.reg,b.balloon,b.kind,b.status,b.final_no,b.revision,b.updated_at,b.updated_by,b.owner_id,b.material_owner,u.name AS owner_name,
-      (SELECT COUNT(*) FROM access_links a WHERE a.briefing_id=b.id AND a.revoked=0 AND a.expires_at>?) AS links FROM briefings b LEFT JOIN users u ON u.id=b.owner_id WHERE ${where} ORDER BY b.start_ms`).bind(Date.now(), ...args).all();
+      (SELECT COUNT(*) FROM access_links a WHERE a.briefing_id=b.id AND a.revoked=0 AND a.expires_at>?) AS links,
+      (SELECT tr.received_at FROM trajectories tr WHERE tr.briefing_id=b.id) AS traj_at FROM briefings b LEFT JOIN users u ON u.id=b.owner_id WHERE ${where} ORDER BY b.start_ms`).bind(Date.now(), ...args).all();
     return json({ briefings: (rows.results || []).map(rowOut), scope });
   }
   if (p === '/api/export' && req.method === 'GET') {
@@ -590,6 +620,7 @@ async function route(req, env, url, ctx) {
       }
       await env.DB.prepare('DELETE FROM briefings WHERE id=?').bind(id).run();
       await env.DB.prepare('DELETE FROM access_links WHERE briefing_id=?').bind(id).run();
+      await deleteTrajectory(env, ctx, id);   // 0.14.0
       // 0.12.10: Bilder bleiben, solange eine Archivkopie (Nachtrag) darauf verweist
       const refs = await env.DB.prepare('SELECT COUNT(*) AS n FROM briefings WHERE json LIKE ?').bind(`%"amendmentOf":"${id}"%`).first();
       if (!(refs?.n > 0)) {
@@ -600,6 +631,15 @@ async function route(req, env, url, ctx) {
       logUsage(env, ctx, user.id, 'briefing_delete', id);
       return new Response(null, { status: 204 });
     }
+  }
+  // ---- 0.14.0: Ist-Trajektorie lesen (Eigner, Supermaster, Materialeigner) oder löschen (Eigner, Supermaster)
+  mm = m(/^\/api\/briefings\/([a-z0-9]+)\/trajectory$/);
+  if (mm) {
+    const { row, access } = await briefingAccess(env, user, mm[1]);
+    if (!row) return err('not found', 404);
+    if (!access) return err('forbidden', 403);
+    if (req.method === 'GET') { const tr = await getTrajectory(env, mm[1]); return tr ? json(tr) : err('not found', 404); }
+    if (req.method === 'DELETE') { if (access !== 'write' && !isSuper) return err('read only', 403); const was = await deleteTrajectory(env, ctx, mm[1]); if (was) logUsage(env, ctx, user.id, 'trajectory_delete', mm[1]); return new Response(null, { status: 204 }); }
   }
   // ---- 0.12.12: ausgeblendeten Archiv-Eintrag wieder einblenden (nur Supermaster)
   mm = m(/^\/api\/briefings\/([a-z0-9]+)\/unhide$/);

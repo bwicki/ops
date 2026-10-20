@@ -1,5 +1,7 @@
 # Deployt den Cloudflare Worker bei jeder Änderung unter worker/.
 # Benötigt die Repository-Secrets CLOUDFLARE_API_TOKEN und CLOUDFLARE_ACCOUNT_ID (siehe SETUP.md).
+# 0.14.0: ist das Repository-Secret OPS_HANDOVER_TOKEN gesetzt, wird es nach dem Deploy als Worker-Secret
+# gleichen Namens hinterlegt (Dienst-Token für die Übergabe aus analyze.wicki.aero; dort dasselbe Secret).
 name: Deploy worker
 on:
   push:
@@ -9,6 +11,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      OPS_HANDOVER_TOKEN: ${{ secrets.OPS_HANDOVER_TOKEN }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -21,3 +25,10 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: worker
           command: deploy
+      - name: Worker-Secret OPS_HANDOVER_TOKEN (nur wenn das Repository-Secret gesetzt ist)
+        if: ${{ env.OPS_HANDOVER_TOKEN != '' }}
+        working-directory: worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: printf '%s' "$OPS_HANDOVER_TOKEN" | npx --yes wrangler@4 secret put OPS_HANDOVER_TOKEN

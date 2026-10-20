@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.14.0 — 2026-10-20 · Ist-Trajektorie aus analyze.wicki.aero (Konzept Fahrtdaten/Debriefing 3.1, 4.1)
+
+* **Übergabe-API** (Worker, Dienst-Token `OPS_HANDOVER_TOKEN`, Header `X-Handover-Token`): `GET /api/handover/briefings`
+  (die letzten Briefings zur Auswahl in analyze) und `PUT /api/handover/briefings/<id>/trajectory` (Trajektorie als
+  GeoJSON, Kennzahlen, Stammdaten, Viewer-Link, Ereignislog-Verweis). Ablage in der neuen Tabelle `trajectories` und in R2
+  (`<briefing>/trajectory.geojson`); die Briefing-JSON bleibt unverändert. `GET/DELETE /api/briefings/<id>/trajectory`
+  für Sitzungen (Eigner, Supermaster, Materialeigner lesen; Eigner/Supermaster löschen), Links `?t=`/`?mt=` lesen bis
+  3 Monate nach dem Fahrtende. Briefing löschen entfernt die Trajektorie mit. Spalte `trajectoryAt` in den Listen.
+* **Briefingsicht, Abschnitt F · Ist-Trajektorie:** Kennzahlen der Fahrt mit Link nach analyze; **Soll/Ist** je geplanter
+  Bahn (Profilbahn, Niveaus aus B.traj): Querabweichung je volle Stunde mit Seite, Endpunktabstand, Abstand zur
+  Landezeit, Richtungsfehler, Abdeckung – beste Bahn markiert, Stundentabelle; Karte (geplant gestrichelt, Ist schwarz
+  mit Stundenpunkten) und Nord-oben-Skizze im Druck (`trajSvg` kennt jetzt Farbe/Breite/Strichelung je Bahn). Eigner
+  und Supermaster können die Trajektorie entfernen.
+* Übersicht: Tag «Ist ✓» in der Statusspalte. Deploy-Workflow setzt das Secret `OPS_HANDOVER_TOKEN`, wenn es im
+  Repository hinterlegt ist. Rechenmodul `js/calc/actual.js` mit Tests (298); API-Test um die Übergabe erweitert.
+
 ## 0.13.0a — 2026-10-17
 
 * Betriebsdokumente: Startort ohne «CH-» (Schweizer Formular), im Ausland mit Länderkürzel; digitale Signaturen werden im Aktivitätsprotokoll festgehalten (Aktion «Dokument signiert»).

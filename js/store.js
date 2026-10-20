@@ -84,6 +84,8 @@ const local = {
   async exportAll() { const all = load(LS.briefings, {}); return { exportedAt: Date.now(), settings: load(LS.settings, null), briefings: Object.values(all) }; },
   /** Datenabrufe ohne Server: nur, was öffentlich und CORS-frei ist. */
   async data(kind, params = {}, shareToken, body = null) { const { localData } = await import('./net.js'); return localData(kind, { ...params, ...(body || {}) }); },
+  async getTrajectory() { return null; },
+  async deleteTrajectory() { /* lokal keine */ },
 };
 
 // ---------------------------------------------------------------- remote
@@ -148,6 +150,9 @@ const remote = {
     return b;
   },
   async deleteBriefing(id) { await api(`/api/briefings/${id}`, { method: 'DELETE' }); },
+  // 0.14.0: Ist-Trajektorie aus analyze.wicki.aero (Sitzung; Links mit ?t= bzw. Material-Links mit ?mt=); null, wenn keine da ist
+  async getTrajectory(id, link) { const q = link?.material ? `?mt=${encodeURIComponent(link.token)}` : link?.token ? `?t=${encodeURIComponent(link.token)}` : ''; try { return await api(`/api/briefings/${id}/trajectory${q}`); } catch (e) { if ([403, 404, 410].includes(e.status)) return null; throw e; } },
+  async deleteTrajectory(id) { await api(`/api/briefings/${id}/trajectory`, { method: 'DELETE' }); },
   async amendBriefing(id, who) { return api(`/api/briefings/${id}/amend`, { method: 'POST', body: { who } }); },
   async uploadImage(briefingId, dataUrl, shareToken) {
     const j = await api(`/api/briefings/${briefingId}/files${shareToken ? `?t=${shareToken}` : ''}`, { method: 'POST', body: { dataUrl } });
@@ -206,7 +211,7 @@ export const store = {
 };
 for (const k of ['health', 'login', 'logout', 'isAuthed', 'changePassword', 'getSettings', 'saveSettings', 'listBriefings', 'getBriefing', 'saveBriefing', 'deleteBriefing', 'amendBriefing', 'listHidden', 'unhideBriefing', 'uploadImage', 'uploadDoc', 'listAccess', 'createAccess', 'revokeAccess', 'listSecrets', 'setSecret', 'deleteSecret', 'getSecret', 'openShared', 'saveShared', 'getLog', 'data', 'exportAll',
   'me', 'listUsers', 'listShares', 'setShare', 'getSettingsOf', 'adminUsers', 'adminCreateUser', 'adminUpdateUser', 'adminStats', 'adminStatsCsv', 'adminLog', 'adminLogCsv',
-  'listMaterialLinks', 'createMaterialLink', 'revokeMaterialLink', 'openMaterial']) {
+  'listMaterialLinks', 'createMaterialLink', 'revokeMaterialLink', 'openMaterial', 'getTrajectory', 'deleteTrajectory']) {
   store[k] = (...a) => store.impl[k](...a);
 }
 export { summary };

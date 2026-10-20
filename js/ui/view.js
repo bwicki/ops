@@ -17,6 +17,7 @@ import { changesSinceFinal } from '../calc/diff.js';
 import { fmtDate, fmtDateTime, hhmm, fmtDur } from '../calc/time.js';
 import { printDialog, paxSheet, paxCardTitle } from './extras.js';
 import { distKm, bearing } from '../calc/geo.js';
+import { actualSection } from './actual.js';
 import { icon, iconSvg } from './icons.js';
 import { stageSets, startPlanOff, startPlanBriefing } from '../calc/stageplan.js';
 
@@ -191,6 +192,10 @@ export async function renderBrief(view, ctx, id, opts = {}) {
     if (sessionStorage.getItem(seenKey) && pos) setTimeout(() => { const [sid, key] = pos.includes('-') && /^st/.test(pos) ? [pos.slice(0, pos.indexOf('-')), pos.slice(pos.indexOf('-') + 1)] : [null, pos]; const sel = `.brief tr.row-${key.replace('.', '-')}${sid ? '.row-' + sid : ''}`; const tr = view.querySelector(sel); if (tr) tr.scrollIntoView({ block: 'start' }); }, 80);
     sessionStorage.setItem(seenKey, '1');
   } catch { /* ohne Speicher */ }
+  // 0.14.0: Ist-Trajektorie aus analyze.wicki.aero – Eigner, Supermaster, Materialeigner; Links bis 3 Monate nach der Landung
+  let traj = null;
+  try { traj = await ctx.store.getTrajectory(b.id, shared); } catch (e) { console.warn('trajectory', e); }
+  if (traj?.trajectory) { const nodes = actualSection(ctx, b, traj, { canDelete: !shared && (canEdit || ctx.isSuper), onDeleted: () => nodes.forEach((n) => n.remove()) }); for (const n of nodes) brief.appendChild(n); }
   brief.appendChild(h('div.bf', [h('span', `${APP.name} ${APP.version} · Wicki Aero GmbH · ${t('printDisclaimer')}`), h('span', `${b.site.icao} · ${b.site.tz}`)]));
   if (attachments.length) brief.appendChild(h('div.appendix', attachments.map((a, i) => h('div.att', [h('div.bs', `${t('att_title', { n: i + 1 })} · ${a.title}`), a.stand, ...a.images.map((im) => h('figure', { style: { margin: '4px 0' } }, [h('img.pimg.att', { src: im.url, alt: im.caption || '' }), im.caption ? h('figcaption.mini', im.caption) : null]))]))));
 

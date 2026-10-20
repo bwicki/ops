@@ -15,9 +15,9 @@ const SHELL = [
   './', 'index.html', 'manifest.webmanifest', 'css/base.css', 'css/app.css', 'css/print.css', 'img/wicki-logo.png',
   'icons/favicon.svg', 'icons/icon-192.png', 'icons/icon-512.png',
   'js/config.js', 'js/version.js', 'js/app.js', 'js/util.js', 'js/store.js', 'js/i18n.js', 'js/defaults.js', 'js/panels.js', 'js/model.js', 'js/net.js', 'js/stamm.js',
-  'js/calc/time.js', 'js/calc/geo.js', 'js/calc/sun.js', 'js/calc/rac.js', 'js/calc/aero.js', 'js/calc/schedule.js', 'js/calc/gonogo.js', 'js/calc/diff.js',
+  'js/calc/time.js', 'js/calc/geo.js', 'js/calc/sun.js', 'js/calc/rac.js', 'js/calc/aero.js', 'js/calc/schedule.js', 'js/calc/gonogo.js', 'js/calc/diff.js', 'js/calc/actual.js',
   'js/auto/openmeteo.js', 'js/auto/traj.js', 'js/auto/charts.js', 'js/auto/data.js', 'js/auto/ai.js',
-  'js/ui/widgets.js', 'js/ui/parts.js', 'js/ui/place.js', 'js/ui/list.js', 'js/ui/wizard.js', 'js/ui/editor.js', 'js/ui/view.js', 'js/ui/access.js', 'js/ui/shared.js', 'js/ui/settings.js', 'js/ui/users.js', 'js/ui/material.js', 'js/ui/autopanels.js', 'js/ui/autorender.js', 'js/ui/extras.js',
+  'js/ui/widgets.js', 'js/ui/parts.js', 'js/ui/place.js', 'js/ui/list.js', 'js/ui/wizard.js', 'js/ui/editor.js', 'js/ui/view.js', 'js/ui/access.js', 'js/ui/shared.js', 'js/ui/settings.js', 'js/ui/users.js', 'js/ui/material.js', 'js/ui/autopanels.js', 'js/ui/autorender.js', 'js/ui/extras.js', 'js/ui/actual.js',
   'js/vendor/leaflet/leaflet.js', 'js/vendor/leaflet/leaflet.css', 'js/vendor/leaflet/images/marker-icon.png', 'js/vendor/leaflet/images/marker-icon-2x.png', 'js/vendor/leaflet/images/marker-shadow.png', 'js/vendor/qrcode.js',
   'data/rac/rac-ch.json',
 ];

@@ -20,7 +20,7 @@ export function actualSection(ctx, b, tr, o = {}) {
   const z = b.site?.tz || 'Europe/Zurich', lang = getLang();
   const sm = tr.trajectory || {}, st = sm.stats || {}, fl = sm.flight || {};
   const pts = actualPoints(tr.geojson), wp = actualWaypoints(tr.geojson);
-  const bs = h('div.bs', `F · ${t('act_title')}`);
+  const bs = h('div.bs', `F · ${t('ist_title')}`);
   const tbl = h('table.bp');
   const row = (no, title, cell) => h('tr.row-F-' + no, [h('th', [h('span.pno', `F${no}`), ' ', title]), h('td', cell)]);
   const kv = (pairs) => h('div.kv', pairs.filter(Boolean).map(([k, v]) => [h('div.k', k), h('div.v', v)]));
@@ -31,45 +31,45 @@ export function actualSection(ctx, b, tr, o = {}) {
   const when = (x) => (Number.isFinite(tms(x)) ? `${fmtDate(z, tms(x), lang)} ${hhmm(z, tms(x))} LT (${hhmm('UTC', tms(x))} UTC)` : '–');
   const place = (x, name) => (x && Number.isFinite(x.lat) ? `${name ? name + ' · ' : ''}${icao(x.lat, x.lon)}` : name || '–');
   const crs = to && ld && Number.isFinite(to.lat) && Number.isFinite(ld.lat) ? Math.round(bearing(to.lat, to.lon, ld.lat, ld.lon)) : null;
-  const link = fl.url ? h('a', { href: fl.url, target: '_blank', rel: 'noopener' }, `${t('act_open')} ↗`) : null;
+  const link = fl.url ? h('a', { href: fl.url, target: '_blank', rel: 'noopener' }, `${t('ist_open')} ↗`) : null;
   const flightCell = h('div', [
     kv([
-      [t('act_flightTitle'), h('span', [fl.title || '–', link ? ' · ' : '', link])],
-      [t('act_takeoff'), `${when(to)} · ${place(to, st.startPlace)}`],
-      [t('act_landing'), `${when(ld)} · ${place(ld, st.landPlace)}`],
-      [t('act_duration'), `${fmtDur(Math.round((st.durationSec || 0) / 60))} · ${t('act_landingsN', { n: st.landings ?? '–' })}${st.nightSec ? ` · ${t('act_night')} ${fmtDur(Math.round(st.nightSec / 60))}` : ''}`],
-      [t('act_dist'), `${fmt((st.distanceM || 0) / 1000)} km · ${fmt((st.straightM || 0) / 1000)} km${crs != null ? ` · ${String(crs).padStart(3, '0')}°` : ''}`],
-      [t('act_altMax'), st.altMaxM != null ? `${fmt(st.altMaxM)} m AMSL (${fmt(mToFt(st.altMaxM))} ft)` : '–'],
-      [t('act_vs'), st.vsMaxMs != null ? `${fmtSigned(st.vsMaxMs, 1)} / ${fmtSigned(st.vsMinMs ?? 0, 1)} m/s` : '–'],
-      [t('act_gs'), st.gsMaxMs != null ? `${fmt(ktOf(st.gsMaxMs))} kt (${fmt(st.gsMaxMs * 3.6)} km/h)` : '–'],
-      sm.meta && (sm.meta.balloon || sm.meta.pic) ? [t('act_master'), [sm.meta.balloon, sm.meta.type, sm.meta.pic ? `PIC ${sm.meta.pic}` : '', sm.meta.copilot].filter(Boolean).join(' · ')] : null,
-      st.trackers?.length ? [t('act_trackers'), `${st.trackers.join(', ')} · ${fmt(sm.points)} ${t('act_points')}${sm.thinnedToSec ? ` (${sm.thinnedToSec} s)` : ''}`] : null,
-      sm.events ? [t('act_events'), `${sm.events.n ?? 0} ${t('act_eventsN')}${sm.events.source ? ` · ${sm.events.source}` : ''}`] : null,
-      [t('act_received'), `${sm.receivedAt ? fmtDateTime(z, Date.parse(sm.receivedAt), lang) : '–'} · ${sm.source || 'analyze'}`],
+      [t('ist_flightTitle'), h('span', [fl.title || '–', link ? ' · ' : '', link])],
+      [t('ist_takeoff'), `${when(to)} · ${place(to, st.startPlace)}`],
+      [t('ist_landing'), `${when(ld)} · ${place(ld, st.landPlace)}`],
+      [t('ist_duration'), `${fmtDur(Math.round((st.durationSec || 0) / 60))} · ${t('ist_landingsN', { n: st.landings ?? '–' })}${st.nightSec ? ` · ${t('ist_night')} ${fmtDur(Math.round(st.nightSec / 60))}` : ''}`],
+      [t('ist_dist'), `${fmt((st.distanceM || 0) / 1000)} km · ${fmt((st.straightM || 0) / 1000)} km${crs != null ? ` · ${String(crs).padStart(3, '0')}°` : ''}`],
+      [t('ist_altMax'), st.altMaxM != null ? `${fmt(st.altMaxM)} m AMSL (${fmt(mToFt(st.altMaxM))} ft)` : '–'],
+      [t('ist_vs'), st.vsMaxMs != null ? `${fmtSigned(st.vsMaxMs, 1)} / ${fmtSigned(st.vsMinMs ?? 0, 1)} m/s` : '–'],
+      [t('ist_gs'), st.gsMaxMs != null ? `${fmt(ktOf(st.gsMaxMs))} kt (${fmt(st.gsMaxMs * 3.6)} km/h)` : '–'],
+      sm.meta && (sm.meta.balloon || sm.meta.pic) ? [t('ist_master'), [sm.meta.balloon, sm.meta.type, sm.meta.pic ? `PIC ${sm.meta.pic}` : '', sm.meta.copilot].filter(Boolean).join(' · ')] : null,
+      st.trackers?.length ? [t('ist_trackers'), `${st.trackers.join(', ')} · ${fmt(sm.points)} ${t('ist_points')}${sm.thinnedToSec ? ` (${sm.thinnedToSec} s)` : ''}`] : null,
+      sm.events ? [t('ist_events'), `${sm.events.n ?? 0} ${t('ist_eventsN')}${sm.events.source ? ` · ${sm.events.source}` : ''}`] : null,
+      [t('ist_received'), `${sm.receivedAt ? fmtDateTime(z, Date.parse(sm.receivedAt), lang) : '–'} · ${sm.source || 'analyze'}`],
     ]),
-    o.canDelete ? h('div.no-print', { style: { marginTop: '6px' } }, h('button.btn.small', { type: 'button', onclick: async () => { if (!(await confirmDialog(t('act_deleteTitle'), t('act_deleteText'), { yes: t('delete'), no: t('cancel') }))) return; try { await ctx.store.deleteTrajectory(b.id); toast(t('act_deleted')); o.onDeleted && o.onDeleted(); } catch (e) { toast(e.message || 'error'); } } }, t('act_delete'))) : null,
+    o.canDelete ? h('div.no-print', { style: { marginTop: '6px' } }, h('button.btn.small', { type: 'button', onclick: async () => { if (!(await confirmDialog(t('ist_deleteTitle'), t('ist_deleteText'), { yes: t('delete'), no: t('cancel') }))) return; try { await ctx.store.deleteTrajectory(b.id); toast(t('ist_deleted')); o.onDeleted && o.onDeleted(); } catch (e) { toast(e.message || 'error'); } } }, t('ist_delete'))) : null,
   ]);
-  tbl.appendChild(row(1, t('act_flight'), flightCell));
+  tbl.appendChild(row(1, t('ist_flight'), flightCell));
 
   // --- F2 Soll/Ist je geplanter Bahn
   const cmpAll = compareAll(b, pts);
-  const lbl = (trk) => (trk.kind === 'profile' ? t('act_profile') : `${trk.label}${trk.altFt != null ? ` · ${fmt(trk.altFt)} ft` : ''}`);
+  const lbl = (trk) => (trk.kind === 'profile' ? t('ist_profile') : `${trk.label}${trk.altFt != null && !/ft/i.test(trk.label) ? ` · ${fmt(trk.altFt)} ft` : ''}`);
   let cmpCell;
-  if (!cmpAll.rows.length) cmpCell = h('div.mini', pts.length ? t('act_noPlan') : t('act_noPoints'));
+  if (!cmpAll.rows.length) cmpCell = h('div.mini', pts.length ? t('ist_noPlan') : t('ist_noPoints'));
   else {
     const rows = cmpAll.rows.map((r) => {
       const c = r.cmp, best = r === cmpAll.best;
-      return h('tr', { class: best ? 'best' : '' }, [h('td', [best ? h('b', lbl(r.track)) : lbl(r.track), best ? h('span.tag.pos', { style: { marginLeft: '6px' } }, t('act_best')) : null]),
+      return h('tr', { class: best ? 'best' : '' }, [h('td', [best ? h('b', lbl(r.track)) : lbl(r.track), best ? h('span.tag.pos', { style: { marginLeft: '6px' } }, t('ist_best')) : null]),
         h('td.num', c.meanDevKm != null ? fmt(c.meanDevKm, 1) : '–'), h('td.num', c.maxDevKm != null ? fmt(c.maxDevKm, 1) : '–'), h('td.num', fmt(c.endKm, 1)), h('td.num', c.sameTimeKm != null ? fmt(c.sameTimeKm, 1) : '–'),
-        h('td.num', c.brgErr != null ? `${fmtSigned(c.brgErr, 0)}° ${c.brgErr > 0.5 ? t('act_right') : c.brgErr < -0.5 ? t('act_left') : ''}` : '–'), h('td.num', `${Math.round(c.coverage * 100)} %`)]);
+        h('td.num', c.brgErr != null ? `${fmtSigned(c.brgErr, 0)}° ${c.brgErr > 0.5 ? t('ist_right') : c.brgErr < -0.5 ? t('ist_left') : ''}` : '–'), h('td.num', `${Math.round(c.coverage * 100)} %`)]);
     });
-    const head = h('thead', h('tr', [h('th', t('act_level')), h('th.num', `${t('act_meanDev')} km`), h('th.num', `${t('act_maxDev')} km`), h('th.num', `${t('act_endKm')} km`), h('th.num', `${t('act_sameTime')} km`), h('th.num', t('act_brgErr')), h('th.num', t('act_cover'))]));
+    const head = h('thead', h('tr', [h('th', t('ist_level')), h('th.num', `${t('ist_meanDev')} km`), h('th.num', `${t('ist_maxDev')} km`), h('th.num', `${t('ist_endKm')} km`), h('th.num', `${t('ist_sameTime')} km`), h('th.num', t('ist_brgErr')), h('th.num', t('ist_cover'))]));
     const bestC = cmpAll.best.cmp;
-    const hourly = bestC.hours.length ? h('table.inner.act-hours', [h('thead', h('tr', [h('th', t('act_hour')), h('th', `${t('act_planned')} (${lbl(cmpAll.best.track)})`), h('th', t('act_actual')), h('th.num', `${t('act_dev')} km`)])),
-      h('tbody', bestC.hours.map((x) => h('tr', [h('td', `+${x.h} h · ${hhmm('UTC', x.ms)} UTC`), h('td.mono', icao(x.planned.lat, x.planned.lon)), h('td.mono', icao(x.actual.lat, x.actual.lon)), h('td.num', `${fmt(x.devKm, 1)}${x.side ? ' ' + (x.side === 'R' ? t('act_right') : t('act_left')) : ''}`)])))]) : null;
-    cmpCell = h('div', [h('table.inner.act-cmp', [head, h('tbody', rows)]), h('div.mini', t('act_cmpHint')), hourly]);
+    const hourly = bestC.hours.length ? h('table.inner.act-hours', [h('thead', h('tr', [h('th', t('ist_hour')), h('th', `${t('ist_planned')} (${lbl(cmpAll.best.track)})`), h('th', t('ist_actual')), h('th.num', `${t('ist_dev')} km`)])),
+      h('tbody', bestC.hours.map((x) => h('tr', [h('td', `+${x.h} h · ${hhmm('UTC', x.ms)} UTC`), h('td.mono', icao(x.planned.lat, x.planned.lon)), h('td.mono', icao(x.actual.lat, x.actual.lon)), h('td.num', `${fmt(x.devKm, 1)}${x.side ? ' ' + (x.side === 'R' ? t('ist_right') : t('ist_left')) : ''}`)])))]) : null;
+    cmpCell = h('div', [h('table.inner.act-cmp', [head, h('tbody', rows)]), h('div.mini', t('ist_cmpHint')), hourly]);
   }
-  tbl.appendChild(row(2, t('act_compare'), cmpCell));
+  tbl.appendChild(row(2, t('ist_compare'), cmpCell));
 
   // --- F3 Karte (Bildschirm) + Skizze (Druck)
   const planned = cmpAll.rows.map((r) => r.track);
@@ -77,11 +77,11 @@ export function actualSection(ctx, b, tr, o = {}) {
   const mapEl = h('div.map.traj.no-print');
   mapCell.appendChild(mapEl);
   const sketchTracks = [...planned.map((trk, k) => ({ label: lbl(trk), points: trk.points, hourly: [], end: trk.end, color: trk.kind === 'profile' ? PROFILE_COLOR : TRAJ_COLORS[k % TRAJ_COLORS.length], dash: trk.kind !== 'profile' })),
-    ...(pts.length ? [{ label: t('act_actual'), points: pts, hourly: hourlyPoints(pts), end: pts[pts.length - 1], color: ACT_COLOR, width: 3 }] : [])];
+    ...(pts.length ? [{ label: t('ist_actual'), points: pts, hourly: hourlyPoints(pts), end: pts[pts.length - 1], color: ACT_COLOR, width: 3 }] : [])];
   const site = b.site?.lat != null ? { lat: b.site.lat, lon: b.site.lon } : (wp.takeoff || pts[0]);
   if (site && sketchTracks.length) { try { const svg = trajSvg(sketchTracks, { lat: site.lat, lon: site.lon, landing: b.landing?.lat != null ? b.landing : null, w: 520, h: 400 }); svg.classList.add('act-sketch'); mapCell.appendChild(h('div.print-only', svg)); } catch (e) { console.warn('sketch', e); } }
-  mapCell.appendChild(h('div.mini', t('act_legend')));
-  tbl.appendChild(row(3, t('act_map'), mapCell));
+  mapCell.appendChild(h('div.mini', t('ist_legend')));
+  tbl.appendChild(row(3, t('ist_map'), mapCell));
   setTimeout(() => drawMap(mapEl, b, pts, wp, planned, lbl), 30);
   return [bs, tbl];
 }
@@ -100,11 +100,11 @@ function drawMap(el, b, pts, wp, planned, lbl) {
   if (pts.length) {
     const ll = pts.map((q) => [q.lat, q.lon]);
     L.polyline(ll, { color: '#fff', weight: 6, opacity: 0.9 }).addTo(map);
-    L.polyline(ll, { color: ACT_COLOR, weight: 3 }).addTo(map).bindTooltip(t('act_actual'));
+    L.polyline(ll, { color: ACT_COLOR, weight: 3 }).addTo(map).bindTooltip(t('ist_actual'));
     for (const hp of hourlyPoints(pts)) L.circleMarker([hp.lat, hp.lon], { radius: 3.5, color: ACT_COLOR, weight: 1.5, fillColor: '#fff', fillOpacity: 1 }).addTo(map).bindTooltip(`+${hp.h} h · ${hhmm('UTC', hp.ms)} UTC`);
     const tk = wp.takeoff || pts[0], ln = wp.landing || pts[pts.length - 1];
-    if (tk) L.circleMarker([tk.lat, tk.lon], { radius: 7, color: '#fff', weight: 2, fillColor: '#2f8f4e', fillOpacity: 1 }).addTo(map).bindTooltip(t('act_takeoff'));
-    if (ln) L.circleMarker([ln.lat, ln.lon], { radius: 7, color: '#fff', weight: 2, fillColor: '#c2481a', fillOpacity: 1 }).addTo(map).bindTooltip(t('act_landing'));
+    if (tk) L.circleMarker([tk.lat, tk.lon], { radius: 7, color: '#fff', weight: 2, fillColor: '#2f8f4e', fillOpacity: 1 }).addTo(map).bindTooltip(t('ist_takeoff'));
+    if (ln) L.circleMarker([ln.lat, ln.lon], { radius: 7, color: '#fff', weight: 2, fillColor: '#c2481a', fillOpacity: 1 }).addTo(map).bindTooltip(t('ist_landing'));
     all.push(...ll);
   }
   if (b.site?.lat != null) { L.marker([b.site.lat, b.site.lon]).addTo(map).bindTooltip(`${t('site')}: ${b.site.name || ''}`); all.push([b.site.lat, b.site.lon]); }

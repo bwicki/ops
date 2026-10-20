@@ -976,3 +976,12 @@ details.cmp{margin-top:8px} details.cmp>summary{cursor:pointer;font-weight:600} 
 .docsheet .p2{font-size:10.5px}
 .sigimg{max-height:60px;max-width:220px;border:1px solid var(--line);background:#fff;padding:4px}
 .note.neg{color:#c62828}
+
+/* 0.14.0: Ist-Trajektorie (analyze.wicki.aero) */
+.tag.traj{background:#e6f6ec;color:#14532d;border:1px solid #9fd8b4;margin-left:4px}
+table.inner.act-cmp td.num,table.inner.act-cmp th.num,table.inner.act-hours td.num,table.inner.act-hours th.num{text-align:right;font-variant-numeric:tabular-nums}
+table.inner.act-cmp{width:100%;table-layout:auto}
+table.inner.act-cmp th{white-space:normal;vertical-align:bottom}
+table.inner.act-cmp tr.best td{background:#f4fbf6}
+table.inner.act-hours{margin-top:8px}
+.act-sketch{max-width:520px;width:100%;height:auto}

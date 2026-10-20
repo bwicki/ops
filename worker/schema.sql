@@ -100,3 +100,15 @@ CREATE TABLE IF NOT EXISTS material_links (
   revoked INTEGER NOT NULL DEFAULT 0
 );
 CREATE INDEX IF NOT EXISTS material_user ON material_links(user_id);
+
+-- 0.14.0: Ist-Trajektorie je Briefing aus analyze.wicki.aero (Zusammenfassung hier, GeoJSON in R2 unter <briefing>/trajectory.geojson);
+-- der Worker legt die Tabelle auch selbst an (ensureTrajectories)
+CREATE TABLE IF NOT EXISTS trajectories (
+  briefing_id TEXT PRIMARY KEY,
+  json TEXT NOT NULL,             -- {source, flight{id,title,url}, stats, meta, events, points, receivedAt}
+  geo_key TEXT NOT NULL,          -- R2-Schlüssel des GeoJSON
+  points INTEGER NOT NULL DEFAULT 0,
+  source TEXT,
+  flight_id TEXT,
+  received_at INTEGER NOT NULL
+);

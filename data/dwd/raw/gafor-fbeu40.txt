@@ -14,15 +14,15 @@ Gebiet  Name  15-17 UTC  17-19 UTC  19-21 UTC
 
 03  Schleswig-Holsteinische Geest  D1 ISOL RADZ  D1  D1
 
-04  Schleswig-Holsteinisches Hügelland  D1 ISOL RADZ  D1  D1
+04  Schleswig-Holsteinisches Hügelland  D1 ISOL RADZ  D1 ISOL RADZ  M2 ISOL RADZ
 
 05  Nordwestliches Niedersachsen  O  O  D1
 
-06  Lüneburger Heide  D1  M2  M2
+06  Lüneburger Heide  D1  D1  M2
 
 07  Westliches Niedersachsen  O  O  D1
 
-08  Hannover und Braunschweig  D1  M2  M2
+08  Hannover und Braunschweig  D1  D1  D1
 
 09  Teutoburger Wald  C  C  O ISOL RA
 
@@ -34,9 +34,9 @@ GAFOR Bereich LBZ Berlin 20.10.2026
 
 Gebiet  Name  15-17 UTC  17-19 UTC  19-21 UTC
 
-11  Mecklenburgisches Tiefland  D1  M2  D4
+11  Mecklenburgisches Tiefland  D1  M2  M5
 
-12  Vorpommern  M2  M5  D4
+12  Vorpommern  M2  M5  M5
 
 13  Westliche Mecklenburgische Seenplatte und Prignitz  D1  D1  M2
 
@@ -84,15 +84,15 @@ Gebiet  Name  15-17 UTC  17-19 UTC  19-21 UTC
 
 34  Niederrheinische Bucht  O ISOL RA  O ISOL RADZ  O ISOL RADZ
 
-35  Bergisches Land  O ISOL RA  O ISOL RADZ  D1 ISOL RADZ
+35  Bergisches Land  O ISOL RA  D1 ISOL RADZ  M5 ISOL RADZ
 
-36  Sauerland  O ISOL RA  O ISOL RADZ  D1 ISOL RADZ
+36  Sauerland  O ISOL RA  M5 ISOL RADZ  X ISOL RADZ
 
 37  Eifel  D1 ISOL RADZ  M2 ISOL RADZ  X ISOL RADZ
 
-38  Neuwieder Becken  O ISOL RADZ  O ISOL RADZ  O ISOL RADZ
+38  Neuwieder Becken  O ISOL RADZ  O ISOL RADZ  D1 ISOL RADZ
 
-39  Westerwald  O ISOL RADZ  D1 ISOL RADZ  M2 ISOL RADZ
+39  Westerwald  O ISOL RADZ  D1 ISOL RADZ  M5 ISOL RADZ
 
 GAFOR-Einstufung FWZ Frankfurt
 
@@ -138,7 +138,7 @@ Gebiet  Name  15-17 UTC  17-19 UTC  19-21 UTC
 
 57  Oberfranken  O  O  O
 
-58  Frankenwald und Fichtelgebirge  M2  D1  O
+58  Frankenwald und Fichtelgebirge  M2  M2  M2
 
 62  Schwäbische Alb  M2  M2  X
 
@@ -152,19 +152,19 @@ Gebiet  Name  15-17 UTC  17-19 UTC  19-21 UTC
 
 73  Westliche Donauniederung  M2  M2  M2
 
-74  Südbayerisches Hügelland  M2  D1  M2
+74  Südbayerisches Hügelland  M2  M2  M2
 
-75  Östliche Donau- und Naabniederung  O  C  C
+75  Östliche Donau- und Naabniederung  O  O  O ISOL FG
 
-76  Bayerischer Wald  C  C  C
+76  Bayerischer Wald  C  C  O ISOL FG
 
 81  Westliches Alpenvorland  M2  M2  X
 
 82  Östliches Alpenvorland  M2  M2  M2
 
-83  Allgäuer Alpen  O  C  C
+83  Allgäuer Alpen  O  O ISOL FG  O ISOL FG
 
-84  Östliche Bayerische Alpen  O  C  C
+84  Östliche Bayerische Alpen  O  O ISOL FG  O ISOL FG
 
 GAFOR Legende
 

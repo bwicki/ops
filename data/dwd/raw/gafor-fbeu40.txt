@@ -52,7 +52,7 @@ Gebiet  Name  15-17 UTC  17-19 UTC  19-21 UTC
 
 19  Dahme-Spree-Gebiet und Gubener Waldland  C  O  D1 ISOL RADZ
 
-20  Magdeburger Börde und Nördliches Harzvorland  M5 ISOL RA  D4 ISOL RA  D1 ISOL RADZ
+20  Magdeburger Börde und Nördliches Harzvorland  M5 ISOL RA  M7 ISOL RA  D4 ISOL RADZ
 
 21  Harz  X ISOL RA  M5 ISOL RA  M5 ISOL RADZ
 
@@ -102,15 +102,15 @@ Gebiet  Name  15-17 UTC  17-19 UTC  19-21 UTC
 
 41  Hunsrück  M2 ISOL RADZ  M5 ISOL SHRA  D1 ISOL SHRA
 
-42  Taunus  X ISOL DZRA  M5 ISOL DZRA  M5 ISOL SHRA
+42  Taunus  X ISOL DZRA  X ISOL DZRA  X ISOL SHRA
 
-43  Nordhessisches Bergland und Vogelsberg  M5 ISOL RADZ  D1 ISOL RADZ  D1 ISOL DZRA
+43  Nordhessisches Bergland und Vogelsberg  M5 ISOL RADZ  M2 ISOL RADZ  M2 ISOL DZRA
 
 44  Rheinpfalz und Saarland  M5 ISOL RADZ  D4 ISOL SHRA  D1 ISOL SHRA
 
 45  Rhein-Main-Gebiet und Wetterau  D1 ISOL DZRA  O ISOL RADZ  O ISOL SHRA
 
-46  Odenwald und Spessart  D1 ISOL RADZ  D1 ISOL RADZ  D1 ISOL RADZ
+46  Odenwald und Spessart  D1 ISOL RADZ  M2 ISOL RADZ  M2 ISOL RADZ
 
 47  Rhön  X ISOL RADZ  M8 ISOL RADZ  M5 ISOL RADZ
 
@@ -122,7 +122,7 @@ Gebiet  Name  15-17 UTC  17-19 UTC  19-21 UTC
 
 53  Oberer und mittlerer Neckarraum  D1 ISOL RADZ  D1 ISOL RADZ  D1 ISOL RADZ
 
-61  Schwarzwald  X ISOL RADZ  M8 ISOL RADZ  M5 ISOL RADZ
+61  Schwarzwald  X ISOL RADZ  X ISOL RADZ  X ISOL RADZ
 
 GAFOR-Einstufung LBZ Muenchen
 
@@ -130,19 +130,19 @@ GAFOR Bereich LBZ Muenchen 21.10.2026
 
 Gebiet  Name  15-17 UTC  17-19 UTC  19-21 UTC
 
-54  Mainfranken und Nördliches Unterfranken  X OCNL RADZ  M5 FRQ RADZ  M5 OCNL RADZ
+54  Mainfranken und Nördliches Unterfranken  D1 OCNL RADZ  D1 ISOL RADZ  M2 ISOL RADZ
 
-55  Kocher-Jagst-Gebiet und Frankenhöhe  X FRQ RADZ  M5 OCNL RADZ  M5 OCNL RADZ
+55  Kocher-Jagst-Gebiet und Frankenhöhe  D1 OCNL RADZ  D1 ISOL RADZ  D1 ISOL RADZ
 
-56  Mittelfranken  X OCNL RADZ  M5 OCNL RADZ  M2 OCNL RADZ
+56  Mittelfranken  X OCNL RADZ  D1 OCNL RADZ  D1 OCNL RADZ
 
-57  Oberfranken  X ISOL RADZ  X ISOL RADZ  X OCNL RADZ
+57  Oberfranken  X ISOL RADZ  M2 ISOL RADZ  M2 OCNL RADZ
 
 58  Frankenwald und Fichtelgebirge  X ISOL RADZ  X OCNL RADZ  X OCNL RADZ
 
-62  Schwäbische Alb  X ISOL RADZ  X FRQ RADZ  M5 FRQ RADZ
+62  Schwäbische Alb  X ISOL RADZ  M5 FRQ RADZ  D4 FRQ RADZ
 
-63  Fränkische Alb  X ISOL RADZ  X ISOL RADZ  X ISOL RADZ
+63  Fränkische Alb  X ISOL RADZ  M5 ISOL RADZ  D4 ISOL RADZ
 
 64  Oberpfälzer Wald  X ISOL RADZ  X ISOL RADZ  X ISOL RADZ
 

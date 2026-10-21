@@ -12,36 +12,36 @@
       // i18n
         var PRINT_PAGE_TEXT = 'Seite drucken';
         var PRINT_TOOLTIP = 'Seite drucken (öffnet Dialog)';
-        var MOBILENAVIGATION_JSON_URL = 'SiteGlobals/Functions/Navigation_Mobile/DE/mobile_navi_file.json;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?view=renderMobileNavigation';
+        var MOBILENAVIGATION_JSON_URL = 'SiteGlobals/Functions/Navigation_Mobile/DE/mobile_navi_file.json;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?view=renderMobileNavigation';
         var MOBILENAVIGATION_ACTIVENODE = 'node806816';
         //constants
         var CLINKS;
         CLINKS = CLINKS || {};
-        CLINKS['calendar'] = "SiteGlobals/Functions/Kalender/DE/Kalender.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043";
-        CLINKS['search'] = "SiteGlobals/Forms/Suche/Autosuggest_Formular.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043";
-        CLINKS['search.json'] = "SiteGlobals/Forms/Suche/Autosuggest_Formular.json;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043";
+        CLINKS['calendar'] = "SiteGlobals/Functions/Kalender/DE/Kalender.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083";
+        CLINKS['search'] = "SiteGlobals/Forms/Suche/Autosuggest_Formular.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083";
+        CLINKS['search.json'] = "SiteGlobals/Forms/Suche/Autosuggest_Formular.json;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083";
         CLINKS['requirePath'] = "SiteGlobals/Functions/JavaScript_Optimierung2/_standardlsg";
-        CLINKS['html5player'] = "SiteGlobals/Functions/JavaScript_Optimierung2/libs/jwplayer.html5.js;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1";
-        CLINKS['renderCityWeather.json?view=renderCityWeather'] = "SiteGlobals/Functions/CityWeather/RenderCityWeather.json;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?view=renderCityWeather";
-        CLINKS['RenderWeatherStatus.html?view=renderWeatherStatus'] = "SiteGlobals/Functions/Unwetterwarnung/RenderWeatherStatus.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?view=renderWeatherStatus";
+        CLINKS['html5player'] = "SiteGlobals/Functions/JavaScript_Optimierung2/libs/jwplayer.html5.js;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1";
+        CLINKS['renderCityWeather.json?view=renderCityWeather'] = "SiteGlobals/Functions/CityWeather/RenderCityWeather.json;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?view=renderCityWeather";
+        CLINKS['RenderWeatherStatus.html?view=renderWeatherStatus'] = "SiteGlobals/Functions/Unwetterwarnung/RenderWeatherStatus.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?view=renderWeatherStatus";
         CLINKS['CityWeatherCookiePath.value'] = "/SiteGlobals/";
-        CLINKS['CityWeatherSprite.normal'] = "/SiteGlobals/StyleBundles/Bilder/Allgemein/staedtewetter.svg;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?__blob=normal&amp;v=1";
+        CLINKS['CityWeatherSprite.normal'] = "/SiteGlobals/StyleBundles/Bilder/Allgemein/staedtewetter.svg;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?__blob=normal&amp;v=1";
         CLINKS['ConsentBoxCookieExpiration.value'] = "360";
-        CLINKS['inkas_wirkungsanalyse'] = "_config/ConsentBoxCookieExpiration.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043";
-        CLINKS['inkas_flaechenanalyse'] = "_config/ConsentBoxCookieExpiration.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043";
-        CLINKS['inkasstart'] = "_config/ConsentBoxCookieExpiration.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043";
-        CLINKS['inkas_wirkungsanalyse_en'] = "_config/ConsentBoxCookieExpiration.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043";
-        CLINKS['inkas_flaechenanalyse_en'] = "_config/ConsentBoxCookieExpiration.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043";
-        CLINKS['inkasstart_en'] = "_config/ConsentBoxCookieExpiration.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043";
-        CLINKS['svgInlineCSS'] = "SiteGlobals/Frontend/inkas/css/inkas-svg.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=2";
-        CLINKS['inkasKomplett'] = "SiteGlobals/Frontend/inkas/js/inkasKomplett.js;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1";
+        CLINKS['inkas_wirkungsanalyse'] = "_config/ConsentBoxCookieExpiration.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083";
+        CLINKS['inkas_flaechenanalyse'] = "_config/ConsentBoxCookieExpiration.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083";
+        CLINKS['inkasstart'] = "_config/ConsentBoxCookieExpiration.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083";
+        CLINKS['inkas_wirkungsanalyse_en'] = "_config/ConsentBoxCookieExpiration.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083";
+        CLINKS['inkas_flaechenanalyse_en'] = "_config/ConsentBoxCookieExpiration.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083";
+        CLINKS['inkasstart_en'] = "_config/ConsentBoxCookieExpiration.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083";
+        CLINKS['svgInlineCSS'] = "SiteGlobals/Frontend/inkas/css/inkas-svg.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=2";
+        CLINKS['inkasKomplett'] = "SiteGlobals/Frontend/inkas/js/inkasKomplett.js;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1";
         CLINKS['config.inkasJson'] = "/inkasbackend/inkas/config.json";
         CLINKS['texts.inkasJson'] = "/inkasbackend/inkas/texts.json";
         CLINKS['zeitlichewirkung.inkasCSV'] = "/inkasbackend/inkas/zeitlichewirkung.csv";
         CLINKS['nrw/config-nrw.inkasJson'] = "/inkasbackend/inkas/nrw/config-nrw.json";
         CLINKS['nrw/texts-nrw.inkasJson'] = "/inkasbackend/inkas/nrw/texts-nrw.json";
-        CLINKS['image_url_mejs_controls.normal'] = "/SiteGlobals/StyleBundles/Bilder/mediaelement/mejs_controls_svg.svg;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?__blob=normal&amp;v=1";
-        CLINKS.flashplayer = "/SiteGlobals/Functions/VideoPlayer/VideoPlayer.swf;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?__blob=value&amp;v=2";
+        CLINKS['image_url_mejs_controls.normal'] = "/SiteGlobals/StyleBundles/Bilder/mediaelement/mejs_controls_svg.svg;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?__blob=normal&amp;v=1";
+        CLINKS.flashplayer = "/SiteGlobals/Functions/VideoPlayer/VideoPlayer.swf;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?__blob=value&amp;v=2";
         var RQNAMES;
         RQNAMES = RQNAMES || {};
         RQNAMES['app/modules/showbox.js'] = "app/modules/showbox%2Ejs";
@@ -83,54 +83,54 @@
 
     <meta name="keywords" content="Luftsportbericht"/>
 
-    <meta name="og:image" content="/SiteGlobals/StyleBundles/Bilder/Allgemein/OpenGraphImage-DWD-Logo.jpg;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?__blob=normal&amp;v=3" />
+    <meta name="og:image" content="/SiteGlobals/StyleBundles/Bilder/Allgemein/OpenGraphImage-DWD-Logo.jpg;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?__blob=normal&amp;v=3" />
 
 
     <link rel="canonical" href="https://www.dwd.de/DE/fachnutzer/luftfahrt/teaser/gebietsvorhersagen_ballonsport/node_01.html"/>
     <link rel="copyright" href="" type="text/html" title="Impressum" />
     <link rel="glossary" href="" type="text/html" title="Glossar" />
     <link rel="help" href="" type="text/html" title="Hilfe" />
-    <link rel="start" href="DE/Home/home_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" type="text/html" title="Homepage" />
+    <link rel="start" href="DE/Home/home_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" type="text/html" title="Homepage" />
     <link rel="contents" href="" type="text/html" title="&Uuml;bersicht" />
     <link rel="search" href="" type="text/html" title="Suche" />
-    <link rel="shortcut icon" href="/SiteGlobals/StyleBundles/Bilder/favicon.ico;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?__blob=normal&amp;v=3" type="image/ico" />
+    <link rel="shortcut icon" href="/SiteGlobals/StyleBundles/Bilder/favicon.ico;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?__blob=normal&amp;v=3" type="image/ico" />
 
-<link rel="alternate" type="application/rss+xml" title="Neueste Nachrichten für die Luftfahrt" href="SiteGlobals/Functions/RSSFeed/DE/Luftfahrt_aktuell/RSSNewsfeed.xml;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"/>
-<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/_libs/_all.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="Neueste Nachrichten für die Luftfahrt" href="SiteGlobals/Functions/RSSFeed/DE/Luftfahrt_aktuell/RSSNewsfeed.xml;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"/>
+<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/_libs/_all.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1" type="text/css" media="screen" />
 
-<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/styles.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=26" type="text/css" media="screen" />
-<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/handheld/handheld_addon_mmenu.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=2" type="text/css" media="all and (max-width: 599px)" />
-<link rel="stylesheet"  href="SiteGlobals/StyleBundles/CSS/screen/screen_addon_autosuggest.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=2" type="text/css" media ="projection, screen, handheld"  />
-<link rel="stylesheet"  href="SiteGlobals/StyleBundles/CSS/screen/screen_addon_shariff.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=3" type="text/css" media ="projection, screen, handheld"  />
-<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/materna_additional_stylesheet.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=100" type="text/css" media="screen" />
-<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/mediaelementplayer.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=2" type="text/css" media="screen" />
-<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/mediaelementplayer_additional.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1" type="text/css" media="screen" />
-<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/custom.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=3" type="text/css" media="screen, projection" />
-<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/jquery.tablesorter.theme.default.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1" type="text/css" media="screen" />
-<!-- Additional IE/Win specific style sheet (Conditional Comments) --><!--[if IE 8]><link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/ie8.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=3" type="text/css" media="screen, projection" /><![endif]-->
-<!-- Additional IE/Win specific style sheet (Conditional Comments) --><!--[if lte IE 7]><link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/ie6-7.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1" type="text/css" media="projection, screen" /><![endif]-->
-<!-- Additional IE/Win specific style sheet (Conditional Comments) --><!--[if lte IE 8]><link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/screen_iew.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1" type="text/css" media="projection, screen" /><![endif]-->
-<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/print/print.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=5" type="text/css" media="print" />
-<link rel="stylesheet"  href="SiteGlobals/StyleBundles/CSS/screen/screen_addon_fontawesome.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1" type="text/css" media ="projection, screen, handheld"  />
-<link rel="stylesheet"  href="SiteGlobals/StyleBundles/CSS/screen/screen_addon_button.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1" type="text/css" media ="projection, screen, handheld"  />
-<link rel="stylesheet"  href="SiteGlobals/StyleBundles/CSS/screen/screen_addon_multimedia.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1" type="text/css" media ="projection, screen, handheld"  />
-<link rel="stylesheet"  href="SiteGlobals/StyleBundles/CSS/screen/toodfeed.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=21" type="text/css" media ="projection, screen, handheld, print"  />
-<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/addon_flugwetter.css;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=2" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/styles.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=26" type="text/css" media="screen" />
+<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/handheld/handheld_addon_mmenu.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=2" type="text/css" media="all and (max-width: 599px)" />
+<link rel="stylesheet"  href="SiteGlobals/StyleBundles/CSS/screen/screen_addon_autosuggest.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=2" type="text/css" media ="projection, screen, handheld"  />
+<link rel="stylesheet"  href="SiteGlobals/StyleBundles/CSS/screen/screen_addon_shariff.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=3" type="text/css" media ="projection, screen, handheld"  />
+<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/materna_additional_stylesheet.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=100" type="text/css" media="screen" />
+<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/mediaelementplayer.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=2" type="text/css" media="screen" />
+<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/mediaelementplayer_additional.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1" type="text/css" media="screen" />
+<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/custom.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=3" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/jquery.tablesorter.theme.default.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1" type="text/css" media="screen" />
+<!-- Additional IE/Win specific style sheet (Conditional Comments) --><!--[if IE 8]><link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/ie8.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=3" type="text/css" media="screen, projection" /><![endif]-->
+<!-- Additional IE/Win specific style sheet (Conditional Comments) --><!--[if lte IE 7]><link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/ie6-7.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1" type="text/css" media="projection, screen" /><![endif]-->
+<!-- Additional IE/Win specific style sheet (Conditional Comments) --><!--[if lte IE 8]><link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/screen_iew.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1" type="text/css" media="projection, screen" /><![endif]-->
+<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/print/print.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=5" type="text/css" media="print" />
+<link rel="stylesheet"  href="SiteGlobals/StyleBundles/CSS/screen/screen_addon_fontawesome.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1" type="text/css" media ="projection, screen, handheld"  />
+<link rel="stylesheet"  href="SiteGlobals/StyleBundles/CSS/screen/screen_addon_button.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1" type="text/css" media ="projection, screen, handheld"  />
+<link rel="stylesheet"  href="SiteGlobals/StyleBundles/CSS/screen/screen_addon_multimedia.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1" type="text/css" media ="projection, screen, handheld"  />
+<link rel="stylesheet"  href="SiteGlobals/StyleBundles/CSS/screen/toodfeed.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=21" type="text/css" media ="projection, screen, handheld, print"  />
+<link rel="stylesheet" href="SiteGlobals/StyleBundles/CSS/screen/addon_flugwetter.css;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=2" type="text/css" media="screen, projection" />
 
 
 
 <!--[if IE 8]>
- <script src="SiteGlobals/Functions/JavaScript/__ie8.js.js;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1"></script>
+ <script src="SiteGlobals/Functions/JavaScript/__ie8.js.js;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1"></script>
  <![endif]-->
  <!--[if ! lte IE 7]><!--> 
 <!--
-    <script src="SiteGlobals/Functions/JavaScript/__base.js.js;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1"></script>
-    <script src="SiteGlobals/Functions/JavaScript/__start.js.js;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1"></script>
+    <script src="SiteGlobals/Functions/JavaScript/__base.js.js;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1"></script>
+    <script src="SiteGlobals/Functions/JavaScript/__start.js.js;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1"></script>
 -->
-    <script src="SiteGlobals/Functions/JavaScript_Optimierung2/__everything.js;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=15"></script>
+    <script src="SiteGlobals/Functions/JavaScript_Optimierung2/__everything.js;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=15"></script>
  <!--<![endif]-->
 <!--[if IE 8]>
-        <script src="SiteGlobals/Functions/JavaScript/html5shiv.js.js;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1"></script>
+        <script src="SiteGlobals/Functions/JavaScript/html5shiv.js.js;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1"></script>
 <![endif]-->
   </head>
   <body class=" lang-de">
@@ -139,12 +139,12 @@
 <a name="Start"></a>
  <div class="navSkip">
 <ul>
-   <li><a href="DE/fachnutzer/luftfahrt/teaser/gebietsvorhersagen_ballonsport/node_01.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043#Inhalt">Inhalt</a></li>
-   <li><a href="DE/fachnutzer/luftfahrt/teaser/gebietsvorhersagen_ballonsport/node_01.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043#Hauptmenu">Hauptmenu</a></li>
-   <li><a href="DE/fachnutzer/luftfahrt/teaser/gebietsvorhersagen_ballonsport/node_01.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043#Suche">Suche</a></li>
+   <li><a href="DE/fachnutzer/luftfahrt/teaser/gebietsvorhersagen_ballonsport/node_01.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083#Inhalt">Inhalt</a></li>
+   <li><a href="DE/fachnutzer/luftfahrt/teaser/gebietsvorhersagen_ballonsport/node_01.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083#Hauptmenu">Hauptmenu</a></li>
+   <li><a href="DE/fachnutzer/luftfahrt/teaser/gebietsvorhersagen_ballonsport/node_01.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083#Suche">Suche</a></li>
 </ul>
 </div>
- <header role="banner" style="background-image: url(/DE/fachnutzer/luftfahrt/headerbild.jpg;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?__blob=normal&amp;v=11);">
+ <header role="banner" style="background-image: url(/DE/fachnutzer/luftfahrt/headerbild.jpg;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?__blob=normal&amp;v=11);">
 
 
   <div id="top-bar" class="slot noWarning">
@@ -153,12 +153,12 @@
         <h1>MetaNavigation</h1>
 <a href="#" class="menu-button" title="Menü einblenden"><span>zum Haupt-</span>Menü</a>
 
-<ul><li ><a href="DE/presse/presseseite_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Presse">Pres­se</a></li><li ><a href="DE/service/kontakt/kontakt_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Kontakt">Kon­takt</a></li><li ><a title="English" class="languageLink lang_en" href="EN/specialusers/aviation/aviation_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" xml:lang="en" hreflang="en" lang="en">En</a></li><li  class="icon lang-s"><a href="DE/service/gebaerdensprache/gebaerdenSprache_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Geb&#228;rdensprache">Ge­bär­den­spra­che</a></li><li  class="icon lang-e"><a href="DE/service/leichtesprache/leichte_sprache_home_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Leichte Sprache">Leich­te Spra­che</a></li></ul>
+<ul><li ><a href="DE/presse/presseseite_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Presse">Pres­se</a></li><li ><a href="DE/service/kontakt/kontakt_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Kontakt">Kon­takt</a></li><li ><a title="English" class="languageLink lang_en" href="EN/specialusers/aviation/aviation_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" xml:lang="en" hreflang="en" lang="en">En</a></li><li  class="icon lang-s"><a href="DE/service/gebaerdensprache/gebaerdenSprache_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Geb&#228;rdensprache">Ge­bär­den­spra­che</a></li><li  class="icon lang-e"><a href="DE/service/leichtesprache/leichte_sprache_home_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Leichte Sprache">Leich­te Spra­che</a></li></ul>
 
       </nav>
 <div class="weather weather-data">
      <p>
-<a href="DE/wetter/wetterundklima_vorort/_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Zum Städtewetter" alt="Zum Städtewetter">
+<a href="DE/wetter/wetterundklima_vorort/_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Zum Städtewetter" alt="Zum Städtewetter">
 
       <span class="weather-location"></span>
       <span class="weather-icon icon-1"></span>
@@ -180,18 +180,18 @@
 
 <select id="select-box-id" class="target" name="navigateTo">
 <option>Fachnutzer</option>
-              <option value='https://www.dwd.de/DE/fachnutzer/energiewirtschaft/energiewirtschaft_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043' data-href='https://www.dwd.de/DE/fachnutzer/energiewirtschaft/energiewirtschaft_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043'>Energiewirtschaft</option>
-              <option value='https://www.dwd.de/DE/fachnutzer/forschung_lehre/forschung_lehre_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043' data-href='https://www.dwd.de/DE/fachnutzer/forschung_lehre/forschung_lehre_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043'>Forschung und Lehre</option>
-              <option value='https://www.dwd.de/DE/fachnutzer/freizeitgaertner/_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043' data-href='https://www.dwd.de/DE/fachnutzer/freizeitgaertner/_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043'>Freizeitgärtner</option>
-              <option value='https://www.dwd.de/DE/fachnutzer/geoinformationswirtschaft/geoinformationswirtschaft_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043' data-href='https://www.dwd.de/DE/fachnutzer/geoinformationswirtschaft/geoinformationswirtschaft_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043'>Geoinformationswirtschaft</option>
-              <option value='https://www.dwd.de/DE/fachnutzer/gesundheit/gesundheit_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043' data-href='https://www.dwd.de/DE/fachnutzer/gesundheit/gesundheit_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043'>Gesundheit</option>
-              <option value='https://www.dwd.de/DE/fachnutzer/hobbymet/hobbymet_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043' data-href='https://www.dwd.de/DE/fachnutzer/hobbymet/hobbymet_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043'>Hobbymeteorologen</option>
-              <option value='https://www.dwd.de/DE/fachnutzer/katastrophenschutz/katschutz_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043' data-href='https://www.dwd.de/DE/fachnutzer/katastrophenschutz/katschutz_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043'>Katastrophenschutz</option>
-              <option value='https://www.dwd.de/DE/fachnutzer/landwirtschaft/landwirtschaft_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043' data-href='https://www.dwd.de/DE/fachnutzer/landwirtschaft/landwirtschaft_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043'>Land- und Forstwirtschaft</option>
-              <option value='https://www.dwd.de/DE/fachnutzer/luftfahrt/luftfahrt_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043' data-href='https://www.dwd.de/DE/fachnutzer/luftfahrt/luftfahrt_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043'>Luftfahrt</option>
-              <option value='https://www.dwd.de/DE/fachnutzer/schifffahrt/schifffahrt_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043' data-href='https://www.dwd.de/DE/fachnutzer/schifffahrt/schifffahrt_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043'>Schifffahrt</option>
-              <option value='https://www.dwd.de/DE/fachnutzer/veranstalter/veranstalter_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043' data-href='https://www.dwd.de/DE/fachnutzer/veranstalter/veranstalter_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043'>Veranstalter</option>
-              <option value='https://www.dwd.de/DE/fachnutzer/wasserwirtschaft/wasserwirtschaft_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043' data-href='https://www.dwd.de/DE/fachnutzer/wasserwirtschaft/wasserwirtschaft_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043'>Wasserwirtschaft</option>
+              <option value='https://www.dwd.de/DE/fachnutzer/energiewirtschaft/energiewirtschaft_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083' data-href='https://www.dwd.de/DE/fachnutzer/energiewirtschaft/energiewirtschaft_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083'>Energiewirtschaft</option>
+              <option value='https://www.dwd.de/DE/fachnutzer/forschung_lehre/forschung_lehre_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083' data-href='https://www.dwd.de/DE/fachnutzer/forschung_lehre/forschung_lehre_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083'>Forschung und Lehre</option>
+              <option value='https://www.dwd.de/DE/fachnutzer/freizeitgaertner/_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083' data-href='https://www.dwd.de/DE/fachnutzer/freizeitgaertner/_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083'>Freizeitgärtner</option>
+              <option value='https://www.dwd.de/DE/fachnutzer/geoinformationswirtschaft/geoinformationswirtschaft_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083' data-href='https://www.dwd.de/DE/fachnutzer/geoinformationswirtschaft/geoinformationswirtschaft_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083'>Geoinformationswirtschaft</option>
+              <option value='https://www.dwd.de/DE/fachnutzer/gesundheit/gesundheit_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083' data-href='https://www.dwd.de/DE/fachnutzer/gesundheit/gesundheit_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083'>Gesundheit</option>
+              <option value='https://www.dwd.de/DE/fachnutzer/hobbymet/hobbymet_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083' data-href='https://www.dwd.de/DE/fachnutzer/hobbymet/hobbymet_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083'>Hobbymeteorologen</option>
+              <option value='https://www.dwd.de/DE/fachnutzer/katastrophenschutz/katschutz_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083' data-href='https://www.dwd.de/DE/fachnutzer/katastrophenschutz/katschutz_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083'>Katastrophenschutz</option>
+              <option value='https://www.dwd.de/DE/fachnutzer/landwirtschaft/landwirtschaft_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083' data-href='https://www.dwd.de/DE/fachnutzer/landwirtschaft/landwirtschaft_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083'>Land- und Forstwirtschaft</option>
+              <option value='https://www.dwd.de/DE/fachnutzer/luftfahrt/luftfahrt_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083' data-href='https://www.dwd.de/DE/fachnutzer/luftfahrt/luftfahrt_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083'>Luftfahrt</option>
+              <option value='https://www.dwd.de/DE/fachnutzer/schifffahrt/schifffahrt_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083' data-href='https://www.dwd.de/DE/fachnutzer/schifffahrt/schifffahrt_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083'>Schifffahrt</option>
+              <option value='https://www.dwd.de/DE/fachnutzer/veranstalter/veranstalter_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083' data-href='https://www.dwd.de/DE/fachnutzer/veranstalter/veranstalter_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083'>Veranstalter</option>
+              <option value='https://www.dwd.de/DE/fachnutzer/wasserwirtschaft/wasserwirtschaft_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083' data-href='https://www.dwd.de/DE/fachnutzer/wasserwirtschaft/wasserwirtschaft_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083'>Wasserwirtschaft</option>
 </select>
 
 <input type="submit" value="&gt;&gt;" class="non-js">
@@ -204,7 +204,7 @@
 
 <div class="weather weather-warning">
             <p class="no-warning">
-            <a href="DE/wetter/warnungen/warnWetter_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Zu den Wetterwarnungen" target="_blank">Kei­ne Un­wet­ter­war­nung</a>
+            <a href="DE/wetter/warnungen/warnWetter_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Zu den Wetterwarnungen" target="_blank">Kei­ne Un­wet­ter­war­nung</a>
             </p>
 </div> 
    </div><!-- row -->
@@ -214,7 +214,7 @@
    <div class="row">
     <div class="search-box" role="search">
 
-<form name="ServicebereichSuche" action="SiteGlobals/Forms/Suche/Servicesuche_Formular.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" method="get" enctype="application/x-www-form-urlencoded">
+<form name="ServicebereichSuche" action="SiteGlobals/Forms/Suche/Servicesuche_Formular.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" method="get" enctype="application/x-www-form-urlencoded">
   
   <input type="hidden" name="nn" value="806816"/>
   <input type="hidden" name="resourceId" value="13898" />
@@ -236,60 +236,60 @@
   </div>  
 
    <div id="nav" class="slot">
-<div class="PrintLogo"><img src="/SiteGlobals/StyleBundles/Bilder/Farbschema/img/logo.png;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?__blob=normal&amp;v=5" alt="Government Site Builder Standardl&ouml;sung" /></div>
+<div class="PrintLogo"><img src="/SiteGlobals/StyleBundles/Bilder/Farbschema/img/logo.png;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?__blob=normal&amp;v=5" alt="Government Site Builder Standardl&ouml;sung" /></div>
    <div class="row">
     <nav role="navigation">
-     <h1 class="logo"><a href="DE/Home/home_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043">Deutscher Wetterdienst <em>Wetter und Klima aus einer Hand</em></a></h1>    
+     <h1 class="logo"><a href="DE/Home/home_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083">Deutscher Wetterdienst <em>Wetter und Klima aus einer Hand</em></a></h1>    
      <section>
       <h1>Navigationsmenue</h1>
-<ul class="level-1"><li class="has-flyout virgin "><a href="DE/wetter/wetter_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Alles rund um das aktuelle Wetter und die Wettervorhersage">Wet­ter</a>
+<ul class="level-1"><li class="has-flyout virgin "><a href="DE/wetter/wetter_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Alles rund um das aktuelle Wetter und die Wettervorhersage">Wet­ter</a>
       <div class="flyout">
         <div class="flyout-box-group">
                 <div class="flyout-box">
           <ul>
-                <li><a href="DE/wetter/warnungen_gemeinden/warnWetter_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Amtliche Warnungen aktuell">War­nun­gen</a></li>
-                <li><a href="DE/wetter/wetterundklima_vorort/_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="lokale Wetter- und Klimawerte">Wet­ter und Kli­ma vor Ort</a></li>
-                <li class="last"><a href="DE/wetter/vorhersage_aktuell/vhs_brd_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="aktuelle Wetterberichte f&#252;r die n&#228;chsten Tage f&#252;r Deutschland und die Bundesl&#228;nder">Wet­ter­be­rich­te</a></li>
-                <li><a href="DE/wetter/wetter_weltweit/wetter_weltweit_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="aktuelle Wetterdaten und Vorhersagen weltweit">Wet­ter Eu­ro­pa und welt­weit</a></li>
-                <li><a href="DE/wetter/schon_gewusst/schongewusst_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Informationen &#252;ber den Erstellung von Wettervorhersagen, das DWD-Warnmanagement etc.">Schon ge­wusst?</a></li>
-                <li class="last"><a href="DE/wetter/vorhersage_profis/vorhersageprofis_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Wettervorhersagen f&#252;r Profis">Wet­ter­vor­her­sa­gen für Pro­fis</a></li>
-          </ul></div></div></div></li><li class="has-flyout virgin "><a href="DE/klimaumwelt/klimaumwelt_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Klima und Umwelt">Kli­ma und Um­welt</a>
+                <li><a href="DE/wetter/warnungen_gemeinden/warnWetter_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Amtliche Warnungen aktuell">War­nun­gen</a></li>
+                <li><a href="DE/wetter/wetterundklima_vorort/_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="lokale Wetter- und Klimawerte">Wet­ter und Kli­ma vor Ort</a></li>
+                <li class="last"><a href="DE/wetter/vorhersage_aktuell/vhs_brd_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="aktuelle Wetterberichte f&#252;r die n&#228;chsten Tage f&#252;r Deutschland und die Bundesl&#228;nder">Wet­ter­be­rich­te</a></li>
+                <li><a href="DE/wetter/wetter_weltweit/wetter_weltweit_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="aktuelle Wetterdaten und Vorhersagen weltweit">Wet­ter Eu­ro­pa und welt­weit</a></li>
+                <li><a href="DE/wetter/schon_gewusst/schongewusst_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Informationen &#252;ber den Erstellung von Wettervorhersagen, das DWD-Warnmanagement etc.">Schon ge­wusst?</a></li>
+                <li class="last"><a href="DE/wetter/vorhersage_profis/vorhersageprofis_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Wettervorhersagen f&#252;r Profis">Wet­ter­vor­her­sa­gen für Pro­fis</a></li>
+          </ul></div></div></div></li><li class="has-flyout virgin "><a href="DE/klimaumwelt/klimaumwelt_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Klima und Umwelt">Kli­ma und Um­welt</a>
       <div class="flyout">
         <div class="flyout-box-group">
                 <div class="flyout-box">
           <ul>
-                <li><a href="DE/klimaumwelt/klimawandel/klimawandel_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Basisfakten zum Klimawandel">Ba­sis­fak­ten zum Kli­ma­wan­del</a></li>
-                <li><a href="DE/klimaumwelt/klima-webdienste/_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Klima-Webdienste">Kli­ma-Web­diens­te</a></li>
-                <li class="last"><a href="DE/klimaumwelt/ku_beratung/ku_beratung_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Klima- und Umweltberatung">Kli­ma- und Um­welt­be­ra­tung</a></li>
-                <li><a href="DE/klimaumwelt/klimaueberwachung/klimaueberwachung_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Klima&#252;berwachung">Kli­ma­über­wa­chung</a></li>
-                <li class="last"><a href="DE/klimaumwelt/klimaforschung/klimaforschung_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Klimaforschung">Kli­ma­for­schung</a></li>
-          </ul></div></div></div></li><li class="has-flyout virgin "><a href="DE/forschung/forschung_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Forschung">For­schung</a>
+                <li><a href="DE/klimaumwelt/klimawandel/klimawandel_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Basisfakten zum Klimawandel">Ba­sis­fak­ten zum Kli­ma­wan­del</a></li>
+                <li><a href="DE/klimaumwelt/klima-webdienste/_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Klima-Webdienste">Kli­ma-Web­diens­te</a></li>
+                <li class="last"><a href="DE/klimaumwelt/ku_beratung/ku_beratung_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Klima- und Umweltberatung">Kli­ma- und Um­welt­be­ra­tung</a></li>
+                <li><a href="DE/klimaumwelt/klimaueberwachung/klimaueberwachung_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Klima&#252;berwachung">Kli­ma­über­wa­chung</a></li>
+                <li class="last"><a href="DE/klimaumwelt/klimaforschung/klimaforschung_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Klimaforschung">Kli­ma­for­schung</a></li>
+          </ul></div></div></div></li><li class="has-flyout virgin "><a href="DE/forschung/forschung_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Forschung">For­schung</a>
       <div class="flyout">
         <div class="flyout-box-group">
                 <div class="flyout-box">
           <ul>
-                <li><a href="DE/forschung/atmosphaerenbeob/atmosphaerenbeob_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Atmosph&#228;renbeobachtung">At­mo­sphä­ren­be­ob­ach­tung</a></li>
-                <li><a href="DE/forschung/wettervorhersage/wettervorhersage_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Wettervorhersage">Wet­ter­vor­her­sa­ge</a></li>
-                <li><a href="DE/forschung/klima_umwelt/klimaumwelt_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Klima und Umwelt">Kli­ma und Um­welt</a></li>
-                <li class="last"><a href="DE/forschung/forschungsprogramme/herz/herz_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Hans-Ertel-Zentrum">Hans-Er­tel-Zen­trum</a></li>
-                <li><a href="DE/forschung/forschungsprogramme/idea_s4s/idea_s4s_home_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Italia &#8211; Deutschland science-4-services network in weather and climate ">IDEA-S4S Netz­werk</a></li>
-                <li><a href="DE/forschung/forschungsprogramme/forschungsprogramme_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="DWD-Forschungsprogramme">DWD-For­schungs­pro­gram­me</a></li>
-                <li><a href="DE/forschung/internationale_programme/internationale_programme_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Internationale Programme">In­ter­na­tio­na­le Pro­gram­me</a></li>
-                <li class="last"><a href="DE/forschung/projekte/projekte_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Projekte">Pro­jek­te</a></li>
-          </ul></div></div></div></li><li class="has-flyout virgin FlyoutLinks"><a href="DE/leistungen/_functions/Suche/Suche_Formular.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?nn=806816" title="Produkte und Leistungen des Deutschen Wetterdienstes">Leistungen</a></li><li class="has-flyout virgin FlyoutLinks"><a href="DE/derdwd/derdwd_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Der Deutsche Wetterdienst - Aufgaben, Organisation, Standorte">Der DWD</a>
+                <li><a href="DE/forschung/atmosphaerenbeob/atmosphaerenbeob_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Atmosph&#228;renbeobachtung">At­mo­sphä­ren­be­ob­ach­tung</a></li>
+                <li><a href="DE/forschung/wettervorhersage/wettervorhersage_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Wettervorhersage">Wet­ter­vor­her­sa­ge</a></li>
+                <li><a href="DE/forschung/klima_umwelt/klimaumwelt_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Klima und Umwelt">Kli­ma und Um­welt</a></li>
+                <li class="last"><a href="DE/forschung/forschungsprogramme/herz/herz_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Hans-Ertel-Zentrum">Hans-Er­tel-Zen­trum</a></li>
+                <li><a href="DE/forschung/forschungsprogramme/idea_s4s/idea_s4s_home_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Italia &#8211; Deutschland science-4-services network in weather and climate ">IDEA-S4S Netz­werk</a></li>
+                <li><a href="DE/forschung/forschungsprogramme/forschungsprogramme_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="DWD-Forschungsprogramme">DWD-For­schungs­pro­gram­me</a></li>
+                <li><a href="DE/forschung/internationale_programme/internationale_programme_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Internationale Programme">In­ter­na­tio­na­le Pro­gram­me</a></li>
+                <li class="last"><a href="DE/forschung/projekte/projekte_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Projekte">Pro­jek­te</a></li>
+          </ul></div></div></div></li><li class="has-flyout virgin FlyoutLinks"><a href="DE/leistungen/_functions/Suche/Suche_Formular.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?nn=806816" title="Produkte und Leistungen des Deutschen Wetterdienstes">Leistungen</a></li><li class="has-flyout virgin FlyoutLinks"><a href="DE/derdwd/derdwd_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Der Deutsche Wetterdienst - Aufgaben, Organisation, Standorte">Der DWD</a>
       <div class="flyout">
         <div class="flyout-box-group">
                 <div class="flyout-box">
           <ul>
-                <li><a href="DE/derdwd/aufgaben/aufgaben_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Aufgaben">Auf­ga­ben</a></li>
-                <li><a href="DE/derdwd/arbeitgeber/arbeitgeber_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Arbeitgeber DWD">Ar­beit­ge­ber DWD</a></li>
-                <li><a href="DE/derdwd/organisation/organisation_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Organisation">Or­ga­ni­sa­ti­on</a></li>
-                <li><a href="DE/derdwd/standorte/standorte_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Standorte">Stand­orte</a></li>
-                <li class="last"><a href="DE/derdwd/koop/koop_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Zusammenarbeit">Zu­sam­men­ar­beit</a></li>
-                <li><a href="DE/derdwd/messnetz/messnetz_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Messnetz">Mess­netz</a></li>
-                <li><a href="DE/derdwd/it/it_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Informationstechnik">In­for­ma­ti­ons­tech­nik</a></li>
-                <li><a href="DE/derdwd/bibliothek/bibliothek_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Deutsche Meteorologische Bibliothek">Deut­sche Me­teo­ro­lo­gi­sche Bi­blio­thek</a></li>
-                <li class="last"><a href="DE/derdwd/zertifikate/zertifikate_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Zertifikate des Deutschen Wetterdienstes">Zer­ti­fi­ka­te</a></li>
+                <li><a href="DE/derdwd/aufgaben/aufgaben_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Aufgaben">Auf­ga­ben</a></li>
+                <li><a href="DE/derdwd/arbeitgeber/arbeitgeber_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Arbeitgeber DWD">Ar­beit­ge­ber DWD</a></li>
+                <li><a href="DE/derdwd/organisation/organisation_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Organisation">Or­ga­ni­sa­ti­on</a></li>
+                <li><a href="DE/derdwd/standorte/standorte_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Standorte">Stand­orte</a></li>
+                <li class="last"><a href="DE/derdwd/koop/koop_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Zusammenarbeit">Zu­sam­men­ar­beit</a></li>
+                <li><a href="DE/derdwd/messnetz/messnetz_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Messnetz">Mess­netz</a></li>
+                <li><a href="DE/derdwd/it/it_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Informationstechnik">In­for­ma­ti­ons­tech­nik</a></li>
+                <li><a href="DE/derdwd/bibliothek/bibliothek_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Deutsche Meteorologische Bibliothek">Deut­sche Me­teo­ro­lo­gi­sche Bi­blio­thek</a></li>
+                <li class="last"><a href="DE/derdwd/zertifikate/zertifikate_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Zertifikate des Deutschen Wetterdienstes">Zer­ti­fi­ka­te</a></li>
           </ul></div></div></div></li>
 </ul>
      </section>
@@ -304,7 +304,7 @@
     <nav role="navigation">
      <h1>Breadcrumb-<em> Menü</em></h1>
      <ul>
-<li class="first"><a href="DE/Home/home_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Startseite">Startseite</a></li><li><a href="DE/fachnutzer/fachnutzer_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Fachnutzerinformationen">Fachnutzer</a></li><li><a href="DE/fachnutzer/luftfahrt/luftfahrt_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Luftfahrt">Luftfahrt</a></li><li><strong>Ostfriesland </strong></li>
+<li class="first"><a href="DE/Home/home_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Startseite">Startseite</a></li><li><a href="DE/fachnutzer/fachnutzer_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Fachnutzerinformationen">Fachnutzer</a></li><li><a href="DE/fachnutzer/luftfahrt/luftfahrt_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Luftfahrt">Luftfahrt</a></li><li><strong>Ostfriesland </strong></li>
      </ul>
     </nav>
    </div><!-- row -->
@@ -599,7 +599,7 @@
 <body>
 <center>
 <h1>GAFOR-Gebiet 01 - Ostfriesland (200 ft)</h1>
-<h3>Vorhersage ausgegeben 20.10.2026 23:00 UTC (ICON-EU 2026-10-20 18 UTC)</h3>
+<h3>Vorhersage ausgegeben 21.10.2026 05:00 UTC (ICON-EU 2026-10-21 00 UTC)</h3>
 <h1>Vorhersagen für Mittwoch, 21.10.2026</h1>
 <table width="90%" border="1" cellPadding="2" cellSpacing="2">
 <tr><td colspan="7" bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Astronomische Angaben [UTC]</font></td></tr>
@@ -610,12 +610,6 @@
 <h2>Bodenwerte/Wetter/Wind f&uuml;r Wittmund (53.58&deg;N 7.78&deg;O - 10 ft)</h2>
 <table width="90%" border="1" cellPadding="2" cellSpacing="2">
 <tr bgcolor="#2D4B9D" align="center"><td><font color="#FFFFFF">Prognosezeit [UTC]</font></td>
-<td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 00</font></td>
-<td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 01</font></td>
-<td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 02</font></td>
-<td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 03</font></td>
-<td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 04</font></td>
-<td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 05</font></td>
 <td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 06</font></td>
 <td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 07</font></td>
 <td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 08</font></td>
@@ -634,16 +628,10 @@
 <td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 21</font></td>
 <td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 22</font></td>
 <td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 23</font></td>
-</tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Temperatur [&deg;C]</font></td></td><td align="center">6</td><td align="center">6</td><td align="center">7</td><td align="center">7</td><td align="center">7</td><td align="center">8</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">12</td><td align="center">12</td><td align="center">13</td><td align="center">12</td><td align="center">12</td><td align="center">11</td><td align="center">11</td><td align="center">11</td><td align="center">11</td><td align="center">11</td><td align="center">11</td><td align="center">10</td><td align="center">10</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Taupunkt [&deg;C]</font></td></td><td align="center">5</td><td align="center">5</td><td align="center">6</td><td align="center">6</td><td align="center">6</td><td align="center">7</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">10</td><td align="center">10</td><td align="center">10</td><td align="center">10</td><td align="center">10</td><td align="center">9</td><td align="center">9</td><td align="center">9</td><td align="center">10</td><td align="center">9</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">6</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">QNH [hPa]</font></td></td><td align="center">1008</td><td align="center">1008</td><td align="center">1007</td><td align="center">1007</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1007</td><td align="center">1007</td><td align="center">1007</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1007</td><td align="center">1007</td><td align="center">1007</td><td align="center">1008</td><td align="center">1008</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Gesamtbedeckung [Achtel]</font></td></td><td align="center">7</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Wetter [ICAO Code]</font></td></td><td align="center">-</td><td align="center">-</td><td align="center">-RA</td><td align="center">-RA</td><td align="center">-RA</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Windrichtung [&deg;]</font></td></td><td align="center">110</td><td align="center">120</td><td align="center">120</td><td align="center">130</td><td align="center">140</td><td align="center">150</td><td align="center">160</td><td align="center">160</td><td align="center">170</td><td align="center">180</td><td align="center">190</td><td align="center">190</td><td align="center">190</td><td align="center">170</td><td align="center">170</td><td align="center">160</td><td align="center">150</td><td align="center">150</td><td align="center">170</td><td align="center">190</td><td align="center">190</td><td align="center">200</td><td align="center">200</td><td align="center">210</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Wind Mittel [KT]</font></td></td><td bgcolor="#E69750" align="center"> 8</td><td bgcolor="#E69750" align="center"> 8</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E6E250" align="center"> 6</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E6E250" align="center"> 6</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E69750" align="center"> 8</td><td bgcolor="#E69750" align="center"> 8</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E6E250" align="center"> 6</td><td bgcolor="#E6E250" align="center"> 6</td><td bgcolor="#E6E250" align="center"> 6</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E69750" align="center"> 8</td><td bgcolor="#E69750" align="center"> 9</td><td bgcolor="#E69750" align="center"> 9</td><td bgcolor="#E65050" align="center">10</td><td bgcolor="#E65050" align="center">11</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Wind B&ouml;en [KT]</font></td></td><td bgcolor="#E65050" align="center">15</td><td bgcolor="#E65050" align="center">15</td><td bgcolor="#E65050" align="center">15</td><td bgcolor="#E69750" align="center">14</td><td bgcolor="#E69750" align="center">14</td><td bgcolor="#E69750" align="center">13</td><td bgcolor="#E69750" align="center">13</td><td bgcolor="#E69750" align="center">13</td><td bgcolor="#E69750" align="center">13</td><td bgcolor="#E69750" align="center">14</td><td bgcolor="#E65050" align="center">17</td><td bgcolor="#E65050" align="center">17</td><td bgcolor="#E65050" align="center">17</td><td bgcolor="#E65050" align="center">15</td><td bgcolor="#E69750" align="center">14</td><td bgcolor="#E69750" align="center">13</td><td bgcolor="#E6E250" align="center">12</td><td bgcolor="#E69750" align="center">13</td><td bgcolor="#E69750" align="center">14</td><td bgcolor="#E65050" align="center">15</td><td bgcolor="#E65050" align="center">17</td><td bgcolor="#E65050" align="center">18</td><td bgcolor="#E65050" align="center">19</td><td bgcolor="#E650A9" align="center">23</td></tr> </table>
+</tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Temperatur [&deg;C]</font></td></td><td align="center">8</td><td align="center">8</td><td align="center">9</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">13</td><td align="center">13</td><td align="center">13</td><td align="center">12</td><td align="center">12</td><td align="center">11</td><td align="center">11</td><td align="center">11</td><td align="center">11</td><td align="center">11</td><td align="center">11</td><td align="center">10</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Taupunkt [&deg;C]</font></td></td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">10</td><td align="center">10</td><td align="center">11</td><td align="center">10</td><td align="center">10</td><td align="center">10</td><td align="center">10</td><td align="center">10</td><td align="center">10</td><td align="center">10</td><td align="center">9</td><td align="center">9</td><td align="center">8</td><td align="center">7</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">QNH [hPa]</font></td></td><td align="center">1006</td><td align="center">1006</td><td align="center">1007</td><td align="center">1007</td><td align="center">1007</td><td align="center">1007</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1006</td><td align="center">1007</td><td align="center">1007</td><td align="center">1007</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Gesamtbedeckung [Achtel]</font></td></td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td><td align="center">8</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Wetter [ICAO Code]</font></td></td><td align="center">-DZ </td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-</td><td align="center">-RA</td><td align="center">-RA</td><td align="center">-</td><td align="center">-</td><td align="center">-</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Windrichtung [&deg;]</font></td></td><td align="center">150</td><td align="center">150</td><td align="center">170</td><td align="center">170</td><td align="center">200</td><td align="center">190</td><td align="center">190</td><td align="center">170</td><td align="center">170</td><td align="center">160</td><td align="center">140</td><td align="center">140</td><td align="center">150</td><td align="center">170</td><td align="center">190</td><td align="center">190</td><td align="center">200</td><td align="center">200</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Wind Mittel [KT]</font></td></td><td bgcolor="#E6E250" align="center"> 6</td><td bgcolor="#E6E250" align="center"> 6</td><td bgcolor="#E6E250" align="center"> 6</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E69750" align="center"> 8</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E6E250" align="center"> 5</td><td bgcolor="#E6E250" align="center"> 5</td><td bgcolor="#E6E250" align="center"> 6</td><td bgcolor="#E6E250" align="center"> 7</td><td bgcolor="#E69750" align="center"> 8</td><td bgcolor="#E69750" align="center"> 9</td><td bgcolor="#E69750" align="center"> 9</td><td bgcolor="#E65050" align="center">10</td><td bgcolor="#E65050" align="center">11</td></tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Wind B&ouml;en [KT]</font></td></td><td bgcolor="#E69750" align="center">13</td><td bgcolor="#E69750" align="center">13</td><td bgcolor="#E69750" align="center">13</td><td bgcolor="#E69750" align="center">13</td><td bgcolor="#E65050" align="center">18</td><td bgcolor="#E65050" align="center">16</td><td bgcolor="#E65050" align="center">15</td><td bgcolor="#E69750" align="center">13</td><td bgcolor="#E69750" align="center">13</td><td bgcolor="#E69750" align="center">13</td><td bgcolor="#E6E250" align="center">11</td><td bgcolor="#E6E250" align="center">12</td><td bgcolor="#E69750" align="center">14</td><td bgcolor="#E65050" align="center">15</td><td bgcolor="#E65050" align="center">16</td><td bgcolor="#E65050" align="center">18</td><td bgcolor="#E65050" align="center">19</td><td bgcolor="#E650A9" align="center">21</td></tr> </table>
  <h2>Thermikangaben</h2>
  <table width="90%" border="1" cellPadding="2" cellSpacing="2">
 <tr bgcolor="#2D4B9D" align="center"><td><font color="#FFFFFF">Prognosezeit&nbsp;[UTC]</font></td>
-<td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 00</font></td>
-<td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 01</font></td>
-<td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 02</font></td>
-<td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 03</font></td>
-<td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 04</font></td>
-<td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 05</font></td>
 <td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 06</font></td>
 <td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 07</font></td>
 <td bgcolor="#2D4B9D" align="center"><font color="#FFFFFF">Mi 08</font></td>
@@ -665,12 +653,6 @@
 </tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Gebietsmittel</font></td><td bgcolor="#57E650" align="center"> </td>
 <td bgcolor="#57E650" align="center"> </td>
 <td bgcolor="#57E650" align="center"> </td>
-<td bgcolor="#57E650" align="center"> </td>
-<td bgcolor="#57E650" align="center"> </td>
-<td bgcolor="#57E650" align="center"> </td>
-<td bgcolor="#57E650" align="center"> </td>
-<td bgcolor="#57E650" align="center"> </td>
-<td bgcolor="#57E650" align="center"> </td>
 <td bgcolor="#E6E250" align="center"> </td>
 <td bgcolor="#E6E250" align="center"> </td>
 <td bgcolor="#E6E250" align="center"> </td>
@@ -687,12 +669,6 @@
 <td bgcolor="#57E650" align="center"> </td>
 <td bgcolor="#57E650" align="center"> </td>
 </tr><tr><td bgcolor="#9FCFFF" align="center"><font color="#2D4B9D">Maximum&nbsp;im&nbsp;Gebiet</font></td><td bgcolor="#57E650" align="center"> </td>
-<td bgcolor="#57E650" align="center"> </td>
-<td bgcolor="#57E650" align="center"> </td>
-<td bgcolor="#57E650" align="center"> </td>
-<td bgcolor="#57E650" align="center"> </td>
-<td bgcolor="#57E650" align="center"> </td>
-<td bgcolor="#57E650" align="center"> </td>
 <td bgcolor="#57E650" align="center"> </td>
 <td bgcolor="#E6E250" align="center"> </td>
 <td bgcolor="#E6E250" align="center"> </td>
@@ -736,7 +712,7 @@ window.rsConf = {general: {usePost: true}};
 //-->
 </script>
 
-<script src="SiteGlobals/Functions/ReadSpeakerModul/ReadSpeakerSandbox/readspeakerScript.js;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1&amp;pids=embhl" type="text/javascript"></script>
+<script src="SiteGlobals/Functions/ReadSpeakerModul/ReadSpeakerSandbox/readspeakerScript.js;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1&amp;pids=embhl" type="text/javascript"></script>
 
 
 
@@ -755,10 +731,10 @@ window.rsConf = {general: {usePost: true}};
       <h1>Service-Navigations-<em> Menü</em></h1>
       <ul>
 <li class="service-1">
-       <a href="DE/derdwd/bibliothek/bibliothek_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Deutsche Meteorologische Bibliothek"><span><span>Deutsche Meteorologische Bibliothek</span></span></a>
+       <a href="DE/derdwd/bibliothek/bibliothek_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Deutsche Meteorologische Bibliothek"><span><span>Deutsche Meteorologische Bibliothek</span></span></a>
 </li>
 <li class="service-2">
-       <a href="DE/presse/mediathek_socialmedia/mediathek_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Mediathek"><span><span>Mediathek</span></span></a>
+       <a href="DE/presse/mediathek_socialmedia/mediathek_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Mediathek"><span><span>Mediathek</span></span></a>
 </li>
 <li class="service-3">
        <a class="external" href="/DE/service/lexikon/lexikon_node.html" title="Externer Link Wetter-Lexikon (Öffnet neues Fenster)" target="_blank" rel="noopener noreferrer"><span><span>Wetter-<br/>
@@ -768,7 +744,7 @@ Lexikon</span></span></a>
        <a class="external" href="https://www.dwd-shop.de/" title="Externer Link WetterShop (Öffnet neues Fenster)" target="_blank" rel="noopener noreferrer"><span><span>WetterShop</span></span></a>
 </li>
 <li class="service-5">
-       <a href="DE/derdwd/arbeitgeber/arbeitgeber_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Arbeitgeber DWD"><span><span>Arbeitgeber DWD</span></span></a>
+       <a href="DE/derdwd/arbeitgeber/arbeitgeber_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Arbeitgeber DWD"><span><span>Arbeitgeber DWD</span></span></a>
 </li>
       </ul>
      </nav>
@@ -786,76 +762,76 @@ Lexikon</span></span></a>
        <h1>DWD-Services</h1>
        <ul>
 <li>
-       <a href="DE/service/archiv/archiv_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Zum Archiv ''DWD Aktuell''">Zum Archiv &#039;&#039;DWD Aktuell&#039;&#039;</a>
+       <a href="DE/service/archiv/archiv_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Zum Archiv ''DWD Aktuell''">Zum Archiv &#039;&#039;DWD Aktuell&#039;&#039;</a>
 </li>
 <li>
-       <a href="DE/service/termine/termine_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Termine, Veranstaltungen">Termine, Veranstaltungen</a>
+       <a href="DE/service/termine/termine_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Termine, Veranstaltungen">Termine, Veranstaltungen</a>
 </li>
 <li>
-       <a href="DE/service/dwd-apps/dwdapps_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="DWD-Apps">DWD-Apps</a>
+       <a href="DE/service/dwd-apps/dwdapps_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="DWD-Apps">DWD-Apps</a>
 </li>
 <li>
-       <a href="DE/service/newsletter/newsletter_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Newsletter">Newsletter</a>
+       <a href="DE/service/newsletter/newsletter_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Newsletter">Newsletter</a>
 </li>
 <li>
-       <a href="DE/service/kurzadressen/kurzadressen_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Kurzadressen">Kurzadressen</a>
+       <a href="DE/service/kurzadressen/kurzadressen_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Kurzadressen">Kurzadressen</a>
 </li>
        </ul>
       </div>
      </nav>
      <nav class="box" role="navigation">
       <div class="box-box">
-            <h1><a href="DE/wetter/wetter_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Alles rund um das aktuelle Wetter und die Wettervorhersage">Wet­ter</a></h1>
+            <h1><a href="DE/wetter/wetter_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Alles rund um das aktuelle Wetter und die Wettervorhersage">Wet­ter</a></h1>
             <ul id="footer-links-1">
-              <li><a href="DE/wetter/warnungen_gemeinden/warnWetter_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Amtliche Warnungen aktuell"><span><span>Warnungen</span></span></a></li>
-              <li><a href="DE/wetter/wetterundklima_vorort/_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="lokale Wetter- und Klimawerte"><span><span>Wetter und Klima vor Ort</span></span></a></li>
-              <li><a href="DE/wetter/vorhersage_aktuell/vhs_brd_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="aktuelle Wetterberichte f&#252;r die n&#228;chsten Tage f&#252;r Deutschland und die Bundesl&#228;nder"><span><span>Wetterberichte</span></span></a></li>
-              <li><a href="DE/wetter/wetter_weltweit/wetter_weltweit_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="aktuelle Wetterdaten und Vorhersagen weltweit"><span><span>Wetter Europa und weltweit</span></span></a></li>
-              <li><a href="DE/wetter/schon_gewusst/schongewusst_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Informationen &#252;ber den Erstellung von Wettervorhersagen, das DWD-Warnmanagement etc."><span><span>Schon gewusst?</span></span></a></li>
-              <li><a href="DE/wetter/vorhersage_profis/vorhersageprofis_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Wettervorhersagen f&#252;r Profis"><span><span>Wettervorhersagen für Profis</span></span></a></li>
+              <li><a href="DE/wetter/warnungen_gemeinden/warnWetter_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Amtliche Warnungen aktuell"><span><span>Warnungen</span></span></a></li>
+              <li><a href="DE/wetter/wetterundklima_vorort/_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="lokale Wetter- und Klimawerte"><span><span>Wetter und Klima vor Ort</span></span></a></li>
+              <li><a href="DE/wetter/vorhersage_aktuell/vhs_brd_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="aktuelle Wetterberichte f&#252;r die n&#228;chsten Tage f&#252;r Deutschland und die Bundesl&#228;nder"><span><span>Wetterberichte</span></span></a></li>
+              <li><a href="DE/wetter/wetter_weltweit/wetter_weltweit_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="aktuelle Wetterdaten und Vorhersagen weltweit"><span><span>Wetter Europa und weltweit</span></span></a></li>
+              <li><a href="DE/wetter/schon_gewusst/schongewusst_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Informationen &#252;ber den Erstellung von Wettervorhersagen, das DWD-Warnmanagement etc."><span><span>Schon gewusst?</span></span></a></li>
+              <li><a href="DE/wetter/vorhersage_profis/vorhersageprofis_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Wettervorhersagen f&#252;r Profis"><span><span>Wettervorhersagen für Profis</span></span></a></li>
               </ul>
         </div><!-- box-box -->
      </nav><!-- box -->
      <nav class="box" role="navigation">
       <div class="box-box">
-            <h1><a href="DE/klimaumwelt/klimaumwelt_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Klima und Umwelt">Kli­ma und Um­welt</a></h1>
+            <h1><a href="DE/klimaumwelt/klimaumwelt_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Klima und Umwelt">Kli­ma und Um­welt</a></h1>
             <ul id="footer-links-2">
-              <li><a href="DE/klimaumwelt/klimawandel/klimawandel_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Basisfakten zum Klimawandel"><span><span>Basisfakten zum Klimawandel</span></span></a></li>
-              <li><a href="DE/klimaumwelt/klima-webdienste/_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Klima-Webdienste"><span><span>Klima-Webdienste</span></span></a></li>
-              <li><a href="DE/klimaumwelt/ku_beratung/ku_beratung_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Klima- und Umweltberatung"><span><span>Klima- und Umweltberatung</span></span></a></li>
-              <li><a href="DE/klimaumwelt/klimaueberwachung/klimaueberwachung_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Klima&#252;berwachung"><span><span>Klimaüberwachung</span></span></a></li>
-              <li><a href="DE/klimaumwelt/klimaforschung/klimaforschung_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Klimaforschung"><span><span>Klimaforschung</span></span></a></li>
+              <li><a href="DE/klimaumwelt/klimawandel/klimawandel_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Basisfakten zum Klimawandel"><span><span>Basisfakten zum Klimawandel</span></span></a></li>
+              <li><a href="DE/klimaumwelt/klima-webdienste/_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Klima-Webdienste"><span><span>Klima-Webdienste</span></span></a></li>
+              <li><a href="DE/klimaumwelt/ku_beratung/ku_beratung_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Klima- und Umweltberatung"><span><span>Klima- und Umweltberatung</span></span></a></li>
+              <li><a href="DE/klimaumwelt/klimaueberwachung/klimaueberwachung_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Klima&#252;berwachung"><span><span>Klimaüberwachung</span></span></a></li>
+              <li><a href="DE/klimaumwelt/klimaforschung/klimaforschung_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Klimaforschung"><span><span>Klimaforschung</span></span></a></li>
               </ul>
         </div><!-- box-box -->
      </nav><!-- box -->
      <nav class="box" role="navigation">
       <div class="box-box">
-            <h1><a href="DE/forschung/forschung_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Forschung">For­schung</a></h1>
+            <h1><a href="DE/forschung/forschung_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Forschung">For­schung</a></h1>
             <ul id="footer-links-3">
-              <li><a href="DE/forschung/atmosphaerenbeob/atmosphaerenbeob_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Atmosph&#228;renbeobachtung"><span><span>Atmosphärenbeobachtung</span></span></a></li>
-              <li><a href="DE/forschung/wettervorhersage/wettervorhersage_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Wettervorhersage"><span><span>Wettervorhersage</span></span></a></li>
-              <li><a href="DE/forschung/klima_umwelt/klimaumwelt_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Klima und Umwelt"><span><span>Klima und Umwelt</span></span></a></li>
-              <li><a href="DE/forschung/forschungsprogramme/herz/herz_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Hans-Ertel-Zentrum"><span><span>Hans-Ertel-Zentrum</span></span></a></li>
-              <li><a href="DE/forschung/forschungsprogramme/idea_s4s/idea_s4s_home_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Italia &#8211; Deutschland science-4-services network in weather and climate "><span><span>IDEA-S4S Netzwerk</span></span></a></li>
-              <li><a href="DE/forschung/forschungsprogramme/forschungsprogramme_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="DWD-Forschungsprogramme"><span><span>DWD-Forschungsprogramme</span></span></a></li>
-              <li><a href="DE/forschung/internationale_programme/internationale_programme_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Internationale Programme"><span><span>Internationale Programme</span></span></a></li>
-              <li><a href="DE/forschung/projekte/projekte_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Projekte"><span><span>Projekte</span></span></a></li>
+              <li><a href="DE/forschung/atmosphaerenbeob/atmosphaerenbeob_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Atmosph&#228;renbeobachtung"><span><span>Atmosphärenbeobachtung</span></span></a></li>
+              <li><a href="DE/forschung/wettervorhersage/wettervorhersage_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Wettervorhersage"><span><span>Wettervorhersage</span></span></a></li>
+              <li><a href="DE/forschung/klima_umwelt/klimaumwelt_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Klima und Umwelt"><span><span>Klima und Umwelt</span></span></a></li>
+              <li><a href="DE/forschung/forschungsprogramme/herz/herz_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Hans-Ertel-Zentrum"><span><span>Hans-Ertel-Zentrum</span></span></a></li>
+              <li><a href="DE/forschung/forschungsprogramme/idea_s4s/idea_s4s_home_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Italia &#8211; Deutschland science-4-services network in weather and climate "><span><span>IDEA-S4S Netzwerk</span></span></a></li>
+              <li><a href="DE/forschung/forschungsprogramme/forschungsprogramme_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="DWD-Forschungsprogramme"><span><span>DWD-Forschungsprogramme</span></span></a></li>
+              <li><a href="DE/forschung/internationale_programme/internationale_programme_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Internationale Programme"><span><span>Internationale Programme</span></span></a></li>
+              <li><a href="DE/forschung/projekte/projekte_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Projekte"><span><span>Projekte</span></span></a></li>
               </ul>
         </div><!-- box-box -->
      </nav><!-- box -->
      <nav class="box" role="navigation">
       <div class="box-box">
-            <h1><a href="DE/derdwd/derdwd_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043" title="Der Deutsche Wetterdienst - Aufgaben, Organisation, Standorte">Der DWD</a></h1>
+            <h1><a href="DE/derdwd/derdwd_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083" title="Der Deutsche Wetterdienst - Aufgaben, Organisation, Standorte">Der DWD</a></h1>
             <ul id="footer-links-4">
-              <li><a href="DE/derdwd/aufgaben/aufgaben_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Aufgaben"><span><span>Aufgaben</span></span></a></li>
-              <li><a href="DE/derdwd/arbeitgeber/arbeitgeber_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Arbeitgeber DWD"><span><span>Arbeitgeber DWD</span></span></a></li>
-              <li><a href="DE/derdwd/organisation/organisation_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Organisation"><span><span>Organisation</span></span></a></li>
-              <li><a href="DE/derdwd/standorte/standorte_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Standorte"><span><span>Standorte</span></span></a></li>
-              <li><a href="DE/derdwd/koop/koop_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Zusammenarbeit"><span><span>Zusammenarbeit</span></span></a></li>
-              <li><a href="DE/derdwd/messnetz/messnetz_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Messnetz"><span><span>Messnetz</span></span></a></li>
-              <li><a href="DE/derdwd/it/it_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Informationstechnik"><span><span>Informationstechnik</span></span></a></li>
-              <li><a href="DE/derdwd/bibliothek/bibliothek_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Deutsche Meteorologische Bibliothek"><span><span>Deutsche Meteorologische Bibliothek</span></span></a></li>
-              <li><a href="DE/derdwd/zertifikate/zertifikate_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Zertifikate des Deutschen Wetterdienstes"><span><span>Zertifikate</span></span></a></li>
+              <li><a href="DE/derdwd/aufgaben/aufgaben_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Aufgaben"><span><span>Aufgaben</span></span></a></li>
+              <li><a href="DE/derdwd/arbeitgeber/arbeitgeber_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Arbeitgeber DWD"><span><span>Arbeitgeber DWD</span></span></a></li>
+              <li><a href="DE/derdwd/organisation/organisation_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Organisation"><span><span>Organisation</span></span></a></li>
+              <li><a href="DE/derdwd/standorte/standorte_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Standorte"><span><span>Standorte</span></span></a></li>
+              <li><a href="DE/derdwd/koop/koop_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Zusammenarbeit"><span><span>Zusammenarbeit</span></span></a></li>
+              <li><a href="DE/derdwd/messnetz/messnetz_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Messnetz"><span><span>Messnetz</span></span></a></li>
+              <li><a href="DE/derdwd/it/it_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Informationstechnik"><span><span>Informationstechnik</span></span></a></li>
+              <li><a href="DE/derdwd/bibliothek/bibliothek_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Deutsche Meteorologische Bibliothek"><span><span>Deutsche Meteorologische Bibliothek</span></span></a></li>
+              <li><a href="DE/derdwd/zertifikate/zertifikate_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Zertifikate des Deutschen Wetterdienstes"><span><span>Zertifikate</span></span></a></li>
               </ul>
         </div><!-- box-box -->
      </nav><!-- box -->
@@ -945,25 +921,25 @@ Lexikon</span></span></a>
       <div class="box-box">
        <ul>
 <li>
-       <a href="DE/service/impressum/impressum_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Impressum">Impressum</a>
+       <a href="DE/service/impressum/impressum_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Impressum">Impressum</a>
 </li>
 <li>
-       <a href="DE/service/datenschutz/datenschutz_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Datenschutz">Datenschutz</a>
+       <a href="DE/service/datenschutz/datenschutz_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Datenschutz">Datenschutz</a>
 </li>
 <li>
-       <a href="DE/service/disclaimer/disclaimer_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Disclaimer">Disclaimer</a>
+       <a href="DE/service/disclaimer/disclaimer_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Disclaimer">Disclaimer</a>
 </li>
 <li>
-       <a href="DE/service/agb/agb_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="AGB">AGB</a>
+       <a href="DE/service/agb/agb_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="AGB">AGB</a>
 </li>
 <li>
-       <a href="DE/service/qm/qm_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Qualit&#228;tsmanagement">QM</a>
+       <a href="DE/service/qm/qm_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Qualit&#228;tsmanagement">QM</a>
 </li>
 <li>
-       <a href="DE/service/rechtliche_hinweise/rechtliche_hinweise_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Rechtliche Hinweise">Rechtliche Hinweise</a>
+       <a href="DE/service/rechtliche_hinweise/rechtliche_hinweise_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Rechtliche Hinweise">Rechtliche Hinweise</a>
 </li>
 <li>
-       <a href="DE/service/barrierefrei/barrierefrei_node.html;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043"  title="Erkl&#228;rung zur Barrierefreiheit">Erklärung zur Barrierefreiheit</a>
+       <a href="DE/service/barrierefrei/barrierefrei_node.html;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083"  title="Erkl&#228;rung zur Barrierefreiheit">Erklärung zur Barrierefreiheit</a>
 </li>
        </ul>
       </div><!-- box-box -->
@@ -976,12 +952,12 @@ Lexikon</span></span></a>
  <!--[if ! lte IE 8]><!--> 
 <!--
  <script type="text/javascript">
-  preloader.modules = "SiteGlobals/Functions/JavaScript/__modules.js.js;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=3";
-  preloader.enhanced= "SiteGlobals/Functions/JavaScript/__enhanced.js.js;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=4";
-  preloader.everything = "SiteGlobals/Functions/JavaScript_Optimierung2/__everything.js;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=15";
+  preloader.modules = "SiteGlobals/Functions/JavaScript/__modules.js.js;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=3";
+  preloader.enhanced= "SiteGlobals/Functions/JavaScript/__enhanced.js.js;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=4";
+  preloader.everything = "SiteGlobals/Functions/JavaScript_Optimierung2/__everything.js;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=15";
   preloader.loadEverything = true;
  </script>
- <script src="SiteGlobals/Functions/JavaScript/__preload.js.js;jsessionid=B92A1D51E11B87A83E300B6619734647.live11043?v=1"></script>
+ <script src="SiteGlobals/Functions/JavaScript/__preload.js.js;jsessionid=ADCBFAAE8016BCFDE6DB5F5F3238328F.live31083?v=1"></script>
 -->
 
  <!--<![endif]-->

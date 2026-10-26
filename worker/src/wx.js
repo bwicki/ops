@@ -720,16 +720,113 @@ async function notamSearch(ctx, lat, lon, radiusNm) {
   });
   return { items: data, total: data.length, source: 'FAA NOTAM Search (ohne Schlüssel, inoffiziell)', generated: new Date().toISOString() };
 }
-async function notam(env, decrypt, ctx, q) {
+// ---- 0.14.1: FAA NMS über GitHub Actions. Die Google-Cloud-Sperrliste weist Cloudflare Workers ab (403; FAA NAIMES
+// INC0033867, 19.10.2026); ein Actions-Runner erreicht die API. Der Workflow fetch-notam holt alle 30 min die NOTAMs
+// je Abfragepunkt (Umkreis) und legt sie als data/notam/<key>.json ab (Ablage wie die DWD-Berichte); der Worker liest
+// diese Dateien. Welche Punkte: Startort, Landeraum, Bahn-Endpunkte und NOTAM-Orte der Briefings der nächsten 7 Tage
+// (aus den Briefing-JSON) sowie alles, was in den letzten 7 Tagen tatsächlich abgefragt wurde (Tabelle notam_points).
+export const notamKey = (lat, lon, nm) => `${(+lat).toFixed(2)}_${(+lon).toFixed(2)}_${Math.round(nm)}`;
+const notamBase = (env) => `${dataBase(env).replace(/\/dwd$/, '')}/notam`;
+const NOTAM_FRESH_MS = 3 * 3600000;   // älterer Abrufstand gilt als veraltet → Hinweis, Rückfall autorouter
+let notamPointsReady = false;
+export async function ensureNotamPoints(env) {
+  if (notamPointsReady) return;
+  await env.DB.prepare('CREATE TABLE IF NOT EXISTS notam_points (key TEXT PRIMARY KEY, lat REAL NOT NULL, lon REAL NOT NULL, nm INTEGER NOT NULL, asked_ms INTEGER NOT NULL, briefing_id TEXT)').run();
+  notamPointsReady = true;
+}
+/** Abfragepunkt vormerken (der Workflow holt ihn beim nächsten Lauf); Fehler bleiben ohne Folgen. */
+async function noteNotamPoint(env, ctx, lat, lon, nm, briefingId) {
+  const run = (async () => {
+    await ensureNotamPoints(env);
+    await env.DB.prepare('INSERT INTO notam_points (key,lat,lon,nm,asked_ms,briefing_id) VALUES (?,?,?,?,?,?) ON CONFLICT(key) DO UPDATE SET asked_ms=excluded.asked_ms, briefing_id=COALESCE(excluded.briefing_id, notam_points.briefing_id)')
+      .bind(notamKey(lat, lon, nm), +lat.toFixed(2), +lon.toFixed(2), Math.round(nm), Date.now(), briefingId || null).run();
+  })().catch((e) => console.warn('notam_points', e.message));
+  ctx.waitUntil(run);
+}
+/** Abrufdatei des Workflows lesen (10-min-Bucket gegen den Pages-Cache); null = (noch) nicht vorhanden. */
+async function notamFile(env, key) {
+  const bust = `?t=${Math.floor(Date.now() / 600000)}`;
+  try { return await (await get(`${notamBase(env)}/${key}.json${bust}`, {}, 12000)).json(); }
+  catch { return null; }
+}
+/** Stand des Workflows (index.json): läuft der Abruf überhaupt? */
+async function notamIndex(ctx, env) {
+  return cached(ctx, 'notam/index', 300, async () => (await notamFile(env, 'index')) || { missing: true });
+}
+/** Die Abfragekreise, wie sie die App bildet (js/auto/data.js notam/hexCover): > 100 NM wird in sieben 100-NM-Kreise zerlegt. */
+export function notamCover(lat, lon, nm) {
+  if (nm <= 100) return [{ lat, lon, nm }];
+  const sub = 100, dist = Math.max(0, nm - sub * 0.55);
+  const out = [{ lat, lon, nm: sub }];
+  for (let k = 0; k < 6; k++) { const a = k * Math.PI / 3; out.push({ lat: lat + (dist / 60) * Math.cos(a), lon: lon + (dist / 60) * Math.sin(a) / Math.cos(lat * Math.PI / 180), nm: sub }); }
+  return out;
+}
+/** Abfragepunkte eines Briefings (Strecke: Startort, Bahn-Endpunkte, Landeraum; Orte: gewählte Orte mit eigenem Radius). */
+export function notamPointsOfBriefing(b, defaultNm) {
+  const pts = [];
+  if (b?.notamMode === 'places') {
+    for (const p of b.notamPlaces || []) if (p.lat != null && p.lon != null) pts.push({ lat: +p.lat, lon: +p.lon, nm: Math.max(5, Math.round((+p.km || 200) / 1.852)) });
+  } else if (b?.site?.lat != null) {
+    const nm = Math.max(5, +defaultNm || 25);
+    pts.push({ lat: +b.site.lat, lon: +b.site.lon, nm });
+    for (const tr of b.panels?.['B.traj']?.content?.auto?.data?.tracks || []) if (tr.end?.lat != null) pts.push({ lat: +tr.end.lat, lon: +tr.end.lon, nm });
+    if (b.landing?.lat != null) pts.push({ lat: +b.landing.lat, lon: +b.landing.lon, nm });
+  }
+  return pts.slice(0, 6).flatMap((p) => notamCover(p.lat, p.lon, p.nm)).filter((c) => isFinite(c.lat) && isFinite(c.lon));
+}
+/** Punkte für den Workflow: vorgemerkte Abfragen der letzten 7 Tage + Briefings der nächsten 7 Tage (Aufruf aus index.js, Dienst-Token). */
+export async function notamPointsForFetch(env, briefingRows, settingsOf) {
+  await ensureNotamPoints(env);
+  const now = Date.now();
+  await env.DB.prepare('DELETE FROM notam_points WHERE asked_ms < ?').bind(now - 7 * 86400000).run();
+  const map = new Map();
+  const add = (c, why) => { const key = notamKey(c.lat, c.lon, c.nm); if (!map.has(key)) map.set(key, { key, lat: +c.lat.toFixed(2), lon: +c.lon.toFixed(2), nm: Math.round(c.nm), why }); };
+  for (const row of briefingRows) {
+    let b; try { b = JSON.parse(row.json); } catch { continue; }
+    const nm = (await settingsOf(row.owner_id))?.notamRadiusNm || 25;
+    for (const c of notamPointsOfBriefing(b, nm)) add(c, b.no || row.id);
+  }
+  const asked = await env.DB.prepare('SELECT key,lat,lon,nm FROM notam_points ORDER BY asked_ms DESC LIMIT 200').all();
+  for (const r of asked.results || []) add(r, 'asked');
+  return [...map.values()];
+}
+async function notam(env, decrypt, ctx, q, briefingId) {
   const lat = +q.get('lat'), lon = +q.get('lon'), radius = Math.min(100, +q.get('nm') || 25);
   if (!isFinite(lat) || !isFinite(lon)) return err('lat/lon');
   const cc = String(q.get('cc') || '').split(',').map((x) => x.trim()).filter(Boolean);
-  // 1) autorouter, wenn Zugang hinterlegt (Einstellungen → Zugänge); scheitert der Abruf, wandert der Grund als Hinweis in die Antwort der Ersatzquelle (0.12.7)
   // 0.12.11: src=autorouter|faa|dins|search erzwingt eine Quelle (Vergleich der Quellen; ohne Cache)
   const src = String(q.get('src') || '').toLowerCase();
+  // 1) 0.14.1: Abrufdatei des GitHub-Workflows (FAA NMS); Punkt vormerken, damit der nächste Lauf ihn holt.
+  //    Veraltete Datei (> 3 h): erst die Rückfallquellen versuchen, scheitern alle, gilt die veraltete Datei mit Hinweis.
+  let stale = null;
+  if (!src || src === 'faa') {
+    noteNotamPoint(env, ctx, lat, lon, radius, briefingId);
+    const f = await notamFile(env, notamKey(lat, lon, radius));
+    const ageMs = f?.generated ? Date.now() - Date.parse(f.generated) : Infinity;
+    if (f && Array.isArray(f.items)) {
+      const stand = String(f.generated || '').slice(11, 16);
+      const out = { items: f.items, total: f.items.length, source: `FAA NMS API (Abruf GitHub ${stand} UTC)`, generated: f.generated, errors: [] };
+      if (ageMs > NOTAM_FRESH_MS) out.errors.push(`FAA: Abrufstand ${Math.round(ageMs / 3600000)} h alt`);
+      if (f.error) out.errors.push(`FAA: ${f.error}`);
+      if (ageMs <= NOTAM_FRESH_MS || src === 'faa') return json(out);
+      stale = out;
+    }
+    if (src === 'faa') {
+      const idx = await notamIndex(ctx, env);
+      return err(idx.missing ? 'FAA: der GitHub-Abruf (fetch-notam) ist noch nie gelaufen – Secrets FAA_CLIENT_ID/FAA_CLIENT_SECRET/OPS_HANDOVER_TOKEN im Repository prüfen' : `FAA: noch kein Abruf für diesen Punkt (vorgemerkt; nächster Lauf innert 30 min, letzter ${String(idx.generated || '').slice(0, 16).replace('T', ' ')} UTC)`, 424);
+    }
+  }
+  // 2) autorouter, wenn Zugang hinterlegt (Einstellungen → Zugänge); scheitert der Abruf, wandert der Grund als Hinweis in die Antwort der Ersatzquelle (0.12.7)
   let arErr = null;
   if (!src || src === 'autorouter') {
-    try { const ar = await notamAutorouter(env, decrypt, ctx, lat, lon, radius, cc); if (ar) return json(ar); if (src) return err('autorouter: kein Zugang hinterlegt', 424); }
+    try {
+      const ar = await notamAutorouter(env, decrypt, ctx, lat, lon, radius, cc);
+      if (ar) {   // 0.14.1: läuft der GitHub-Abruf, folgt die FAA-Fassung dieses Punkts beim nächsten Lauf
+        if (!src) { const idx = await notamIndex(ctx, env); if (!idx.missing) ar.errors = [...(ar.errors || []), 'FAA-Abruf für diesen Punkt vorgemerkt (nächster GitHub-Lauf innert 30 min) – bis dahin autorouter']; }
+        return json(ar);
+      }
+      if (src) return err('autorouter: kein Zugang hinterlegt', 424);
+    }
     catch (e) { console.warn('autorouter', e.message); arErr = `autorouter: ${e.message}`; if (src) return err(arErr, 502); }
   }
   if (src === 'dins') { try { return json(await notamDins(ctx, lat, lon, radius, cc)); } catch (e) { return err(`DINS: ${e.message}`, 502); } }
@@ -751,6 +848,7 @@ async function notam(env, decrypt, ctx, q) {
       try { const r = await fn(); if (r.items.length || name === 'NOTAM Search') return json({ ...r, errors }); errors.push(`${name}: keine Treffer`); }
       catch (e) { console.warn(name, e.message); errors.push(`${name}: ${e.message}`); }
     }
+    if (stale) return json({ ...stale, errors: [...stale.errors, ...errors] });
     return err(`NOTAM-Quellen ohne Schlüssel nicht erreichbar (${errors.join('; ')}) – Zugang hinterlegen (Einstellungen → Zugänge: autorouter oder FAA)`, 502);
   }
   // 0.12.11a: FAA NMS API (OAuth2 client_credentials, api-nms.aim.faa.gov) – der frühere API-Portal-Zugang (external-api.faa.gov, Header client_id/client_secret) bleibt als zweiter Versuch
@@ -810,7 +908,9 @@ async function notam(env, decrypt, ctx, q) {
     }
   };
   if (src === 'faa') { try { return json(await fetchFaa()); } catch (e) { return err(`FAA NOTAM API: ${e.message}`, 502); } }
-  const data = await cached(ctx, `notam/${lat.toFixed(2)},${lon.toFixed(2)},${radius}`, 900, fetchFaa);
+  let data;
+  try { data = await cached(ctx, `notam/${lat.toFixed(2)},${lon.toFixed(2)},${radius}`, 900, fetchFaa); }
+  catch (e) { if (stale) return json({ ...stale, errors: [...stale.errors, ...(arErr ? [arErr] : []), `FAA direkt: ${e.message}`] }); throw e; }
   return json(arErr ? { ...data, errors: [arErr, ...(data.errors || [])] } : data);
 }
 
@@ -894,7 +994,7 @@ export async function handleWx(kind, req, env, ctx, q, body, auth, decrypt) {
     case 'elevation': return elevation(ctx, q);
     case 'water': return water(ctx, q);
     case 'sonde': return sonde(ctx, q);
-    case 'notam': return notam(env, decrypt, ctx, q);
+    case 'notam': return notam(env, decrypt, ctx, q, briefingId);
     case 'ai': if (!canWrite) return err('forbidden', 403); return ai(env, decrypt, body);
     case 'pdf': if (!auth.owner) return err('forbidden', 403); return pdfRender(env, decrypt, ctx, body, auth);
     default: return err('unknown kind', 404);

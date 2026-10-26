@@ -106,6 +106,7 @@ Repository-Secret gleichen Namens in **beiden** Repositories (`bwicki/ops` und `
 variables → Actions → New repository secret). Die Deploy-Workflows beider Worker hinterlegen ihn beim nächsten Lauf als
 Worker-Secret (Actions → «Deploy worker» → Run workflow, oder beim nächsten Push unter `worker/`). Von Hand:
 `printf '%s' '<Token>' | npx wrangler secret put OPS_HANDOVER_TOKEN`. Ohne das Secret antwortet `/api/handover/*` mit 503.
+Ab 0.14.1 braucht auch der NOTAM-Workflow `fetch-notam.yml` dieses Secret (Abfragepunkte vom Worker).
 
 ## 5 Worker veröffentlichen
 
@@ -167,8 +168,28 @@ funktioniert genauso.
      Das NOTAM-Panel fragt dann je FIR der Fahrt (Startort, Landeraum,
      Lufträume der Analyse; CH LSAS, DE EDMM/EDGG/EDWW, AT LOVV, FR LFMM/LFFF/
      LFEE/LFBB/LFRR, IT LIMM/LIRR/LIBB …) ab und filtert auf den Umkreis.
-   * `faa_client_id` / `faa_client_secret` — FAA NOTAM API (offizielles
-     FAA-Portal, kostenlos; **nicht** über Drittanbieter wie apis.io):
+   * **FAA NMS API (NOTAM) — ab 0.14.1 nicht mehr unter «Zugänge», sondern als
+     Repository-Secrets `FAA_CLIENT_ID` / `FAA_CLIENT_SECRET`.** Die FAA-API läuft auf
+     der Google Cloud Platform, deren Sperrliste die Ausgangsadressen von Cloudflare
+     Workers abweist (HTTP 403; FAA NAIMES, INC0033867, 19.10.2026 – weder die FAA
+     noch Cloudflare ändern daran etwas). Der Abruf läuft deshalb als GitHub Action
+     `fetch-notam.yml` alle 30 Minuten: Punkte vom Worker (`/api/handover/notam-points`,
+     Dienst-Token `OPS_HANDOVER_TOKEN`: Startort, Landeraum, Bahn-Endpunkte und
+     NOTAM-Orte der Briefings der nächsten 7 Tage sowie alle in den letzten 7 Tagen
+     tatsächlich abgefragten Kreise), Ablage als `data/notam/<key>.json`; der Worker
+     liest die Dateien von der eigenen Origin. Einrichten im Browser:
+     GitHub → `bwicki/ops` → **Settings → Secrets and variables → Actions → New
+     repository secret**: `FAA_CLIENT_ID` (Client Key des NMS-Portals) und
+     `FAA_CLIENT_SECRET`; `OPS_HANDOVER_TOKEN` muss gesetzt sein (siehe Abschnitt 4).
+     Dann Actions → «NOTAM (FAA NMS) holen» → **Run workflow**; danach läuft der Abruf
+     von selbst. Prüfen: `data/notam/index.json` im Repository (Stand, Punkte, Fehler)
+     oder im NOTAM-Panel `Stand … FAA NMS API (Abruf GitHub hh:mm UTC)`. Ein Punkt,
+     der noch keine Datei hat (neues Briefing, neue Bahn-Endpunkte), wird vorgemerkt
+     und beim nächsten Lauf geholt – bis dahin antwortet autorouter (Rückfall).
+     Die Felder «FAA NMS Client Key/Secret» unter Zugänge dienen nur noch der
+     Diagnose (`src=faa&diag=1`).
+     Zugang zum NMS-Portal (offizielle FAA-Schnittstelle, kostenlos; **nicht** über
+     Drittanbieter wie apis.io):
      1. https://api.faa.gov öffnen → rechts oben **Login** → als externer
         Nutzer registrieren (E-Mail, Kennwort, Bestätigungsmail).
      2. **APIs** → Suchfeld «NOTAM» → **NOTAM API** öffnen.
@@ -177,8 +198,8 @@ funktioniert genauso.
         (Flugvorbereitung Ballon, Strecken-NOTAM) → absenden. Die Anfrage
         wird geprüft; die Freigabe kommt per E-Mail (Tage bis Wochen).
      4. Nach der Freigabe: **My Applications** → Applikation → **View** →
-        `client_id` und `client_secret` kopieren und in der App unter
-        Einstellungen → Zugänge eintragen.
+        `client_id` und `client_secret` kopieren und als Repository-Secrets
+        eintragen (oben).
      Ohne Zugang bleibt das NOTAM-Panel auf Einfügen (skybriefing).
    * `openaip` — openAIP-Schlüssel für das Panel «Luftraum entlang des
      Fahrtwegs» (Lufträume aus der openAIP-Datenbank; derselbe Schlüssel wie

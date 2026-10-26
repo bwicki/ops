@@ -21,7 +21,7 @@ import { resolveBalloon, mergeSettings } from '../js/defaults.js';
 import { routeMatrix, countryInfo } from '../js/countries.js';
 import { altAt, msAtKm, kmAtMs, segments, rateClass, reliefBreaches, addStage, removeStage, moveStage, stageWindows, nightFraction, ballastPlan, fitPoints, defaultPoints, hazards, rhoAir, waterRuns, waterFromItems } from '../js/calc/profile.js';
 import { fisSectors } from '../js/auto/profiledata.js';
-import { parseIcaoNotam } from '../worker/src/wx.js';
+import { parseIcaoNotam, notamKey, notamCover, notamPointsOfBriefing } from '../worker/src/wx.js';
 import { placeLabel } from '../js/model.js';
 import { actualPoints, actualWaypoints, plannedTracks, posAt, compareTrack, compareAll, hourlyPoints } from '../js/calc/actual.js';
 import { inSwitzerland } from '../js/panels.js';
@@ -738,6 +738,18 @@ console.log('Länder-Matrix und DWD-Astroangaben (0.11.1)');
   const north = [0, 1, 2].map((h) => ({ ms: t0 + h * 3600000, lat: 47 + 0.05 * h, lon: 8 + 0.2 * h }));
   const cs = compareTrack(east, north, { site: { lat: 47, lon: 8 } });
   ok(cs.hours.every((x) => x.side === 'L') && cs.brgErr < 0 && Math.abs(cs.meanDevKm - (5.56 + 11.12) / 2) < 0.2, 'Seite der Abweichung: nördlich der Ostbahn = links, Richtungsfehler negativ');
+}
+
+// ---- 0.14.1: NOTAM-Abfragepunkte für den GitHub-Workflow (wie die App sie bildet)
+{
+  console.log('\n# NOTAM-Abfragepunkte (fetch-notam)');
+  ok(notamKey(47.3812, 8.5401, 25) === '47.38_8.54_25' && notamKey(-33.9, -70.65, 50) === '-33.90_-70.65_50', 'Schlüssel = Breite/Länge auf 0.01° und Radius NM');
+  ok(notamCover(47, 8, 100).length === 1 && notamCover(47, 8, 150).length === 7, 'Kreise: bis 100 NM einer, darüber sieben (wie hexCover in der App)');
+  const b = { site: { lat: 47.3, lon: 8.4 }, landing: { lat: 47.5, lon: 9.0 }, panels: { 'B.traj': { content: { auto: { data: { tracks: [{ end: { lat: 47.4, lon: 8.8 } }, { end: null }] } } } } } };
+  const pts = notamPointsOfBriefing(b, 30);
+  ok(pts.length === 3 && pts.every((p) => p.nm === 30) && pts[0].lat === 47.3 && pts[2].lon === 9.0, 'Strecke: Startort, Bahn-Endpunkt, Landeraum mit dem Radius aus den Einstellungen');
+  ok(notamPointsOfBriefing({ ...b, notamMode: 'places', notamPlaces: [{ lat: 46.9, lon: 7.4, km: 200 }, { lat: 46.0, lon: 8.9, km: 50 }] }).length === 8, 'Orte: 200 km (108 NM) → sieben Kreise, 50 km → einer');
+  ok(notamPointsOfBriefing({}, 25).length === 0 && notamPointsOfBriefing({ site: { lat: 47.3, lon: 8.4 } }, 150).length === 7, 'ohne Startort keine Punkte; Radius über 100 NM wird in Kreise zerlegt');
 }
 
 console.log(`\n${n - fails}/${n} Tests bestanden`);

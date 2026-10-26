@@ -14,7 +14,7 @@
  *                  (Ballon) darin verwendet wird — lesend.
  */
 
-import { handleWx } from './wx.js';
+import { handleWx, notamPointsForFetch } from './wx.js';
 import { handoverAuth, listHandoverBriefings, putTrajectory, getTrajectory, deleteTrajectory, linkMayView, ensureTrajectories } from './trajectory.js';
 
 const SESSION_DAYS = 30;
@@ -452,6 +452,16 @@ async function route(req, env, url, ctx) {
   if (p === '/api/handover/briefings' && req.method === 'GET') {
     const a = handoverAuth(env, req); if (a) return err(a.error, a.status);
     return json({ briefings: await listHandoverBriefings(env, url.searchParams.get('limit')) });
+  }
+  // 0.14.1: Abfragepunkte für den NOTAM-Workflow (fetch-notam, GitHub Actions): Briefings der nächsten 7 Tage + vorgemerkte Abfragen
+  if (p === '/api/handover/notam-points' && req.method === 'GET') {
+    const a = handoverAuth(env, req); if (a) return err(a.error, a.status);
+    const now = Date.now();
+    const rows = await env.DB.prepare('SELECT id, json, owner_id FROM briefings WHERE COALESCE(hidden,0)=0 AND start_ms BETWEEN ? AND ? ORDER BY start_ms LIMIT 60').bind(now - 86400000, now + 7 * 86400000).all();
+    const cache = new Map();
+    const settingsOf = async (uid) => { if (!cache.has(uid)) cache.set(uid, await userSettings(env, uid)); return cache.get(uid); };
+    const points = await notamPointsForFetch(env, rows.results || [], settingsOf);
+    return json({ points, generated: new Date(now).toISOString() });
   }
   mm = m(/^\/api\/handover\/briefings\/([a-z0-9]+)\/trajectory$/);
   if (mm && req.method === 'PUT') {

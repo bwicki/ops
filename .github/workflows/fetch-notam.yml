@@ -1,0 +1,53 @@
+name: NOTAM (FAA NMS) holen
+
+# 0.14.1: Die FAA-NMS-API läuft auf der Google Cloud Platform, deren Sperrliste die Ausgangsadressen von Cloudflare
+# Workers abweist (HTTP 403; FAA NAIMES, INC0033867, 19.10.2026). Ein GitHub-Actions-Runner wird nicht abgewiesen.
+# Dieser Workflow holt alle 30 Minuten die NOTAMs je Abfragepunkt (Punkte vom Worker: Briefings der nächsten
+# 7 Tage und zuletzt abgefragte Kreise) und legt sie unter data/notam ab; der Worker liest sie von ops.wicki.aero.
+# Repository-Secrets: FAA_CLIENT_ID, FAA_CLIENT_SECRET (FAA NMS API, nms.aim.faa.gov), OPS_HANDOVER_TOKEN
+# (Dienst-Token des Workers, wie für analyze). Ohne FAA-Secrets wird der Lauf übersprungen.
+
+on:
+  schedule:
+    - cron: '4,34 * * * *'          # alle 30 Minuten
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/fetch-notam.mjs'
+      - '.github/workflows/fetch-notam.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-notam
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    env:
+      FAA_CLIENT_ID: ${{ secrets.FAA_CLIENT_ID }}
+      FAA_CLIENT_SECRET: ${{ secrets.FAA_CLIENT_SECRET }}
+      OPS_HANDOVER_TOKEN: ${{ secrets.OPS_HANDOVER_TOKEN }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+      - name: NOTAM abrufen
+        if: ${{ env.FAA_CLIENT_ID != '' }}
+        run: node scripts/fetch-notam.mjs
+      - name: Hinweis, wenn die Secrets fehlen
+        if: ${{ env.FAA_CLIENT_ID == '' }}
+        run: echo "FAA_CLIENT_ID/FAA_CLIENT_SECRET nicht gesetzt – Lauf übersprungen (Settings → Secrets and variables → Actions)."
+      - name: Änderungen committen
+        if: ${{ env.FAA_CLIENT_ID != '' }}
+        run: |
+          git config user.name  "briefing-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A data/notam
+          if git diff --cached --quiet; then echo "keine Änderung"; exit 0; fi
+          git commit -m "NOTAM $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git pull --rebase
+          git push

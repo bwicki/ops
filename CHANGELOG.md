@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.14.1 — 2026-10-26 · FAA-NOTAM über GitHub Actions
+
+* **Ursache der 403:** Die FAA-NMS-API läuft auf der Google Cloud Platform, deren Sperrliste die Ausgangsadressen von
+  Cloudflare Workers abweist (FAA NAIMES, INC0033867, 19.10.2026) – von der FAA nicht zu ändern. Ein GitHub-Actions-Runner
+  wird nicht abgewiesen (Probe 19.10.2026: 401 ohne Zugangsdaten).
+* **Workflow `fetch-notam.yml`** (alle 30 min, `scripts/fetch-notam.mjs`): holt die Abfragepunkte vom Worker
+  (`GET /api/handover/notam-points`, Dienst-Token `OPS_HANDOVER_TOKEN`), das FAA-Token (Repository-Secrets
+  `FAA_CLIENT_ID`/`FAA_CLIENT_SECRET`) und je Punkt die NOTAMs (GEOJSON, normalisiert wie im Worker) nach
+  `data/notam/<key>.json`; `index.json` mit Stand, Punkten und Fehlern; Dateien nicht mehr gefragter Punkte werden entfernt.
+* **Punkte:** Startort, Bahn-Endpunkte, Landeraum (Radius aus den Einstellungen des Eigners) bzw. NOTAM-Orte mit eigenem
+  Radius (Kreise > 100 NM wie in der App in sieben Kreise zerlegt) der Briefings der nächsten 7 Tage, dazu alles, was in
+  den letzten 7 Tagen tatsächlich abgefragt wurde (neue Tabelle `notam_points`; jede NOTAM-Abfrage merkt ihren Kreis vor).
+* **Worker `/api/wx/notam`:** liest zuerst die Abrufdatei (≤ 3 h alt → Quelle «FAA NMS API (Abruf GitHub hh:mm UTC)»,
+  Stand im Panel), sonst autorouter wie bisher (mit Hinweis, dass die FAA-Fassung beim nächsten Lauf folgt), zuletzt die
+  veraltete Datei mit Hinweis. `src=faa` erzwingt die Datei (424 mit Grund, wenn sie fehlt oder der Workflow nie lief).
+* Zugänge: «FAA NMS Client Key/Secret» nur noch für die Diagnose; SETUP/README angepasst. Probe-Workflow und
+  `data/faa-probe.txt` entfernt. Rechentests 303.
+
 ## 0.14.0 — 2026-10-20 · Ist-Trajektorie aus analyze.wicki.aero (Konzept Fahrtdaten/Debriefing 3.1, 4.1)
 
 * **Übergabe-API** (Worker, Dienst-Token `OPS_HANDOVER_TOKEN`, Header `X-Handover-Token`): `GET /api/handover/briefings`

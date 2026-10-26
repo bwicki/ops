@@ -441,10 +441,10 @@ export async function notam(ctx, b, opts = {}) {
   const nm = pts[0].nm;
   // Länder der Fahrt (FIR-Auswahl für autorouter): Startort, Landeraum, Lufträume der Analyse
   const cc = [...new Set([b.site.country, b.landing?.country, ...((b.panels['C.airspace']?.content?.auto?.data?.crossed || []).map((x) => x.as?.country))].filter(Boolean).map((x) => String(x).toUpperCase()))].join(',');
-  const all = new Map(); const errors = []; let source = 'FAA NOTAM API';
+  const all = new Map(); const errors = []; let source = 'FAA NOTAM API', generated = null;
   outer: for (const p of pts.slice(0, 6)) {
     for (const c of hexCover(p.lat, p.lon, p.nm)) {
-      try { const j = await ctx.store.data('notam', { lat: c.lat, lon: c.lon, nm: c.nm, cc }, shareTok(ctx)); if (j.source) source = j.source; for (const e of j.errors || []) if (!errors.includes(e)) errors.push(e); for (const it of j.items || []) if (!all.has(it.id)) all.set(it.id, it); }   // Hinweise des Workers (z. B. autorouter-Fehler) einmal übernehmen (0.12.7)
+      try { const j = await ctx.store.data('notam', { lat: c.lat, lon: c.lon, nm: c.nm, cc }, shareTok(ctx)); if (j.source) source = j.source; if (j.generated && (!generated || j.generated < generated)) generated = j.generated; for (const e of j.errors || []) if (!errors.includes(e)) errors.push(e); for (const it of j.items || []) if (!all.has(it.id)) all.set(it.id, it); }   // Hinweise des Workers (z. B. autorouter-Fehler) einmal übernehmen (0.12.7); ältester Abrufstand (0.14.1)
       catch (e) { errors.push(`${p.name}: ${e.message}`); if (e.status === 424) break outer; break; }
     }
   }
@@ -452,7 +452,7 @@ export async function notam(ctx, b, opts = {}) {
   const items = [...all.values()].map((it) => ({ ...it, vfr: vfrRelevant(it, maxFt, b.time.startMs, b.time.startMs + (b.intent.durationMin || 0) * 60000) }));
   const rel = items.filter((x) => x.vfr.relevant).sort((x, y) => (x.start || '').localeCompare(y.start || ''));
   const text = rel.map((x) => `${x.icao || x.location} ${x.number || ''}: ${(x.formatted || x.text || '').replace(/\s+/g, ' ').slice(0, 400)}`).join('\n\n');
-  return { kind: 'notam', sourceUrl: /autorouter/.test(source) ? 'https://www.autorouter.aero/' : 'https://notams.aim.faa.gov/', stand: Date.now(), source, data: { items, relevantCount: rel.length, points: pts, nm, mode, errors }, text };
+  return { kind: 'notam', sourceUrl: /autorouter/.test(source) ? 'https://www.autorouter.aero/' : 'https://notams.aim.faa.gov/', stand: Date.now(), source, generated, data: { items, relevantCount: rel.length, points: pts, nm, mode, errors }, text };
 }
 /** VFR-Relevanz: zeitlich überlappend, untere Grenze unter maxFt, keine reinen IFR-/Infrastruktur-Themen. */
 export function vfrRelevant(it, maxFt, fromMs, toMs) {

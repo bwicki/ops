@@ -75,8 +75,17 @@ async function main() {
   //    Header client_id/client_secret); dann wird dieser Weg genommen. Welcher Weg trug, steht in index.json (mode).
   const basic = Buffer.from(`${ID}:${SECRET}`).toString('base64');
   let tk = null, mode = 'nms', authErr = '';
-  try { tk = await fetchJson(`${NMS}/v1/auth/token`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', Authorization: `Basic ${basic}` }, body: 'grant_type=client_credentials' }); if (!tk.access_token) throw new Error('keine access_token in der Antwort'); }
-  catch (e) { authErr = `NMS-Token: ${e.message}`; log(authErr); tk = null; mode = 'legacy'; }
+  // zwei Varianten des Token-Aufrufs: Basic-Header (Doku) und Felder client_id/client_secret im Body
+  const tokenTries = [
+    ['basic', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', Authorization: `Basic ${basic}` }, body: 'grant_type=client_credentials' }],
+    ['body', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ grant_type: 'client_credentials', client_id: ID, client_secret: SECRET }).toString() }],
+  ];
+  for (const [name, init] of tokenTries) {
+    try { tk = await fetchJson(`${NMS}/v1/auth/token`, init); if (!tk.access_token) throw new Error('keine access_token in der Antwort'); authErr = ''; break; }
+    catch (e) { authErr += `${authErr ? ' | ' : ''}NMS-Token (${name}): ${e.message}`; tk = null; }
+  }
+  if (!tk) { mode = 'legacy'; log(authErr); }
+  const idInfo = `Client-ID ${ID.length} Zeichen (${/^[0-9a-f]+$/i.test(ID) ? 'hex' : /^[A-Za-z0-9_-]+$/.test(ID) ? 'alnum' : 'andere Zeichen'}), Secret ${SECRET.length} Zeichen`;   // Diagnose ohne Werte
   const fetchPoint = async (p) => {
     if (mode === 'nms') {
       const url = `${NMS}/nmsapi/v1/notams?latitude=${(+p.lat).toFixed(4)}&longitude=${(+p.lon).toFixed(4)}&radius=${Math.round(p.nm)}`;
@@ -99,7 +108,7 @@ async function main() {
       errors.push(`${p.key}: ${e.message}`); log(`${p.key}: FEHLER ${e.message}`);
       // bestehende Datei behalten, aber den Fehler vermerken
       try { const old = JSON.parse(await readFile(`${OUT}/${p.key}.json`, 'utf8')); old.error = `${new Date().toISOString().slice(0, 16)}Z ${e.message}`; await writeFile(`${OUT}/${p.key}.json`, JSON.stringify(old)); } catch { /* keine alte Datei */ }
-      if (/HTTP 40[13]/.test(e.message) && !ok) { if (authErr) errors.unshift(authErr); await writeIndex(todo, ok, errors, mode); await fail(`FAA: Zugang abgewiesen (${mode}): ${e.message}${authErr ? ' | ' + authErr : ''}`); }
+      if (/HTTP 40[13]/.test(e.message) && !ok) { if (authErr) errors.unshift(authErr); await writeIndex(todo, ok, errors, mode); await fail(`FAA: Zugang abgewiesen (${mode}): ${e.message}${authErr ? ' | ' + authErr : ''} | ${idInfo}`); }
     }
     await new Promise((r) => setTimeout(r, 400));   // Rücksicht auf die API
   }

@@ -21,6 +21,7 @@ import { writeFile, mkdir, readdir, unlink, readFile } from 'node:fs/promises';
 const OUT = 'data/notam';
 const API = (process.env.OPS_API || 'https://briefing-api.balthasar.workers.dev').replace(/\/$/, '');
 const NMS = (process.env.FAA_NMS || 'https://api-nms.aim.faa.gov').replace(/\/$/, '');   // FAA_NMS nur für lokale Tests
+const LEGACY = (process.env.FAA_LEGACY || 'https://external-api.faa.gov').replace(/\/$/, '');
 const UA = 'Fahrtbriefing/0.14 fetch-notam (+https://ops.wicki.aero)';
 const MAX_POINTS = 80;
 const ID = (process.env.FAA_CLIENT_ID || '').trim(), SECRET = (process.env.FAA_CLIENT_SECRET || '').trim(), TOKEN = (process.env.OPS_HANDOVER_TOKEN || '').trim();
@@ -68,33 +69,45 @@ async function main() {
   if (!Array.isArray(points)) await fail('Antwort des Workers ohne points');
   const todo = points.slice(0, MAX_POINTS);
   log(`${points.length} Punkte (${todo.length} werden geholt)`);
-  // 2) Token
-  const basic = Buffer.from(`${ID.trim()}:${SECRET.trim()}`).toString('base64');
-  let tk;
-  try { tk = await fetchJson(`${NMS}/v1/auth/token`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', Authorization: `Basic ${basic}` }, body: 'grant_type=client_credentials' }); }
-  catch (e) { await fail(`FAA-Token: ${e.message}`); }
-  if (!tk.access_token) await fail('FAA-Token: keine access_token in der Antwort');
+  // 2) Zugang: NMS (api-nms.aim.faa.gov, OAuth2 client_credentials mit Basic client_id:client_secret) – weist die FAA den
+  //    Client ab (invalid_client), sind es vermutlich Schlüssel des älteren API-Portals (api.faa.gov → external-api.faa.gov,
+  //    Header client_id/client_secret); dann wird dieser Weg genommen. Welcher Weg trug, steht in index.json (mode).
+  const basic = Buffer.from(`${ID}:${SECRET}`).toString('base64');
+  let tk = null, mode = 'nms', authErr = '';
+  try { tk = await fetchJson(`${NMS}/v1/auth/token`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', Authorization: `Basic ${basic}` }, body: 'grant_type=client_credentials' }); if (!tk.access_token) throw new Error('keine access_token in der Antwort'); }
+  catch (e) { authErr = `NMS-Token: ${e.message}`; log(authErr); tk = null; mode = 'legacy'; }
+  const fetchPoint = async (p) => {
+    if (mode === 'nms') {
+      const url = `${NMS}/nmsapi/v1/notams?latitude=${(+p.lat).toFixed(4)}&longitude=${(+p.lon).toFixed(4)}&radius=${Math.round(p.nm)}`;
+      const j = await fetchJson(url, { headers: { Authorization: `Bearer ${tk.access_token}`, nmsResponseFormat: 'GEOJSON' } }, 40000);
+      return j?.data?.geojson || j?.data?.features || j?.features || j?.items || (Array.isArray(j) ? j : []);
+    }
+    const url = `${LEGACY}/notamapi/v1/notams?locationLatitude=${(+p.lat).toFixed(4)}&locationLongitude=${(+p.lon).toFixed(4)}&locationRadius=${Math.round(p.nm)}&pageSize=1000&sortBy=effectiveStartDate&sortOrder=Asc`;
+    const j = await fetchJson(url, { headers: { client_id: ID, client_secret: SECRET } }, 40000);
+    return j.items || [];
+  };
   // 3) je Punkt
   const errors = []; let ok = 0;
   for (const p of todo) {
-    const url = `${NMS}/nmsapi/v1/notams?latitude=${(+p.lat).toFixed(4)}&longitude=${(+p.lon).toFixed(4)}&radius=${Math.round(p.nm)}`;
     try {
-      const j = await fetchJson(url, { headers: { Authorization: `Bearer ${tk.access_token}`, nmsResponseFormat: 'GEOJSON' } }, 40000);
-      const raw = j?.data?.geojson || j?.data?.features || j?.features || j?.items || (Array.isArray(j) ? j : []);
+      const raw = await fetchPoint(p);
       const items = raw.map(normalize);
-      await writeFile(`${OUT}/${p.key}.json`, JSON.stringify({ key: p.key, lat: p.lat, lon: p.lon, nm: p.nm, why: p.why, source: 'FAA NMS API', generated: new Date().toISOString(), total: items.length, items }));
+      await writeFile(`${OUT}/${p.key}.json`, JSON.stringify({ key: p.key, lat: p.lat, lon: p.lon, nm: p.nm, why: p.why, source: mode === 'nms' ? 'FAA NMS API' : 'FAA NOTAM API (api.faa.gov)', generated: new Date().toISOString(), total: items.length, items }));
       ok++; log(`${p.key} (${p.why}): ${items.length} NOTAM`);
     } catch (e) {
       errors.push(`${p.key}: ${e.message}`); log(`${p.key}: FEHLER ${e.message}`);
       // bestehende Datei behalten, aber den Fehler vermerken
       try { const old = JSON.parse(await readFile(`${OUT}/${p.key}.json`, 'utf8')); old.error = `${new Date().toISOString().slice(0, 16)}Z ${e.message}`; await writeFile(`${OUT}/${p.key}.json`, JSON.stringify(old)); } catch { /* keine alte Datei */ }
+      if (/HTTP 40[13]/.test(e.message) && !ok) { if (authErr) errors.unshift(authErr); await writeIndex(todo, ok, errors, mode); await fail(`FAA: Zugang abgewiesen (${mode}): ${e.message}${authErr ? ' | ' + authErr : ''}`); }
     }
     await new Promise((r) => setTimeout(r, 400));   // Rücksicht auf die API
   }
+  if (authErr) errors.unshift(authErr);
   // 4) Aufräumen und Index
   const keep = new Set(todo.map((p) => `${p.key}.json`));
   for (const f of await readdir(OUT)) if (f.endsWith('.json') && f !== 'index.json' && !keep.has(f)) { await unlink(`${OUT}/${f}`); log(`entfernt ${f}`); }
-  await writeFile(`${OUT}/index.json`, JSON.stringify({ generated: new Date().toISOString(), points: todo.map((p) => ({ key: p.key, nm: p.nm, why: p.why })), ok, errors }, null, 1));
-  log(`fertig: ${ok}/${todo.length} ok, ${errors.length} Fehler`);
+  await writeIndex(todo, ok, errors, mode);
+  log(`fertig: ${ok}/${todo.length} ok, ${errors.length} Fehler (${mode})`);
 }
+const writeIndex = (todo, ok, errors, mode) => writeFile(`${OUT}/index.json`, JSON.stringify({ generated: new Date().toISOString(), mode, points: todo.map((p) => ({ key: p.key, nm: p.nm, why: p.why })), ok, errors }, null, 1));
 main().catch((e) => fail(e.message));

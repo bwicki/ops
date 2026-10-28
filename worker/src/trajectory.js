@@ -24,9 +24,10 @@ function timingSafeEqual(a, b) { let r = a.length ^ b.length; for (let i = 0; i 
 
 /** null = ok; sonst die Fehlerantwort {status, error}. Token im Header X-Handover-Token. */
 export function handoverAuth(env, req) {
-  if (!env.OPS_HANDOVER_TOKEN) return { status: 503, error: 'handover not configured (OPS_HANDOVER_TOKEN missing)' };
-  const given = req.headers.get('X-Handover-Token') || '';
-  if (!given || !timingSafeEqual(given, env.OPS_HANDOVER_TOKEN)) return { status: 401, error: 'bad handover token' };
+  const want = String(env.OPS_HANDOVER_TOKEN || '').trim();   // 0.14.2: Leerraum/Zeilenumbruch am Rand ignorieren (Kopierfehler beim Secret; fetch() beschneidet Header-Werte)
+  if (!want) return { status: 503, error: 'handover not configured (OPS_HANDOVER_TOKEN missing)' };
+  const given = (req.headers.get('X-Handover-Token') || '').trim();
+  if (!given || !timingSafeEqual(given, want)) return { status: 401, error: 'bad handover token' };
   return null;
 }
 

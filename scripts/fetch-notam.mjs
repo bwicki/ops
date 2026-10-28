@@ -23,7 +23,7 @@ const API = (process.env.OPS_API || 'https://briefing-api.balthasar.workers.dev'
 const NMS = (process.env.FAA_NMS || 'https://api-nms.aim.faa.gov').replace(/\/$/, '');   // FAA_NMS nur für lokale Tests
 const UA = 'Fahrtbriefing/0.14 fetch-notam (+https://ops.wicki.aero)';
 const MAX_POINTS = 80;
-const { FAA_CLIENT_ID: ID, FAA_CLIENT_SECRET: SECRET, OPS_HANDOVER_TOKEN: TOKEN } = process.env;
+const ID = (process.env.FAA_CLIENT_ID || '').trim(), SECRET = (process.env.FAA_CLIENT_SECRET || '').trim(), TOKEN = (process.env.OPS_HANDOVER_TOKEN || '').trim();
 
 const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a);
 /** Abbruch: Grund auch nach index.json schreiben (die Protokolle der Actions sind nicht von überall lesbar); nie Secrets. */

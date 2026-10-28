@@ -67,7 +67,8 @@ async function main() {
     await fail(`Abfragepunkte vom Worker: ${e.message}${diag}`);
   }
   if (!Array.isArray(points)) await fail('Antwort des Workers ohne points');
-  const todo = points.slice(0, MAX_POINTS);
+  // ohne Punkte (keine Briefings in den nächsten 7 Tagen, nichts abgefragt): ein fester Prüfpunkt, damit der Zugang laufend geprüft bleibt
+  const todo = points.length ? points.slice(0, MAX_POINTS) : [{ key: '47.32_8.38_25', lat: 47.32, lon: 8.38, nm: 25, why: 'probe' }];
   log(`${points.length} Punkte (${todo.length} werden geholt)`);
   // 2) Zugang: NMS (api-nms.aim.faa.gov, OAuth2 client_credentials mit Basic client_id:client_secret) – weist die FAA den
   //    Client ab (invalid_client), sind es vermutlich Schlüssel des älteren API-Portals (api.faa.gov → external-api.faa.gov,

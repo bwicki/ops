@@ -32,7 +32,13 @@ const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a);
 /** Abbruch: Grund auch nach index.json schreiben (die Protokolle der Actions sind nicht von überall lesbar); nie Secrets. */
 const fail = async (msg) => {
   console.error(msg);
-  try { await mkdir(OUT, { recursive: true }); await writeFile(`${OUT}/index.json`, JSON.stringify({ generated: new Date().toISOString(), fatal: String(msg).slice(0, 700), ok: 0, points: [], errors: [] }, null, 1)); } catch { /* egal */ }
+  try {
+    await mkdir(OUT, { recursive: true });
+    const fatal = String(msg).slice(0, 700);
+    // gleicher Grund wie beim letzten Lauf und jünger als 6 h → index.json unverändert lassen (kein Commit alle 30 min)
+    let old = null; try { old = JSON.parse(await readFile(`${OUT}/index.json`, 'utf8')); } catch { /* keine */ }
+    if (!(old?.fatal === fatal && Date.now() - Date.parse(old.generated || 0) < 6 * 3600000)) await writeFile(`${OUT}/index.json`, JSON.stringify({ generated: new Date().toISOString(), fatal, ok: 0, points: [], errors: [] }, null, 1));
+  } catch { /* egal */ }
   process.exit(1);
 };
 if (!ID || !SECRET) await fail('FAA_CLIENT_ID / FAA_CLIENT_SECRET fehlen (Repository-Secrets)');

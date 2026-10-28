@@ -1,6 +1,18 @@
 # Changelog
 
-## 0.14.2 — 2026-10-28 · Luftraumanalyse: Abruffehler statt leerer Liste
+## 0.14.2 — 2026-10-28 · Luftraumanalyse: Abruffehler statt leerer Liste; Dienst-Token; NOTAM-Workflow
+
+* **openAIP sperrt `bbox`-Abfragen für externe Clients** (Blog «Geospatial query for external clients no longer
+  available»): `api.core.openaip.net/api/airspaces?bbox=…` antwortet aus Cloudflare Workers *und* aus GitHub Actions mit
+  403 – unabhängig vom Schlüssel. Das Panel «Luftraum entlang des Fahrtwegs» meldet das jetzt als Fehler (unten); ein
+  Ersatzweg (Länder-Exporte lokal filtern; der GCS-Export-Bucket ist «requester pays») ist offen.
+* **Dienst-Token `OPS_HANDOVER_TOKEN`:** Leerraum am Rand wird ignoriert; Clients dürfen das Token als
+  `b64u:` + base64url(UTF-8) senden – Nicht-ASCII-Zeichen im Secret überleben einen HTTP-Header sonst nicht (das war der
+  Grund für «bad handover token» beim NOTAM-Workflow). `GET /api/handover/diag` zeigt Länge/Hash-Präfix beider Seiten.
+* **fetch-notam:** Abbruchgrund nach `data/notam/index.json` (Commit auch nach Abbruch, nicht öfter als alle 6 h bei
+  gleichem Grund); Token-Aufruf mit Basic-Header und mit Feldern im Body; Rückfall auf das ältere API-Portal
+  (`external-api.faa.gov`, Header `client_id`/`client_secret`); Prüfpunkt Oberlunkhofen, wenn keine Punkte anstehen;
+  `mode` in index.json. Deploy-Workflow legt die wrangler-Ausgabe des Secret-Schritts nach `data/deploy-status.txt`.
 
 * **Worker `/api/wx/airspace`:** Wies openAIP den Abruf ab (401/403/429/5xx), lieferte der Worker bisher still eine leere
   Liste – 6 h gecacht – und das Panel «Luftraum entlang des Fahrtwegs» meldete «kein Luftraum durchfahren». Jetzt: Fehler

@@ -338,7 +338,13 @@ async function airspace(env, decrypt, ctx, q) {
       const items = [];
       for (let page = 1; page <= 4; page++) {
         const u = `https://api.core.openaip.net/api/airspaces?bbox=${bboxStr}&limit=1000&page=${page}`;
-        const j = await (await get(u, { headers: { 'x-openaip-api-key': key } }, 25000)).json();
+        const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), 25000);
+        let j;
+        try {
+          const r = await fetch(u, { headers: { 'x-openaip-api-key': key, 'User-Agent': UA, Accept: 'application/json' }, signal: ctl.signal });
+          if (!r.ok) throw new Error(`HTTP ${r.status}: ${(await r.text()).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160)}`);   // Antworttext für die Diagnose (Sperre vs. Schlüssel)
+          j = await r.json();
+        } finally { clearTimeout(tm); }
         items.push(...(j.items || []));
         if (!j.totalPages || page >= j.totalPages) break;
       }
@@ -347,7 +353,7 @@ async function airspace(env, decrypt, ctx, q) {
     // openAIP erwartet minLon,minLat,maxLon,maxLat; bei HTTP 400 Rückfall auf lat/lon-Reihenfolge.
     // 0.14.2: 401/403/429/5xx werden nicht mehr still zu einer leeren Liste (das Panel meldete «kein Luftraum»),
     // sondern als Fehler gemeldet – und nicht gecacht.
-    const why = (e) => { const m = /HTTP (\d{3})/.exec(e.message); const c = m ? +m[1] : 0; return c === 401 || c === 403 ? `openAIP HTTP ${c}: Abruf abgewiesen (Schlüssel «openaip» prüfen; sperrt openAIP den Worker?)` : c === 429 ? 'openAIP HTTP 429: Abfragelimit erreicht – später erneut' : `openAIP: ${e.message}`; };
+    const why = (e) => { const m = /HTTP (\d{3})/.exec(e.message); const c = m ? +m[1] : 0; return c === 401 || c === 403 ? `openAIP ${e.message} – Abruf abgewiesen (Schlüssel «openaip» prüfen; sperrt openAIP den Worker?)` : c === 429 ? 'openAIP HTTP 429: Abfragelimit erreicht – später erneut' : `openAIP: ${e.message}`; };
     let items = [];
     try { items = await fetchAll(cell); }
     catch (e) {

@@ -26,9 +26,14 @@ const MAX_POINTS = 80;
 const { FAA_CLIENT_ID: ID, FAA_CLIENT_SECRET: SECRET, OPS_HANDOVER_TOKEN: TOKEN } = process.env;
 
 const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a);
-const fail = (msg) => { console.error(msg); process.exit(1); };
-if (!ID || !SECRET) fail('FAA_CLIENT_ID / FAA_CLIENT_SECRET fehlen (Repository-Secrets)');
-if (!TOKEN) fail('OPS_HANDOVER_TOKEN fehlt (Repository-Secret)');
+/** Abbruch: Grund auch nach index.json schreiben (die Protokolle der Actions sind nicht von überall lesbar); nie Secrets. */
+const fail = async (msg) => {
+  console.error(msg);
+  try { await mkdir(OUT, { recursive: true }); await writeFile(`${OUT}/index.json`, JSON.stringify({ generated: new Date().toISOString(), fatal: String(msg).slice(0, 300), ok: 0, points: [], errors: [] }, null, 1)); } catch { /* egal */ }
+  process.exit(1);
+};
+if (!ID || !SECRET) await fail('FAA_CLIENT_ID / FAA_CLIENT_SECRET fehlen (Repository-Secrets)');
+if (!TOKEN) await fail('OPS_HANDOVER_TOKEN fehlt (Repository-Secret)');
 
 async function fetchJson(url, init = {}, ms = 30000) {
   const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), ms);
@@ -51,14 +56,18 @@ function normalize(f) {
 async function main() {
   await mkdir(OUT, { recursive: true });
   // 1) Punkte
-  const { points } = await fetchJson(`${API}/api/handover/notam-points`, { headers: { 'X-Handover-Token': TOKEN } });
-  if (!Array.isArray(points)) fail('Antwort des Workers ohne points');
+  let points;
+  try { ({ points } = await fetchJson(`${API}/api/handover/notam-points`, { headers: { 'X-Handover-Token': TOKEN } })); }
+  catch (e) { await fail(`Abfragepunkte vom Worker: ${e.message}`); }
+  if (!Array.isArray(points)) await fail('Antwort des Workers ohne points');
   const todo = points.slice(0, MAX_POINTS);
   log(`${points.length} Punkte (${todo.length} werden geholt)`);
   // 2) Token
   const basic = Buffer.from(`${ID.trim()}:${SECRET.trim()}`).toString('base64');
-  const tk = await fetchJson(`${NMS}/v1/auth/token`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', Authorization: `Basic ${basic}` }, body: 'grant_type=client_credentials' });
-  if (!tk.access_token) fail('Token: keine access_token in der Antwort');
+  let tk;
+  try { tk = await fetchJson(`${NMS}/v1/auth/token`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', Authorization: `Basic ${basic}` }, body: 'grant_type=client_credentials' }); }
+  catch (e) { await fail(`FAA-Token: ${e.message}`); }
+  if (!tk.access_token) await fail('FAA-Token: keine access_token in der Antwort');
   // 3) je Punkt
   const errors = []; let ok = 0;
   for (const p of todo) {

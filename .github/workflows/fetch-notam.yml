@@ -41,8 +41,8 @@ jobs:
       - name: Hinweis, wenn die Secrets fehlen
         if: ${{ env.FAA_CLIENT_ID == '' }}
         run: echo "FAA_CLIENT_ID/FAA_CLIENT_SECRET nicht gesetzt – Lauf übersprungen (Settings → Secrets and variables → Actions)."
-      - name: Änderungen committen
-        if: ${{ env.FAA_CLIENT_ID != '' }}
+      - name: Änderungen committen (auch nach einem Abbruch, damit index.json den Grund zeigt)
+        if: ${{ always() && env.FAA_CLIENT_ID != '' }}
         run: |
           git config user.name  "briefing-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

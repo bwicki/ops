@@ -478,6 +478,7 @@ export async function airspace(ctx, b) {
   const bbox = [Math.min(...pts.map((p) => p.lon)) - dLon, Math.min(...pts.map((p) => p.lat)) - dLat, Math.max(...pts.map((p) => p.lon)) + dLon, Math.max(...pts.map((p) => p.lat)) + dLat].map((v) => +v.toFixed(3));
   const tileKey = /[?&]apiKey=([A-Za-z0-9]+)/.exec(ctx.settings.airspaceTileUrl || '')?.[1];
   const j = await ctx.store.data('airspace', { bbox: bbox.join(','), key: tileKey || null }, shareTok(ctx));
+  if (!(j.items || []).length) throw new Error(j.warning || 'openAIP: keine Lufträume geliefert');   // 0.14.2: leere Antwort ist ein Fehler, keine Analyse «kein Luftraum»
   const elevM = b.site.elev || 0;
   const items = (j.items || []).map((it) => normalizeAirspace(it, elevM));
   const altMaxFt = b.intent.altMaxFt || 6000, altMinFt = b.intent.altMinFt || 0;

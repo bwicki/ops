@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.14.2 — 2026-10-28 · Luftraumanalyse: Abruffehler statt leerer Liste
+
+* **Worker `/api/wx/airspace`:** Wies openAIP den Abruf ab (401/403/429/5xx), lieferte der Worker bisher still eine leere
+  Liste – 6 h gecacht – und das Panel «Luftraum entlang des Fahrtwegs» meldete «kein Luftraum durchfahren». Jetzt: Fehler
+  mit Grund (HTTP-Code, Hinweis auf Schlüssel/Sperre), nichts gecacht; der Rückfall auf die lat/lon-Reihenfolge der
+  Bbox nur noch bei HTTP 400. Eine leere Antwort (0 Lufträume) trägt eine Warnung; das Panel wertet sie als Fehler,
+  nicht als Analyse. Anlass: Befund aus s2ground (openAIP-Abruf aus einem Worker mit 403).
+* Oberflächen-Durchlauf: Flugplan-Erwartung saisonfest (06:30 LT = 0430/0530 UTC).
+
 ## 0.14.1 — 2026-10-26 · FAA-NOTAM über GitHub Actions
 
 * **Ursache der 403:** Die FAA-NMS-API läuft auf der Google Cloud Platform, deren Sperrliste die Ausgangsadressen von

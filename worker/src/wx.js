@@ -332,7 +332,8 @@ async function airspace(env, decrypt, ctx, q) {
   if (!key) return err('openAIP-Schlüssel fehlt (Einstellungen → Zugänge: openaip)', 424);
   const r5 = (v) => (Math.round(v / 0.05) * 0.05).toFixed(2);
   const cell = bb.map(r5).join(',');
-  const data = await cached(ctx, `airspace/${cell}`, 21600, async () => {
+  let data;
+  try { data = await cached(ctx, `airspace/${cell}`, 21600, async () => {
     const fetchAll = async (bboxStr) => {
       const items = [];
       for (let page = 1; page <= 4; page++) {
@@ -343,13 +344,19 @@ async function airspace(env, decrypt, ctx, q) {
       }
       return items;
     };
-    // openAIP erwartet minLon,minLat,maxLon,maxLat; zur Sicherheit Rückfall auf lat/lon-Reihenfolge
+    // openAIP erwartet minLon,minLat,maxLon,maxLat; bei HTTP 400 Rückfall auf lat/lon-Reihenfolge.
+    // 0.14.2: 401/403/429/5xx werden nicht mehr still zu einer leeren Liste (das Panel meldete «kein Luftraum»),
+    // sondern als Fehler gemeldet – und nicht gecacht.
+    const why = (e) => { const m = /HTTP (\d{3})/.exec(e.message); const c = m ? +m[1] : 0; return c === 401 || c === 403 ? `openAIP HTTP ${c}: Abruf abgewiesen (Schlüssel «openaip» prüfen; sperrt openAIP den Worker?)` : c === 429 ? 'openAIP HTTP 429: Abfragelimit erreicht – später erneut' : `openAIP: ${e.message}`; };
     let items = [];
-    try { items = await fetchAll(cell); } catch (e) { if (!/HTTP 4/.test(e.message)) throw e; }
-    if (!items.length) { try { items = await fetchAll([bb[1], bb[0], bb[3], bb[2]].map(r5).join(',')); } catch { /* bleibt leer */ } }
+    try { items = await fetchAll(cell); }
+    catch (e) {
+      if (!/HTTP 400/.test(e.message)) throw new Error(why(e));
+      try { items = await fetchAll([bb[1], bb[0], bb[3], bb[2]].map(r5).join(',')); } catch (e2) { throw new Error(why(e2)); }
+    }
     const slim = items.map((it) => ({ _id: it._id, name: it.name, type: it.type, icaoClass: it.icaoClass, country: it.country, activity: it.activity, onDemand: it.onDemand, onRequest: it.onRequest, byNotam: it.byNotam, specialAgreement: it.specialAgreement, upperLimit: it.upperLimit, lowerLimit: it.lowerLimit, hoursOfOperation: it.hoursOfOperation, transponderCode: it.transponderCode, frequencies: it.frequencies, geometry: it.geometry }));
-    return { items: slim, total: slim.length, source: 'openAIP', generated: new Date().toISOString() };
-  });
+    return { items: slim, total: slim.length, source: 'openAIP', generated: new Date().toISOString(), ...(slim.length ? {} : { warning: 'openAIP lieferte keine Lufträume für diesen Ausschnitt' }) };
+  }); } catch (e) { return err(e.message, 502); }
   return json(data);
 }
 

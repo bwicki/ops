@@ -147,7 +147,7 @@ def run(name, viewport, scale=1.5, mobile=False, site_chip=None):
         if not pg.is_checked('#panel-C\\.fpl input[type=checkbox]'): pg.check('#panel-C\\.fpl input[type=checkbox]'); pg.wait_for_timeout(300)
         pg.click('#panel-C\\.fpl button:has-text("Aus Briefing erzeugen")'); pg.wait_for_timeout(800)
         fplmsg = pg.inner_text('#panel-C\\.fpl pre')
-        assert fplmsg.startswith('(FPL-HB') and '-ZZZZ0430' in fplmsg and 'DEP/' in fplmsg and '4725N00816E' in fplmsg and 'C/' in fplmsg and fplmsg.rstrip().endswith(')'), 'ICAO-Nachricht: ' + fplmsg[:120]
+        assert fplmsg.startswith('(FPL-HB') and ('-ZZZZ0430' in fplmsg or '-ZZZZ0530' in fplmsg) and 'DEP/' in fplmsg and '4725N00816E' in fplmsg and 'C/' in fplmsg and fplmsg.rstrip().endswith(')'), 'ICAO-Nachricht: ' + fplmsg[:120]
         assert 'Ziel' in pg.inner_text('#panel-B\\.traj .traj-legend') and '°' in pg.inner_text('#panel-B\\.traj .traj-legend'), 'Zielzeile im Trajektorien-Panel'
         # NOTAM: Umkreis um Orte (Standard Startort, 200 km)
         pg.select_option('#panel-C\\.notam .ptools select', 'places'); pg.wait_for_timeout(400)

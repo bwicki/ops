@@ -24,6 +24,8 @@ const NMS = (process.env.FAA_NMS || 'https://api-nms.aim.faa.gov').replace(/\/$/
 const UA = 'Fahrtbriefing/0.14 fetch-notam (+https://ops.wicki.aero)';
 const MAX_POINTS = 80;
 const ID = (process.env.FAA_CLIENT_ID || '').trim(), SECRET = (process.env.FAA_CLIENT_SECRET || '').trim(), TOKEN = (process.env.OPS_HANDOVER_TOKEN || '').trim();
+// Token transportsicher (Nicht-ASCII-Zeichen überleben einen HTTP-Header nicht): «b64u:» + base64url(UTF-8); der Worker versteht beides
+const TOKEN_HDR = 'b64u:' + Buffer.from(TOKEN, 'utf8').toString('base64url');
 
 const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a);
 /** Abbruch: Grund auch nach index.json schreiben (die Protokolle der Actions sind nicht von überall lesbar); nie Secrets. */
@@ -57,10 +59,10 @@ async function main() {
   await mkdir(OUT, { recursive: true });
   // 1) Punkte
   let points;
-  try { ({ points } = await fetchJson(`${API}/api/handover/notam-points`, { headers: { 'X-Handover-Token': TOKEN } })); }
+  try { ({ points } = await fetchJson(`${API}/api/handover/notam-points`, { headers: { 'X-Handover-Token': TOKEN_HDR } })); }
   catch (e) {
     let diag = '';   // Diagnose ohne Geheimnisse: Längen und Hash-Präfixe beider Seiten
-    try { const d = await fetchJson(`${API}/api/handover/diag`, { headers: { 'X-Handover-Token': TOKEN } }); diag = ` | diag ${JSON.stringify(d)}`; } catch (e2) { diag = ` | diag: ${e2.message}`; }
+    try { const d = await fetchJson(`${API}/api/handover/diag`, { headers: { 'X-Handover-Token': TOKEN_HDR } }); diag = ` | diag ${JSON.stringify(d)}`; } catch (e2) { diag = ` | diag: ${e2.message}`; }
     await fail(`Abfragepunkte vom Worker: ${e.message}${diag}`);
   }
   if (!Array.isArray(points)) await fail('Antwort des Workers ohne points');

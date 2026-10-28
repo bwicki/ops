@@ -26,7 +26,10 @@ function timingSafeEqual(a, b) { let r = a.length ^ b.length; for (let i = 0; i 
 export function handoverAuth(env, req) {
   const want = String(env.OPS_HANDOVER_TOKEN || '').trim();   // 0.14.2: Leerraum/Zeilenumbruch am Rand ignorieren (Kopierfehler beim Secret; fetch() beschneidet Header-Werte)
   if (!want) return { status: 503, error: 'handover not configured (OPS_HANDOVER_TOKEN missing)' };
-  const given = (req.headers.get('X-Handover-Token') || '').trim();
+  let given = (req.headers.get('X-Handover-Token') || '').trim();
+  // 0.14.2: Nicht-ASCII-Zeichen überleben den HTTP-Header nicht (Latin-1); Clients dürfen das Token deshalb
+  // als «b64u:» + base64url(UTF-8) senden (fetch-notam tut das).
+  if (given.startsWith('b64u:')) { try { const b = atob(given.slice(5).replace(/-/g, '+').replace(/_/g, '/')); given = new TextDecoder().decode(Uint8Array.from(b, (c) => c.charCodeAt(0))).trim(); } catch { given = ''; } }
   if (!given || !timingSafeEqual(given, want)) return { status: 401, error: 'bad handover token' };
   return null;
 }

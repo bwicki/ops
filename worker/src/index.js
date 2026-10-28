@@ -456,9 +456,10 @@ async function route(req, env, url, ctx) {
   // 0.14.1: Abfragepunkte für den NOTAM-Workflow (fetch-notam, GitHub Actions): Briefings der nächsten 7 Tage + vorgemerkte Abfragen
   // Diagnose (0.14.2): Länge und Hash-Präfix des hinterlegten Dienst-Tokens – ohne den Wert preiszugeben
   if (p === '/api/handover/diag' && req.method === 'GET') {
-    const want = String(env.OPS_HANDOVER_TOKEN || ''), given = req.headers.get('X-Handover-Token') || '';
+    const want = String(env.OPS_HANDOVER_TOKEN || ''); let given = req.headers.get('X-Handover-Token') || '';
+    if (given.startsWith('b64u:')) { try { const b = atob(given.slice(5).replace(/-/g, '+').replace(/_/g, '/')); given = new TextDecoder().decode(Uint8Array.from(b, (c) => c.charCodeAt(0))); } catch { given = ''; } }
     const fp = async (v) => { if (!v) return null; const h = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(v)); return [...new Uint8Array(h)].slice(0, 3).map((b) => b.toString(16).padStart(2, '0')).join(''); };
-    return json({ configured: !!want, wantLen: want.length, wantTrimLen: want.trim().length, wantFp: await fp(want.trim()), givenLen: given.length, givenFp: await fp(given.trim()), match: !!want && want.trim() === given.trim() });
+    return json({ configured: !!want, wantLen: want.length, wantTrimLen: want.trim().length, wantAscii: /^[\x20-\x7e]*$/.test(want), wantFp: await fp(want.trim()), givenLen: given.length, givenFp: await fp(given.trim()), match: !!want && want.trim() === given.trim() });
   }
   if (p === '/api/handover/notam-points' && req.method === 'GET') {
     const a = handoverAuth(env, req); if (a) return err(a.error, a.status);

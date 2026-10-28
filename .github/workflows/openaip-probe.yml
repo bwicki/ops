@@ -1,0 +1,31 @@
+name: openAIP Erreichbarkeit prüfen
+
+# Einmaliger Test (0.14.2): antwortet api.core.openaip.net einem GitHub-Actions-Runner ohne/mit falschem Schlüssel
+# mit 401 (erreichbar) oder 403 (Sperre)? Der ops-Worker erhält mit gültigem Schlüssel «403 Forbidden» (28.10.2026).
+# Ergebnis nach data/openaip-probe.txt (Protokolle sind aus der Entwicklungsumgebung nicht lesbar).
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Abfragen ohne und mit falschem Schlüssel
+        run: |
+          out=data/openaip-probe.txt; mkdir -p data; : > "$out"
+          echo "Probe $(date -u +%FT%TZ) von GitHub Actions" >> "$out"
+          u='https://api.core.openaip.net/api/airspaces?bbox=8.1,47.1,8.8,47.5&limit=1'
+          for k in '' 'abcdefghijklmnopqrstuvwxyz012345'; do
+            code=$(curl -s -o /tmp/body -w '%{http_code}' "$u" -H "x-openaip-api-key: $k" -H 'Accept: application/json' || echo 000)
+            echo "key='${k:0:3}…' -> HTTP $code: $(head -c 200 /tmp/body | tr -d '\n')" >> "$out"
+          done
+          cat "$out"
+      - name: Ergebnis ablegen
+        run: |
+          git config user.name 'openaip-probe'; git config user.email 'openaip-probe@users.noreply.github.com'
+          git add data/openaip-probe.txt; git commit -m "openAIP-Probe $(date -u +%FT%TZ)" || exit 0; git pull --rebase; git push

@@ -58,7 +58,11 @@ async function main() {
   // 1) Punkte
   let points;
   try { ({ points } = await fetchJson(`${API}/api/handover/notam-points`, { headers: { 'X-Handover-Token': TOKEN } })); }
-  catch (e) { await fail(`Abfragepunkte vom Worker: ${e.message}`); }
+  catch (e) {
+    let diag = '';   // Diagnose ohne Geheimnisse: Längen und Hash-Präfixe beider Seiten
+    try { const d = await fetchJson(`${API}/api/handover/diag`, { headers: { 'X-Handover-Token': TOKEN } }); diag = ` | diag ${JSON.stringify(d)}`; } catch (e2) { diag = ` | diag: ${e2.message}`; }
+    await fail(`Abfragepunkte vom Worker: ${e.message}${diag}`);
+  }
   if (!Array.isArray(points)) await fail('Antwort des Workers ohne points');
   const todo = points.slice(0, MAX_POINTS);
   log(`${points.length} Punkte (${todo.length} werden geholt)`);

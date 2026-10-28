@@ -1,0 +1,20 @@
+Deploy 2026-10-28T18:33:37Z
+
+ ⛅️ wrangler 4.154.0
+────────────────────
+🌀 Creating the secret for the Worker "briefing-api"
+✨ Success! Uploaded secret OPS_HANDOVER_TOKEN
+[
+  {
+    "name": "ENC_KEY",
+    "type": "secret_text"
+  },
+  {
+    "name": "OPS_HANDOVER_TOKEN",
+    "type": "secret_text"
+  },
+  {
+    "name": "SESSION_SECRET",
+    "type": "secret_text"
+  }
+]

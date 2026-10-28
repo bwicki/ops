@@ -35,7 +35,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           out=../data/deploy-status.txt; mkdir -p ../data
-          { echo "Deploy $(date -u +%FT%TZ)"; printf '%s' "$OPS_HANDOVER_TOKEN" | npx --yes wrangler@4 secret put OPS_HANDOVER_TOKEN --name briefing-api 2>&1 | sed 's/[A-Za-z0-9+/=_-]\{40,\}/<…>/g'; npx --yes wrangler@4 secret list --name briefing-api 2>&1 | head -20; } > "$out"
+          { echo "Deploy $(date -u +%FT%TZ)"; echo "Fingerabdruck des Repository-Secrets (SHA-256, 6 Zeichen): $(printf '%s' "$OPS_HANDOVER_TOKEN" | sha256sum | cut -c1-6), Länge $(printf '%s' "$OPS_HANDOVER_TOKEN" | wc -c)"; printf '%s' "$OPS_HANDOVER_TOKEN" | npx --yes wrangler@4 secret put OPS_HANDOVER_TOKEN --name briefing-api 2>&1 | sed 's/[A-Za-z0-9+/=_-]\{40,\}/<…>/g'; npx --yes wrangler@4 secret list --name briefing-api 2>&1 | head -20; } > "$out"
           cat "$out"
       - name: Status ablegen (nur Ausgabe von wrangler, keine Werte)
         if: ${{ env.OPS_HANDOVER_TOKEN != '' }}

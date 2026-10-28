@@ -32,7 +32,7 @@ const log = (...a) => console.log(new Date().toISOString().slice(11, 19), ...a);
 /** Abbruch: Grund auch nach index.json schreiben (die Protokolle der Actions sind nicht von überall lesbar); nie Secrets. */
 const fail = async (msg) => {
   console.error(msg);
-  try { await mkdir(OUT, { recursive: true }); await writeFile(`${OUT}/index.json`, JSON.stringify({ generated: new Date().toISOString(), fatal: String(msg).slice(0, 300), ok: 0, points: [], errors: [] }, null, 1)); } catch { /* egal */ }
+  try { await mkdir(OUT, { recursive: true }); await writeFile(`${OUT}/index.json`, JSON.stringify({ generated: new Date().toISOString(), fatal: String(msg).slice(0, 700), ok: 0, points: [], errors: [] }, null, 1)); } catch { /* egal */ }
   process.exit(1);
 };
 if (!ID || !SECRET) await fail('FAA_CLIENT_ID / FAA_CLIENT_SECRET fehlen (Repository-Secrets)');

@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-29T12:59:26.825Z",
- "fatal": "FAA: Zugang abgewiesen (legacy): HTTP 401: {\"message\":\"Unauthorized\",\"http_status_code\":401} | NMS-Token (basic): HTTP 401: {\"ErrorCode\" : \"invalid_client\", \"Error\" :\"ClientId is Invalid\"} | NMS-Token (body): HTTP 401: {\"ErrorCode\" : \"invalid_client\", \"Error\" :\"ClientId is Invalid\"} | Client-ID 48 Zeichen (alnum), Secret 64 Zeichen",
+ "generated": "2026-10-29T13:00:33.883Z",
+ "fatal": "FAA: Zugang abgewiesen (legacy): HTTP 401: {\"message\":\"Unauthorized\",\"http_status_code\":401} | NMS-Token (basic): HTTP 401: {\"ErrorCode\" : \"invalid_client\", \"Error\" :\"ClientId is Invalid\"} | NMS-Token (body): HTTP 401: {\"ErrorCode\" : \"invalid_client\", \"Error\" :\"ClientId is Invalid\"} | Client-ID 48 Zeichen (alnum, fp 56b4fc), Secret 64 Zeichen (fp cceea7)",
  "ok": 0,
  "points": [],
  "errors": []

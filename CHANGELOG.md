@@ -9,6 +9,10 @@
 * **Dienst-Token `OPS_HANDOVER_TOKEN`:** Leerraum am Rand wird ignoriert; Clients dürfen das Token als
   `b64u:` + base64url(UTF-8) senden – Nicht-ASCII-Zeichen im Secret überleben einen HTTP-Header sonst nicht (das war der
   Grund für «bad handover token» beim NOTAM-Workflow). `GET /api/handover/diag` zeigt Länge/Hash-Präfix beider Seiten.
+* **FAA-Zugang geklärt (29.10.):** Die hinterlegten NMS-Zugangsdaten gelten für die FAA-Testumgebung «staging»
+  (`api-staging.cgifederal-aim.com`), nicht für die Produktion – daher `invalid_client`. Produktionszugang ist bei der FAA
+  zu beantragen; bis dahin bleibt autorouter die NOTAM-Quelle. Die Prüfung gegen die Testumgebungen läuft nur bei
+  Abweisung und mit Einwilligung des Betreibers (`FAA_PROBE_TEST_ENVS`).
 * **fetch-notam:** Abbruchgrund nach `data/notam/index.json` (Commit auch nach Abbruch, nicht öfter als alle 6 h bei
   gleichem Grund); Token-Aufruf mit Basic-Header und mit Feldern im Body; Rückfall auf das ältere API-Portal
   (`external-api.faa.gov`, Header `client_id`/`client_secret`); Prüfpunkt Oberlunkhofen, wenn keine Punkte anstehen;

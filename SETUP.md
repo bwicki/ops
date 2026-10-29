@@ -188,6 +188,11 @@ funktioniert genauso.
      und beim nächsten Lauf geholt – bis dahin antwortet autorouter (Rückfall).
      Die Felder «FAA NMS Client Key/Secret» unter Zugänge dienen nur noch der
      Diagnose (`src=faa&diag=1`).
+     **Produktionszugang nötig:** Die FAA vergibt NMS-Zugangsdaten per E-Mail und oft zuerst für die
+     Testumgebung (`api-staging.cgifederal-aim.com` / `api-fit.cgifederal-aim.com`). Solche Zugangsdaten
+     weist die Produktion `api-nms.aim.faa.gov` mit `invalid_client – ClientId is Invalid` ab; der Workflow
+     meldet dann in `index.json`, dass sie für «staging»/«fit» gelten. Produktionszugang bei der FAA
+     (NMS-Portal → API access, NOTAMS@faa.gov) beantragen; Testumgebungen liefern keine operativen NOTAM.
      Zugang zum NMS-Portal (offizielle FAA-Schnittstelle, kostenlos; **nicht** über
      Drittanbieter wie apis.io):
      1. https://api.faa.gov öffnen → rechts oben **Login** → als externer

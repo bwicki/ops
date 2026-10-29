@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-29T12:57:13.843Z",
- "fatal": "Abfragepunkte vom Worker: HTTP 401: {\"error\":\"bad handover token\"} | diag {\"configured\":true,\"wantLen\":73,\"wantTrimLen\":73,\"wantAscii\":false,\"wantFp\":\"6c9f5c\",\"givenLen\":99,\"givenFp\":\"dd08f0\",\"match\":false}",
+ "generated": "2026-10-29T12:59:26.825Z",
+ "fatal": "FAA: Zugang abgewiesen (legacy): HTTP 401: {\"message\":\"Unauthorized\",\"http_status_code\":401} | NMS-Token (basic): HTTP 401: {\"ErrorCode\" : \"invalid_client\", \"Error\" :\"ClientId is Invalid\"} | NMS-Token (body): HTTP 401: {\"ErrorCode\" : \"invalid_client\", \"Error\" :\"ClientId is Invalid\"} | Client-ID 48 Zeichen (alnum), Secret 64 Zeichen",
  "ok": 0,
  "points": [],
  "errors": []

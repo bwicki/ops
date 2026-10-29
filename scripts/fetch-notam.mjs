@@ -17,6 +17,7 @@
  * https://briefing-api.balthasar.workers.dev), FAA_NMS (nur Test). Exit ≠ 0 nur, wenn Punkte oder Token nicht zu holen sind.
  */
 import { writeFile, mkdir, readdir, unlink, readFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 
 const OUT = 'data/notam';
 const API = (process.env.OPS_API || 'https://briefing-api.balthasar.workers.dev').replace(/\/$/, '');
@@ -91,7 +92,8 @@ async function main() {
     catch (e) { authErr += `${authErr ? ' | ' : ''}NMS-Token (${name}): ${e.message}`; tk = null; }
   }
   if (!tk) { mode = 'legacy'; log(authErr); }
-  const idInfo = `Client-ID ${ID.length} Zeichen (${/^[0-9a-f]+$/i.test(ID) ? 'hex' : /^[A-Za-z0-9_-]+$/.test(ID) ? 'alnum' : 'andere Zeichen'}), Secret ${SECRET.length} Zeichen`;   // Diagnose ohne Werte
+  const fp6 = (v) => createHash('sha256').update(v, 'utf8').digest('hex').slice(0, 6);   // Fingerabdruck (6 Hex-Zeichen), kein Wert
+  const idInfo = `Client-ID ${ID.length} Zeichen (${/^[0-9a-f]+$/i.test(ID) ? 'hex' : /^[A-Za-z0-9_-]+$/.test(ID) ? 'alnum' : 'andere Zeichen'}, fp ${fp6(ID)}), Secret ${SECRET.length} Zeichen (fp ${fp6(SECRET)})`;
   const fetchPoint = async (p) => {
     if (mode === 'nms') {
       const url = `${NMS}/nmsapi/v1/notams?latitude=${(+p.lat).toFixed(4)}&longitude=${(+p.lon).toFixed(4)}&radius=${Math.round(p.nm)}`;

@@ -91,6 +91,15 @@ async function main() {
     try { tk = await fetchJson(`${NMS}/v1/auth/token`, init); if (!tk.access_token) throw new Error('keine access_token in der Antwort'); authErr = ''; break; }
     catch (e) { authErr += `${authErr ? ' | ' : ''}NMS-Token (${name}): ${e.message}`; tk = null; }
   }
+  if (!tk && process.env.FAA_PROBE_TEST_ENVS === '1') {
+    // Mit Einwilligung des Betreibers (29.10.2026): weist die Produktion den Client ab, einmal gegen die FAA-Testumgebungen
+    // staging/fit (offizielle NMS-Hosts, cgifederal-aim.com) prüfen – nur Diagnose; Testumgebungen liefern keine operativen
+    // NOTAM und werden nie als Quelle verwendet.
+    for (const [envName, host] of [['staging', 'https://api-staging.cgifederal-aim.com'], ['fit', 'https://api-fit.cgifederal-aim.com']]) {
+      try { const t2 = await fetchJson(`${host}/v1/auth/token`, tokenTries[0][1]); if (t2.access_token) { authErr += ` | Zugangsdaten gelten für die FAA-Testumgebung «${envName}» (${host}) – für operative NOTAM bei der FAA Produktionszugang beantragen`; break; } }
+      catch (e) { authErr += ` | ${envName}: ${e.message.slice(0, 90)}`; }
+    }
+  }
   if (!tk) { mode = 'legacy'; log(authErr); }
   const fp6 = (v) => createHash('sha256').update(v, 'utf8').digest('hex').slice(0, 6);   // Fingerabdruck (6 Hex-Zeichen), kein Wert
   const idInfo = `Client-ID ${ID.length} Zeichen (${/^[0-9a-f]+$/i.test(ID) ? 'hex' : /^[A-Za-z0-9_-]+$/.test(ID) ? 'alnum' : 'andere Zeichen'}, fp ${fp6(ID)}), Secret ${SECRET.length} Zeichen (fp ${fp6(SECRET)})`;

@@ -37,6 +37,8 @@ jobs:
           node-version: '20'
       - name: NOTAM abrufen
         if: ${{ env.FAA_CLIENT_ID != '' }}
+        env:
+          FAA_PROBE_TEST_ENVS: '1'   # 29.10.2026, mit Einwilligung: bei Abweisung einmal gegen die FAA-Testumgebungen prüfen (nur Diagnose)
         run: node scripts/fetch-notam.mjs
       - name: Hinweis, wenn die Secrets fehlen
         if: ${{ env.FAA_CLIENT_ID == '' }}

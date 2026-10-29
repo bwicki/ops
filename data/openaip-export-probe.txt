@@ -1,24 +1,9 @@
-Probe 2026-10-29T15:49:27Z
+Probe 2026-10-29T15:50:42Z
 li -> HTTP 404, 241 Bytes, last-modified: 
 ch -> HTTP 200, 442618 Bytes, last-modified: Thu, 29 Oct 2026 03:14:43 GMT
 de -> HTTP 200, 1980459 Bytes, last-modified: Thu, 29 Oct 2026 01:57:45 GMT
 at -> HTTP 200, 667847 Bytes, last-modified: Thu, 29 Oct 2026 01:12:41 GMT
 fr -> HTTP 200, 4019810 Bytes, last-modified: Thu, 29 Oct 2026 01:52:47 GMT
 it -> HTTP 200, 3576535 Bytes, last-modified: Thu, 29 Oct 2026 02:15:18 GMT
-<anonymous_script>:1
-<?xml version="1.0" encoding="UTF-8"?><Error><Code>NoSuchKey</Code><Message></Message><BucketName>openaip-system-exports</BucketName><RequestId>tx000003a5d9455c1f5a206-006ae36b08-21525781-s3</RequestId><HostId>21525781-s3-s3</HostId></Error>
-^
-
-SyntaxError: Unexpected token '<', "<?xml vers"... is not valid JSON
-    at JSON.parse (<anonymous>)
-    at [eval]:2:40
-    at runScriptInThisContext (node:internal/vm:209:10)
-    at node:internal/process/execution:446:12
-    at [eval]-wrapper:6:24
-    at runScriptInContext (node:internal/process/execution:444:60)
-    at evalFunction (node:internal/process/execution:279:30)
-    at evalTypeScript (node:internal/process/execution:291:3)
-    at node:internal/main/eval_string:74:3
-
-Node.js v22.23.4
-LI nicht parsebar: <?xml version="1.0" encoding="UTF-8"?><Error><Code>NoSuchKey</Code><Message></Message><BucketName>openaip-system-exports</BucketName><RequestId>tx000003a5d9455c1f5a206-006ae36b08-21525781-s3</RequestI
+CH features 194 top keys type,features keys _id,createdBy,createdAt,updatedBy,updatedAt,name,dataIngestion,type,icaoClass,activity,onDemand,onRequest,byNotam,specialAgreement,requestCompliance,country,upperLimit,lowerLimit,frequencies,hoursOfOperation,deletable
+{"type":"Feature","id":4,"properties":{"_id":"67db2da61d8b0645e948e85a","createdBy":"eBT9qSrxquPVguazo7MwJzzaf2p1","createdAt":"2025-03-19T20:48:38.031Z","updatedBy":"eBT9qSrxquPVguazo7MwJzzaf2p1","updatedAt":"2025-03-19T20:50:09.423Z","name":"CTR BUOCHS (HX)","dataIngestion":true,"type":4,"icaoClass":3,"activity":0,"onDemand":false,"onRequest":false,"byNotam":false,"specialAgreement":false,"requestCompliance":false,"country":"CH","upperLimit":{"value":130,"unit":6,"referenceDatum":2},"lowerLimit":{"value":0,"unit":1,"referenceDatum":0},"frequencies":[{"value":"119.625","primary":true,"unit":2,"name":"BUOCHS TOWER","_id":"67db2da61d8b0645e948e85b"}],"hoursOfOperation":{"operatingHours":[{"dayOfWeek":0,"startTime":"00:00","endTime":"00:00","byNotam":false,"sunrise":false,"sunset":false,"publicHolidaysExcluded":false},{"dayOfWeek":1,"startTime":"00:00","endTime":"00:00","byNotam":false,"sunrise":false,"sunset":false,"publicHolidaysExcluded":false},{"dayOfWeek":2,"startTime":"00:00","endTime":"00:00","byNotam":false,"sunrise":false,"sunset":false,"publicHolidaysExcluded":false},{"dayOfWeek":3,"startTime":"00:00","endTime":"00:00","byNotam":false,"sunrise":false,"sunset":false,"publicHolidaysExcluded":false},{"dayOfWeek":4,"startTime":"00:00","endTime":"00:00","byNotam":false,"sunrise":false,"sunset":false,"publicHolidaysExcluded":false},{"dayOfWeek":5,"startTime":"00:00","endTime":"00:00","byNotam":false,"sunrise":false,"sunset":false,"publicHolidaysExcluded":false},{"dayOfWeek"

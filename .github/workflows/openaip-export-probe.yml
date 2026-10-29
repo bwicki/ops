@@ -24,10 +24,10 @@ jobs:
             echo "$cc -> HTTP $code, $(stat -c %s /tmp/$cc.geojson 2>/dev/null || echo 0) Bytes, last-modified: $(grep -i '^last-modified' /tmp/$cc.h | tr -d '\r' | cut -d' ' -f2-)" >> "$out"
           done
           node -e "
-            const fs=require('fs'); const j=JSON.parse(fs.readFileSync('/tmp/li.geojson','utf8'));
-            const f=j.features?.[0]; console.log('LI features', j.features?.length, 'keys', Object.keys(f?.properties||{}).join(','));
-            console.log(JSON.stringify(f?.properties).slice(0,900));
-          " >> "$out" 2>&1 || echo "LI nicht parsebar: $(head -c 200 /tmp/li.geojson)" >> "$out"
+            const fs=require('fs'); const j=JSON.parse(fs.readFileSync('/tmp/ch.geojson','utf8'));
+            const f=j.features?.[0]; console.log('CH features', j.features?.length, 'top keys', Object.keys(j).join(','), 'keys', Object.keys(f?.properties||{}).join(','));
+            const ctr=j.features.find(x=>/CTR/i.test(x.properties?.name||''))||f; console.log(JSON.stringify({...ctr, geometry: ctr.geometry?.type}).slice(0,1500));
+          " >> "$out" 2>&1 || echo "CH nicht parsebar: $(head -c 200 /tmp/ch.geojson)" >> "$out"
           cat "$out"
       - name: Ergebnis ablegen
         run: |

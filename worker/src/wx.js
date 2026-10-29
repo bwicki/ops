@@ -324,44 +324,45 @@ async function webcams(env, decrypt, ctx, q) {
 // ------------------------------------------------------------ Lufträume (openAIP Core API)
 /** Lufträume im Kartenausschnitt; Schlüssel `openaip` (Zugänge) oder – Rückfall – der Kachel-Schlüssel aus den
  *  Einstellungen (`key`, im Browser ohnehin sichtbar). 6 h Cache je Ausschnitt (auf 0.05° gerundet). */
+/** Länder-Rechtecke (minLon, minLat, maxLon, maxLat) für die Wahl der openAIP-Länderexporte; grosszügig gerundet. */
+const COUNTRY_BBOX = { CH: [5.9, 45.8, 10.5, 47.9], DE: [5.8, 47.2, 15.1, 55.1], AT: [9.5, 46.3, 17.2, 49.1], FR: [-5.2, 41.3, 9.6, 51.1], IT: [6.6, 35.4, 18.6, 47.1], SI: [13.3, 45.4, 16.6, 46.9], HR: [13.4, 42.3, 19.5, 46.6], HU: [16.1, 45.7, 22.9, 48.6], CZ: [12.0, 48.5, 18.9, 51.1], SK: [16.8, 47.7, 22.6, 49.7], PL: [14.1, 49.0, 24.2, 54.9], BE: [2.5, 49.4, 6.5, 51.6], NL: [3.3, 50.7, 7.3, 53.6], LU: [5.7, 49.4, 6.6, 50.2], DK: [8.0, 54.5, 15.2, 57.8], ES: [-9.4, 35.9, 4.4, 43.8], PT: [-9.6, 36.9, -6.1, 42.2], GB: [-8.7, 49.8, 1.8, 60.9], IE: [-10.6, 51.4, -5.9, 55.5], SE: [10.9, 55.3, 24.2, 69.1], NO: [4.5, 57.9, 31.2, 71.2], FI: [19.1, 59.7, 31.6, 70.1], EE: [21.7, 57.5, 28.2, 59.7], LV: [20.9, 55.6, 28.3, 58.1], LT: [20.9, 53.9, 26.9, 56.5], RO: [20.2, 43.6, 29.8, 48.3], BG: [22.3, 41.2, 28.7, 44.3], RS: [18.8, 42.2, 23.0, 46.2], BA: [15.7, 42.5, 19.7, 45.3], ME: [18.4, 41.8, 20.4, 43.6], MK: [20.4, 40.8, 23.1, 42.4], AL: [19.2, 39.6, 21.1, 42.7], GR: [19.3, 34.8, 29.7, 41.8] };
+const bboxOf = (geom) => { let a = 180, b = 90, c = -180, d = -90; const walk = (x) => { if (typeof x[0] === 'number') { if (x[0] < a) a = x[0]; if (x[0] > c) c = x[0]; if (x[1] < b) b = x[1]; if (x[1] > d) d = x[1]; } else for (const y of x) walk(y); }; if (geom?.coordinates) walk(geom.coordinates); return [a, b, c, d]; };
+const overlaps = (p, q) => p[0] <= q[2] && p[2] >= q[0] && p[1] <= q[3] && p[3] >= q[1];
+/**
+ * Lufträume im Ausschnitt. 0.14.3: openAIP hat die bbox-Abfrage der Core-API für externe Clients abgeschaltet (403);
+ * stattdessen die täglichen Länderexporte vom schlüssellosen Export-Host (s3.openaip.net/openaip-system-exports/<cc>_asp.geojson,
+ * gleiche Feldstruktur wie die API), je Land 24 h im Cache, hier auf den Ausschnitt gefiltert. Kein Schlüssel mehr nötig.
+ */
 async function airspace(env, decrypt, ctx, q) {
   const bb = (q.get('bbox') || '').split(',').map(Number);
   if (bb.length !== 4 || bb.some((v) => !isFinite(v)) || bb[0] >= bb[2] || bb[1] >= bb[3] || Math.abs(bb[1]) > 90 || Math.abs(bb[3]) > 90) return err('bbox');
   if ((bb[2] - bb[0]) > 6 || (bb[3] - bb[1]) > 4) return err('bbox too large');
-  const key = await getSecret(env, decrypt, 'openaip') || (/^[A-Za-z0-9]{16,80}$/.test(q.get('key') || '') ? q.get('key') : null);
-  if (!key) return err('openAIP-Schlüssel fehlt (Einstellungen → Zugänge: openaip)', 424);
   const r5 = (v) => (Math.round(v / 0.05) * 0.05).toFixed(2);
   const cell = bb.map(r5).join(',');
+  const ccs = Object.keys(COUNTRY_BBOX).filter((cc) => overlaps(bb, COUNTRY_BBOX[cc]));
+  if (!ccs.length) return err('Ausschnitt ausserhalb der bekannten Länderexporte (Europa)', 422);
   let data;
   try { data = await cached(ctx, `airspace/${cell}`, 21600, async () => {
-    const fetchAll = async (bboxStr) => {
-      const items = [];
-      for (let page = 1; page <= 4; page++) {
-        const u = `https://api.core.openaip.net/api/airspaces?bbox=${bboxStr}&limit=1000&page=${page}`;
-        const ctl = new AbortController(); const tm = setTimeout(() => ctl.abort(), 25000);
-        let j;
-        try {
-          const r = await fetch(u, { headers: { 'x-openaip-api-key': key, 'User-Agent': UA, Accept: 'application/json' }, signal: ctl.signal });
-          if (!r.ok) throw new Error(`HTTP ${r.status}: ${(await r.text()).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160)}`);   // Antworttext für die Diagnose (Sperre vs. Schlüssel)
-          j = await r.json();
-        } finally { clearTimeout(tm); }
-        items.push(...(j.items || []));
-        if (!j.totalPages || page >= j.totalPages) break;
+    const items = []; const stands = []; const errors = [];
+    for (const cc of ccs) {
+      let exp;
+      try {
+        exp = await cached(ctx, `openaip-export/${cc.toLowerCase()}/${Math.floor(Date.now() / 86400000)}`, 86400, async () => {
+          const r = await get(`https://s3.openaip.net/openaip-system-exports/${cc.toLowerCase()}_asp.geojson`, { accept: 'application/json, application/geo+json, */*' }, 25000);
+          const j = await r.json();
+          const feats = (j.features || []).map((f) => { const it = f.properties || {}; return { _id: it._id, name: it.name, type: it.type, icaoClass: it.icaoClass, country: it.country || cc, activity: it.activity, onDemand: it.onDemand, onRequest: it.onRequest, byNotam: it.byNotam, specialAgreement: it.specialAgreement, upperLimit: it.upperLimit, lowerLimit: it.lowerLimit, hoursOfOperation: it.hoursOfOperation, transponderCode: it.transponderCode, frequencies: it.frequencies, geometry: f.geometry, bbox: bboxOf(f.geometry) }; });
+          return { stand: r.headers.get('last-modified') || null, feats };
+        });
+      } catch (e) {
+        const m = /HTTP (\d{3})/.exec(e.message); const c = m ? +m[1] : 0;
+        if (c === 404) continue;   // kein Export für dieses Land (z. B. LI: in CH enthalten)
+        throw new Error(c === 429 ? 'openAIP-Export: Abfragelimit erreicht – später erneut' : `openAIP-Export ${cc}: ${e.message}`);
       }
-      return items;
-    };
-    // openAIP erwartet minLon,minLat,maxLon,maxLat; bei HTTP 400 Rückfall auf lat/lon-Reihenfolge.
-    // 0.14.2: 401/403/429/5xx werden nicht mehr still zu einer leeren Liste (das Panel meldete «kein Luftraum»),
-    // sondern als Fehler gemeldet – und nicht gecacht.
-    const why = (e) => { const m = /HTTP (\d{3})/.exec(e.message); const c = m ? +m[1] : 0; return c === 401 || c === 403 ? `openAIP ${e.message} – Abruf abgewiesen (Schlüssel «openaip» prüfen; sperrt openAIP den Worker?)` : c === 429 ? 'openAIP HTTP 429: Abfragelimit erreicht – später erneut' : `openAIP: ${e.message}`; };
-    let items = [];
-    try { items = await fetchAll(cell); }
-    catch (e) {
-      if (!/HTTP 400/.test(e.message)) throw new Error(why(e));
-      try { items = await fetchAll([bb[1], bb[0], bb[3], bb[2]].map(r5).join(',')); } catch (e2) { throw new Error(why(e2)); }
+      for (const f of exp.feats) if (overlaps(bb, f.bbox)) { const { bbox: _b, ...it } = f; items.push(it); }
+      if (exp.stand) stands.push(exp.stand);
     }
-    const slim = items.map((it) => ({ _id: it._id, name: it.name, type: it.type, icaoClass: it.icaoClass, country: it.country, activity: it.activity, onDemand: it.onDemand, onRequest: it.onRequest, byNotam: it.byNotam, specialAgreement: it.specialAgreement, upperLimit: it.upperLimit, lowerLimit: it.lowerLimit, hoursOfOperation: it.hoursOfOperation, transponderCode: it.transponderCode, frequencies: it.frequencies, geometry: it.geometry }));
-    return { items: slim, total: slim.length, source: 'openAIP', generated: new Date().toISOString(), ...(slim.length ? {} : { warning: 'openAIP lieferte keine Lufträume für diesen Ausschnitt' }) };
+    const stand = stands.map((x) => Date.parse(x)).filter(isFinite).sort()[0];
+    return { items, total: items.length, source: `openAIP (Export ${ccs.join('/')})`, generated: stand ? new Date(stand).toISOString() : new Date().toISOString(), errors, ...(items.length ? {} : { warning: 'openAIP-Export enthält keine Lufträume für diesen Ausschnitt' }) };
   }); } catch (e) { return err(e.message, 502); }
   return json(data);
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.14.3 — 2026-10-29 · Luftraumanalyse aus den openAIP-Länderexporten (ohne Schlüssel)
+
+* **Worker `/api/wx/airspace`:** openAIP hat die `bbox`-Abfrage der Core-API für externe Clients abgeschaltet (403 aus
+  Workers und aus GitHub Actions). Der Worker liest jetzt die täglichen Länderexporte vom schlüssellosen Export-Host
+  (`s3.openaip.net/openaip-system-exports/<cc>_asp.geojson`, gleiche Feldstruktur wie die API; CH 0.4 MB, DE 2 MB, AT 0.7 MB,
+  FR 4 MB, IT 3.6 MB; Stand jeweils 01–03 UTC), wählt die Länder nach dem Ausschnitt (33 europäische Länder-Rechtecke),
+  hält jeden Export 24 h im Cache und filtert selbst auf den Ausschnitt (6 h Cache je Zelle). Quelle im Panel «openAIP
+  (Export CH/DE)» mit Stand des Exports. Kein openAIP-Schlüssel mehr nötig (bleibt nur für das Karten-Overlay).
+* Probe-Workflow `openaip-export-probe` und Ergebnisdatei entfernt.
+
 ## 0.14.2 — 2026-10-28 · Luftraumanalyse: Abruffehler statt leerer Liste; Dienst-Token; NOTAM-Workflow
 
 * **openAIP sperrt `bbox`-Abfragen für externe Clients** (Blog «Geospatial query for external clients no longer

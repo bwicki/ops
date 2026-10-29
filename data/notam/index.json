@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-29T07:29:07.756Z",
- "fatal": "FAA: Zugang abgewiesen (legacy): HTTP 401: {\"message\":\"Unauthorized\",\"http_status_code\":401} | NMS-Token (basic): HTTP 403: <!doctype html><meta charset=\"utf-8\"><meta name=viewport content=\"width=device-width, initial-scale=1\"><title>403</title>403 Forbidden | NMS-Token (body): HTTP 403: <!doctype html><meta charset=\"utf-8\"><meta name=viewport content=\"width=device-width, initial-scale=1\"><title>403</title>403 Forbidden | Client-ID 48 Zeichen (alnum), Secret 64 Zeichen",
+ "generated": "2026-10-29T12:57:13.843Z",
+ "fatal": "Abfragepunkte vom Worker: HTTP 401: {\"error\":\"bad handover token\"} | diag {\"configured\":true,\"wantLen\":73,\"wantTrimLen\":73,\"wantAscii\":false,\"wantFp\":\"6c9f5c\",\"givenLen\":99,\"givenFp\":\"dd08f0\",\"match\":false}",
  "ok": 0,
  "points": [],
  "errors": []

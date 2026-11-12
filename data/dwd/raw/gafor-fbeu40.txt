@@ -12,11 +12,11 @@ Gebiet  Name  12-14 UTC  14-16 UTC  16-18 UTC
 
 02  Nordfriesland-Dithmarschen  O ISOL TSRA  O ISOL TSRA  O ISOL TSRA
 
-03  Schleswig-Holsteinische Geest  D1 ISOL TSRA  O ISOL TSRA  O ISOL SHRA
+03  Schleswig-Holsteinische Geest  D1 ISOL TSRA  O ISOL TSRA  O ISOL TSRA
 
 04  Schleswig-Holsteinisches Hügelland  D1 ISOL TSRA  O ISOL TSRA  O ISOL SHRA
 
-05  Nordwestliches Niedersachsen  D1 ISOL SHRA  O ISOL SHRA  O ISOL SHRA
+05  Nordwestliches Niedersachsen  D1 ISOL SHRA  O ISOL SHRA  O ISOL TSRA
 
 06  Lüneburger Heide  M2 ISOL SHRA  O ISOL SHRA  O ISOL SHRA
 
@@ -76,23 +76,23 @@ GAFOR Bereich RWZ Essen 12.11.2026
 
 Gebiet  Name  12-14 UTC  14-16 UTC  16-18 UTC
 
-31  Niederrheinisches Tiefland  D3  O  O
+31  Niederrheinisches Tiefland  D3  O  O ISOL FG
 
 32  Münsterland  D1  O  O
 
-33  Ruhrgebiet und Ostwestfalen  M5  D1  O
+33  Ruhrgebiet und Ostwestfalen  M5  D1  D3 ISOL FG
 
-34  Niederrheinische Bucht  M5  D1  O
+34  Niederrheinische Bucht  M5  D1  D3
 
-35  Bergisches Land  M5  D1  D1
+35  Bergisches Land  M5  D1  M2
 
-36  Sauerland  M2 ISOL FG  M2  D1
+36  Sauerland  M2 ISOL FG  M2  X ISOL FG
 
-37  Eifel  D1  M2  D1
+37  Eifel  D1  M2  X ISOL FG
 
-38  Neuwieder Becken  D1  O  O
+38  Neuwieder Becken  D1  O  D1 ISOL FG
 
-39  Westerwald  O  D1  D1 ISOL FG
+39  Westerwald  O  D1  M2 ISOL FG
 
 GAFOR-Einstufung FWZ Frankfurt
 

@@ -1,5 +1,7 @@
 # Einrichtung — Frontend (GitHub Pages) und Worker (Cloudflare)
 
+**App 0.14.3 · SETUP Dok. 261116-01**
+
 Dauer beim ersten Mal etwa 30 Minuten. Reihenfolge einhalten; jeder Schritt ist
 einzeln prüfbar. Schlüssel und Kennwörter nie in Dateien des Repositories
 schreiben und nie im Chat weitergeben.

@@ -1,5 +1,7 @@
 # Fahrtbriefing — Ballon-Fahrtvorbereitung
 
+**App 0.14.3 · README Dok. 261116-01**
+
 Stellt das Fahrtbriefing für Heissluft- und Gasballonfahrten zusammen: Stammdaten,
 Sonnen- und Dämmerungszeiten (amtliche RAC-4-4-Tabelle für die Schweiz, sonst
 astronomisch), Tragkraft-/Treibstoff- bzw. Ballastrechnung, Tagesplanung mit

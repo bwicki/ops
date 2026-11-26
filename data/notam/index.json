@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-25T23:27:53.492Z",
- "fatal": "FAA: Zugang abgewiesen (legacy): HTTP 401: {\"message\":\"Unauthorized\",\"http_status_code\":401} | NMS-Token (basic): HTTP 403: <!doctype html><meta charset=\"utf-8\"><meta name=viewport content=\"width=device-width, initial-scale=1\"><title>403</title>403 Forbidden | NMS-Token (body): HTTP 403: <!doctype html><meta charset=\"utf-8\"><meta name=viewport content=\"width=device-width, initial-scale=1\"><title>403</title>403 Forbidden | staging: HTTP 403: <!doctype html><meta charset=\"utf-8\"><meta name=viewport content=\"width=device-w | fit: HTTP 403: <!doctype html><meta charset=\"utf-8\"><meta name=viewport content=\"width=device-w | Client-ID 48 Zeichen (alnum, fp 56b4fc), Secret 64 Zeichen (fp cceea7)",
+ "generated": "2026-11-26T05:17:46.398Z",
+ "fatal": "FAA: Zugang abgewiesen (legacy): HTTP 401: {\"message\":\"Unauthorized\",\"http_status_code\":401} | NMS-Token (basic): HTTP 401: {\"ErrorCode\" : \"invalid_client\", \"Error\" :\"ClientId is Invalid\"} | NMS-Token (body): HTTP 401: {\"ErrorCode\" : \"invalid_client\", \"Error\" :\"ClientId is Invalid\"} | Zugangsdaten gelten für die FAA-Testumgebung «staging» (https://api-staging.cgifederal-aim.com) – für operative NOTAM bei der FAA Produktionszugang beantragen | Client-ID 48 Zeichen (alnum, fp 56b4fc), Secret 64 Zeichen (fp cceea7)",
  "ok": 0,
  "points": [],
  "errors": []
